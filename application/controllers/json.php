@@ -31,11 +31,25 @@ public function askSumanSubmit()
   $name = $data['name'];
   $email = $data['email'];
   $question = $data['question'];
-    
+
 $data['message'] = $this->restapi_model->askSumanSubmit($category,$name,$email,$question);
 $this->load->view('json', $data);
 }
 
+
+public function contactsubmit()
+{
+
+  $data = json_decode(file_get_contents('php://input'), true);
+  $firstname = $data['firstname'];
+  $lastname = $data['lastname'];
+  $mobile = $data['mobile'];
+  $email = $data['email'];
+  $message = $data['message'];
+
+$data['message'] = $this->restapi_model->contactsubmit($firstname,$lastname,$mobile,$email,$message);
+$this->load->view('json', $data);
+}
 
 public function getTestimonial()
 {
@@ -59,10 +73,57 @@ $data["message"]=$this->category_model->getCategoryById($id);
 $this->load->view("json",$data);
 }
 
-public function getProductsByCategory()
+// public function getProductsByCategory()
+// {
+// $catid=$this->input->get_post("categoryid");
+// $subcatid=$this->input->get_post("subcategories");
+// $data["message"]=$this->product_model->getProductsByCategory($catid,$subcatid);
+// $this->load->view("json",$data);
+// }
+
+public function getProductsByCategory() {
+
+    $categoryid = $this->input->get_post('categoryid');
+
+    $subcategories  = $this->input->get_post("subcategories");
+
+    $where = " ";
+    if($subcategories != "")
+    {
+      $where .= " AND `fynx_product`.`subcategory` IN ($subcategories) ";
+    }
+
+    $this->chintantable->createelement('`fynx_product`.`id`','1','ID', 'id');
+    $this->chintantable->createelement('`fynx_product`.`name`','1','name', 'name');
+    $this->chintantable->createelement('`fynx_product`.`image1`','1','image', 'image');
+    $this->chintantable->createelement('`fynx_product`.`price`','1','price', 'price');
+    $this->chintantable->createelement('`fynx_product`.`quantity`','1','quantity', 'quantity');
+
+    $search = $this->input->get_post('search');
+    $pageno = $this->input->get_post('pageno');
+    $orderby = "price";
+    if($price == "2")
+    {
+      $orderorder = "DESC";
+    }
+    else {
+        $orderorder = "ASC";
+    }
+
+    $maxrow = $this->input->get_post('maxrow');
+    $data['message'] = new stdClass();
+    $data['message']->product = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search,"", "FROM `fynx_product` WHERE `fynx_product`.`category` = '$categoryid' $where ","");
+    //echo "";
+    $data["message"]->filter = $this->restapi_model->getFiltersLater($data["message"]->product->querycomplete);
+
+    $this->load->view('json', $data);
+}
+
+
+public function getProductDetail()
 {
 $id=$this->input->get_post("id");
-$data["message"]=$this->product_model->getProductsByCategory($id);
+$data["message"]=$this->product_model->getProductDetail($id);
 $this->load->view("json",$data);
 }
 

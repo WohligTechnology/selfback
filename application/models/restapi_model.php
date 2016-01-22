@@ -34,6 +34,15 @@ class restapi_model extends CI_Model
 
     }
 
+		public function contactsubmit($firstname,$lastname,$mobile,$email,$message){
+
+				$this->db->query("INSERT INTO `contact`(`firstname`,`lastname`,`telephone`,`email`,`comment`) VALUE('$firstname','$lastname','$mobile','$email','$message')");
+				$object = new stdClass();
+				$object->value = true;
+				return $object;
+
+		}
+
 
 		function getTestimonial()
 		{
@@ -130,11 +139,11 @@ class restapi_model extends CI_Model
 
 		public function getFiltersLater ($query) {
 			$return = new stdClass();
-
+print_r($query);
 			$query2 = " SELECT `id` FROM ($query) as `tab1` ";
 //echo " SELECT DISTINCT `fynx_color`.`id`,`fynx_color`.`name` FROM `fynx_product` INNER JOIN `fynx_color` ON `fynx_product`.`color` = `fynx_color`.`id` WHERE `fynx_product`.`id` = '$query2' ";
-			$return->color = $this->db->query(" SELECT DISTINCT `fynx_color`.`id`,`fynx_color`.`name` FROM `fynx_product` INNER JOIN `fynx_color` ON `fynx_product`.`color` = `fynx_color`.`id` WHERE `fynx_product`.`id` IN ($query2) ")->result();
-			$return->size = $this->db->query(" SELECT DISTINCT `fynx_size`.`id`,`fynx_size`.`name` FROM `fynx_product` INNER JOIN `fynx_size` ON `fynx_product`.`size` = `fynx_size`.`id` WHERE `fynx_product`.`id` IN ($query2) ")->result();
+			// $return->color = $this->db->query(" SELECT DISTINCT `fynx_color`.`id`,`fynx_color`.`name` FROM `fynx_product` INNER JOIN `fynx_color` ON `fynx_product`.`color` = `fynx_color`.`id` WHERE `fynx_product`.`id` IN ($query2) ")->result();
+			// $return->size = $this->db->query(" SELECT DISTINCT `fynx_size`.`id`,`fynx_size`.`name` FROM `fynx_product` INNER JOIN `fynx_size` ON `fynx_product`.`size` = `fynx_size`.`id` WHERE `fynx_product`.`id` IN ($query2) ")->result();
 			$return->subcategory = $this->db->query(" SELECT DISTINCT `fynx_subcategory`.`name`,`fynx_subcategory`.`id`,`fynx_subcategory`.`image1` FROM `fynx_product` INNER JOIN `fynx_subcategory` ON `fynx_product`.`subcategory` = `fynx_subcategory`.`id` WHERE `fynx_product`.`id` IN ($query2) " )->result();
 			foreach($return->subcategory  as $sub)
 			{

@@ -5,9 +5,37 @@ class product_model extends CI_Model
 {
 
 
-  function getProductsByCategory($id){
-      $query=$this->db->query("SELECT `id`,`name`,`image1` as 'image', `price`, `quantity` from `fynx_product` WHERE `category` = $id")->result();
+  function getProductDetail($id){
+      $query=$this->db->query("SELECT `id`,`name`,`price`,`weight`as 'netweight',  `quantity` as 'maxQuantity',`status`,`image1` as 'image', `about`,`nutritionalvalue` as 'nutritional' from `fynx_product` WHERE `id` = $id")->result();
   return $query;
+
+  }
+
+  function getProductsByCategory($catid,$subcatid){
+    if($subcatid != "")
+    {
+      //echo 'subcatid'. $subcatid;
+    //  $arr = (explode(",",$subcatid));
+      $array =  explode(',', $subcatid);
+
+      foreach ($array as $item) {
+        //  echo "<li>$item</li>";
+          $q="SELECT `id`,`name`,`image1` as 'image', `price`, `quantity` from `fynx_product` WHERE `category` = $catid and `subcategory`= $item";
+          //echo $q;
+            $query=$this->db->query($q)->result();
+            print_r($query);
+      }
+
+
+  // $query=$this->db->query("SELECT `id`,`name`,`image1` as 'image', `price`, `quantity` from `fynx_product` WHERE `category` = $catid and `subcategory`= $subcatid" )->result();
+
+  // return $query;
+    }
+    else   if($catid != ""){
+      $query=$this->db->query("SELECT `id`,`name`,`image1` as 'image', `price`, `quantity` from `fynx_product` WHERE `category` = $catid" )->result();
+  return $query;
+    }
+
 
   }
 
