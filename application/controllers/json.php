@@ -111,11 +111,10 @@ public function getProductsByCategory() {
     }
 
     $maxrow = $this->input->get_post('maxrow');
-    $data['message'] = new stdClass();
-    // $data['message']->product = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search,"", "FROM `fynx_product` WHERE `fynx_product`.`category` = '$categoryid' $where ","");
-    $data['message']->product = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search,"", "FROM `fynx_product` WHERE `fynx_product`.`category` = '$categoryid' $where ","");
+    $data['message']= $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search,"", "FROM `fynx_product`","WHERE `fynx_product`.`category` = '$categoryid' $where ");
+//    $data['message']->product = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search,"", "FROM `fynx_product` WHERE `fynx_product`.`category` = '$categoryid' $where ","");
     //echo "";
-    $data["message"]->filter = $this->restapi_model->getFiltersLater($data["message"]->product->querycomplete);
+//    $data["message"]->filter = $this->restapi_model->getFiltersLater($data["message"]->product->querycomplete);
 
     $this->load->view('json', $data);
 }

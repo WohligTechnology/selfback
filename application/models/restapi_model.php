@@ -179,7 +179,7 @@ class restapi_model extends CI_Model
 
 		public function getFiltersLater ($query) {
 			$return = new stdClass();
-print_r($query);
+//print_r($query);
 			$query2 = " SELECT `id` FROM ($query) as `tab1` ";
 //echo " SELECT DISTINCT `fynx_color`.`id`,`fynx_color`.`name` FROM `fynx_product` INNER JOIN `fynx_color` ON `fynx_product`.`color` = `fynx_color`.`id` WHERE `fynx_product`.`id` = '$query2' ";
 			// $return->color = $this->db->query(" SELECT DISTINCT `fynx_color`.`id`,`fynx_color`.`name` FROM `fynx_product` INNER JOIN `fynx_color` ON `fynx_product`.`color` = `fynx_color`.`id` WHERE `fynx_product`.`id` IN ($query2) ")->result();
