@@ -62,6 +62,46 @@ class restapi_model extends CI_Model
 		}
 
 
+		function registeruser($firstname,$lastname,$email,$password)
+ {
+	 $newdata=0;
+		 $password=md5($password);
+		 //echo $email;
+		 $query=$this->db->query("SELECT `id` FROM `user` WHERE `email`='$email'");
+		 $num=$query->num_rows();
+
+		 if($num == 0)
+		 {
+					$this->db->query("INSERT INTO `user`(`firstname`, `lastname`, `email`, `password`,`accesslevel`,`status`) VALUE('$firstname','$lastname','$email','$password','3','2')");
+				 $user=$this->db->insert_id();
+
+				 $newdata = array(
+								 'id' => $user,
+								 'email' => $email,
+								 'firstname' => $firstname,
+								 'lastname' => $lastname,
+								 'logged_in' => 'true'
+				 );
+
+				 $this->session->set_userdata($newdata);
+				 $getuser=$this->db->query("SELECT `id`, `name`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json`, `firstname`, `lastname`, `phone`, `billingaddress`, `billingcity`, `billingstate`, `billingcountry`, `billingcontact`, `billingpincode`, `shippingaddress`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `shippingname`, `shippingcontact`, `currency`, `credit`, `companyname`, `registrationno`, `vatnumber`, `country`, `fax`, `gender`, `facebook`, `google`, `twitter`, `street`, `address`, `pincode`, `state`, `dob`, `city` FROM `user` WHERE `id`='$user'")->row();
+
+					$object=$getuser;
+		 }
+		 else
+		 {
+				 $object = new stdClass();
+				 $object->value = false;
+				 $object->comment = 'Email already exists.';
+
+		 }
+		 return $object;
+
+ }
+
+
+
+
     public function getallcategory(){
     $query=$this->db->query("SELECT `id`, `name`, `parent`, `status`, `order`, `image1`, `image2` FROM `category` WHERE `parent`=0")->result();
         return $query;

@@ -52,9 +52,14 @@ return $query;
 }
 public function edit($id,$order,$name,$parent,$status,$image1,$image2)
 {
-$data=array("order" => $order,"name" => $name,"parent" => $parent,"status" => $status,"image1" => $image1,"image2" => $image2);
+$data=array("order" => $order,"name" => $name,"parent" => $parent,"status" => $status);
+if($image1 != "")
+  $data['image1']=$image1;
+if($image2 != "")
+  $data['image2']=$image2;
 $this->db->where( "id", $id );
 $query=$this->db->update( "fynx_category", $data );
+
 return 1;
 }
 public function delete($id)

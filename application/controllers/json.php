@@ -112,6 +112,7 @@ public function getProductsByCategory() {
 
     $maxrow = $this->input->get_post('maxrow');
     $data['message'] = new stdClass();
+    // $data['message']->product = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search,"", "FROM `fynx_product` WHERE `fynx_product`.`category` = '$categoryid' $where ","");
     $data['message']->product = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search,"", "FROM `fynx_product` WHERE `fynx_product`.`category` = '$categoryid' $where ","");
     //echo "";
     $data["message"]->filter = $this->restapi_model->getFiltersLater($data["message"]->product->querycomplete);
@@ -126,6 +127,31 @@ $id=$this->input->get_post("id");
 $data["message"]=$this->product_model->getProductDetail($id);
 $this->load->view("json",$data);
 }
+public function getRelatedProduct()
+{
+  $id=$this->input->get_post("id");
+$this->chintantable->createelement('`fynx_product`.`id`','1','ID', 'id');
+$this->chintantable->createelement('`fynx_product`.`name`','1','name', 'name');
+$this->chintantable->createelement('`fynx_product`.`image1`','1','image', 'image');
+$this->chintantable->createelement('`fynx_product`.`price`','1','price', 'price');
+$this->chintantable->createelement('`fynx_product`.`quantity`','1','quantity', 'quantity');
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `relatedproduct` LEFT OUTER JOIN `fynx_product` ON `fynx_product`.`id`=`relatedproduct`.`relatedproduct` LEFT OUTER JOIN `fynx_designs` ON `fynx_designs`.`id`=`relatedproduct`.`design`","WHERE `relatedproduct`.`product`='$id'");
+$this->load->view("json",$data);
+}
 
 public function getSubCategory()
 {
@@ -134,6 +160,21 @@ $data["message"]=$this->category_model->getSubCategory($id);
 $this->load->view("json",$data);
 
 }
+
+
+public function signup()
+{
+    $data = json_decode(file_get_contents('php://input'), true);
+    $firstname = $data['firstname'];
+    $lastname = $data['lastname'];
+    $email = $data['email'];
+    $password = $data['password'];
+    $data['message'] = $this->restapi_model->registeruser($firstname, $lastname, $email, $password);
+    $this->load->view('json', $data);
+}
+
+
+
 
 
     public function getalluseraddress()

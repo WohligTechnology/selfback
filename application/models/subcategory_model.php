@@ -26,7 +26,12 @@ return $query;
 }
 public function edit($id,$category,$name,$order,$status,$image1,$image2)
 {
-$data=array("category" => $category,"name" => $name,"order" => $order,"status" => $status,"image1" => $image1,"image2" => $image2);
+$data=array("category" => $category,"name" => $name,"order" => $order,"status" => $status);
+if($image1 != "")
+  $data['image1']=$image1;
+if($image2 != "")
+  $data['image2']=$image2;
+$this->db->where( "id", $id );
 $this->db->where( "id", $id );
 $query=$this->db->update( "fynx_subcategory", $data );
 return 1;
@@ -46,7 +51,7 @@ return $query;
 		{
 			$return[$row->id]=$row->name;
 		}
-		
+
 		return $return;
 	}
 }

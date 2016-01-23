@@ -2541,25 +2541,38 @@ $order=$this->input->get_post("order");
 $name=$this->input->get_post("name");
 $parent=$this->input->get_post("parent");
 $status=$this->input->get_post("status");
-$image1=$this->input->get_post("image1");
-$image2=$this->input->get_post("image2");
-    $config['upload_path'] = './uploads/';
-			$config['allowed_types'] = 'gif|jpg|png';
-			$this->load->library('upload', $config);
-			$filename="image1";
-			$image1="";
-			if (  $this->upload->do_upload($filename))
-			{
-				$uploaddata = $this->upload->data();
-				$image1=$uploaddata['file_name'];
-			}
-			$filename="image2";
-			$image2="";
-			if (  $this->upload->do_upload($filename))
-			{
-				$uploaddata = $this->upload->data();
-				$image2=$uploaddata['file_name'];
-			}
+// $image1=$this->input->get_post("image1");
+// $image2=$this->input->get_post("image2");
+$config['upload_path'] = './uploads/';
+ $config['allowed_types'] = 'gif|jpg|png';
+ $this->load->library('upload', $config);
+ $filename="image1";
+ $image1="";
+ if (  $this->upload->do_upload($filename))
+ {
+	 $uploaddata = $this->upload->data();
+	 $image1=$uploaddata['file_name'];
+ }
+if($image1=="")
+			 {
+			 $image1=$this->product_model->getimage1byid($id);
+					// print_r($image);
+					 $image1=$image1->image1;
+			 }
+ $filename="image2";
+ $image2="";
+ if (  $this->upload->do_upload($filename))
+ {
+	 $uploaddata = $this->upload->data();
+	 $image2=$uploaddata['file_name'];
+ }
+if($image2=="")
+			 {
+			 $image2=$this->product_model->getimage2byid($id);
+					// print_r($image);
+					 $image2=$image2->image2;
+			 }
+
 if($this->category_model->edit($id,$order,$name,$parent,$status,$image1,$image2)==0)
 $data["alerterror"]="New category could not be Updated.";
 else
@@ -3180,23 +3193,35 @@ $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $image1=$this->input->get_post("image1");
 $image2=$this->input->get_post("image2");
-    $config['upload_path'] = './uploads/';
-			$config['allowed_types'] = 'gif|jpg|png';
-			$this->load->library('upload', $config);
-			$filename="image1";
-			$image1="";
-			if (  $this->upload->do_upload($filename))
-			{
-				$uploaddata = $this->upload->data();
-				$image1=$uploaddata['file_name'];
-			}
-			$filename="image2";
-			$image2="";
-			if (  $this->upload->do_upload($filename))
-			{
-				$uploaddata = $this->upload->data();
-				$image2=$uploaddata['file_name'];
-			}
+$config['upload_path'] = './uploads/';
+ $config['allowed_types'] = 'gif|jpg|png';
+ $this->load->library('upload', $config);
+ $filename="image1";
+ $image1="";
+ if (  $this->upload->do_upload($filename))
+ {
+	 $uploaddata = $this->upload->data();
+	 $image1=$uploaddata['file_name'];
+ }
+if($image1=="")
+			 {
+			 $image1=$this->product_model->getimage1byid($id);
+					// print_r($image);
+					 $image1=$image1->image1;
+			 }
+ $filename="image2";
+ $image2="";
+ if (  $this->upload->do_upload($filename))
+ {
+	 $uploaddata = $this->upload->data();
+	 $image2=$uploaddata['file_name'];
+ }
+if($image2=="")
+			 {
+			 $image2=$this->product_model->getimage2byid($id);
+					// print_r($image);
+					 $image2=$image2->image2;
+			 }
 if($this->subcategory_model->edit($id,$category,$name,$order,$status,$image1,$image2)==0)
 $data["alerterror"]="New subcategory could not be Updated.";
 else
@@ -3772,7 +3797,7 @@ $elements[0]->sort="1";
 $elements[0]->header="ID";
 $elements[0]->alias="id";
 $elements[1]=new stdClass();
-$elements[1]->field="`fynx_category`.`name`";
+$elements[1]->field="`asksuman`.`category`";
 $elements[1]->sort="1";
 $elements[1]->header="Category";
 $elements[1]->alias="category";
@@ -3806,7 +3831,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `asksuman` LEFT OUTER JOIN `fynx_category` ON `fynx_category`.`id`=`asksuman`.`category`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `asksuman`");
 $this->load->view("json",$data);
 }
 

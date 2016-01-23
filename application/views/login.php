@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Wohlig">
-    <title>myFynx</title>
+    <title>Selfcare</title>
     <link rel="shortcut icon" href="<?php echo base_url('assets').'/';?>img/favicon.png" type="image/png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
 
@@ -18,20 +18,20 @@
             background-repeat: no-repeat;
         }
         /* label focus color */
-        
+
         a,
         .input-field input[type=email]:focus:not([readonly]) + label,
         .input-field input[type=password]:focus:not([readonly]) + label {
             color: #546e7a;
         }
         /* label underline focus color */
-        
+
         .input-field input[type=email]:focus:not([readonly]),
         .input-field input[type=password]:focus:not([readonly]) {
             border-bottom: 1px solid #e53935;
             box-shadow: 0 1px 0 0 #e53935;
         }
-        
+
         .padding-top {
             padding-top: 10%;
         }
@@ -62,7 +62,7 @@
                 <div class="card">
 
                     <!--
-                  
+
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-addon"><i class="fa fa-user"></i></div>
@@ -84,7 +84,7 @@
 								</div>
 							</div>
 						</div>
-					
+
 -->
                     <div class="blue-grey darken-3">
                         <div class="card-content white-text">
