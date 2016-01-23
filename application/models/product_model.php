@@ -6,7 +6,11 @@ class product_model extends CI_Model
 
 
   function getProductDetail($id){
-      $query=$this->db->query("SELECT `id`,`name`,`price`,`weight`as 'netweight',  `quantity` as 'maxQuantity',`status`,`image1` as 'image', `about`,`nutritionalvalue` as 'nutritional' from `fynx_product` WHERE `id` = $id")->row();
+      $query['product']=$this->db->query("SELECT `id`,`name`,`price`,`weight`as 'netweight',  `quantity` as 'maxQuantity',`status`,`image1` as 'image', `about`,`nutritionalvalue` as 'nutritional' from `fynx_product` WHERE `id` = $id")->row();
+      $query['relatedproduct']=$this->db->query("SELECT  `fynx_product`.`id` ,  `fynx_product`.`image1` AS  `image` ,  `fynx_product`.`price` ,  `fynx_product`.`name`
+FROM  `fynx_product`
+INNER JOIN  `relatedproduct` ON  `relatedproduct`.`relatedproduct` =  `fynx_product`.`id`
+WHERE  `relatedproduct`.`product` ='$id'")->result();
    return $query;
 
   }
