@@ -3867,7 +3867,8 @@ $id=$this->input->get_post("id");
 $category=$this->input->get_post("category");
 $email=$this->input->get_post("email");
 $name=$this->input->get_post("name");
-if($this->newsletter_model->editasksuman($id,$category,$email,$name)==0)
+$question=$this->input->get_post("question");
+if($this->newsletter_model->editasksuman($id,$category,$email,$name,$question)==0)
 $data["alerterror"]="New Ask Suman could not be Updated.";
 else
 $data["alertsuccess"]="Ask Suman Updated Successfully.";

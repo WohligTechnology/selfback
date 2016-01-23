@@ -32,9 +32,9 @@ $query=$this->db->get("asksuman")->row();
 return $query;
 }
 
-public function editasksuman($id,$category,$email,$name)
+public function editasksuman($id,$category,$email,$name,$question)
 {
-$data=array("category" => $category,"email" => $email,"name" => $name);
+$data=array("category" => $category,"email" => $email,"name" => $name,"question" => $question);
 $this->db->where( "id", $id );
 $query=$this->db->update( "asksuman", $data );
 return 1;

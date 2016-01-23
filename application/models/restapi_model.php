@@ -34,7 +34,7 @@ class restapi_model extends CI_Model
 
     }
 
-		public function contactsubmit($firstname,$lastname,$mobile,$email,$message){
+		public function contactSubmit($firstname,$lastname,$mobile,$email,$message){
 
 				$this->db->query("INSERT INTO `contact`(`firstname`,`lastname`,`telephone`,`email`,`comment`) VALUE('$firstname','$lastname','$mobile','$email','$message')");
 				$object = new stdClass();

@@ -15,7 +15,7 @@
 
 <div class="row">
 <div class="input-field col s6">
-<label for="Name">Name</label>
+<label for="Name">Category</label>
 <input type="text" id="category" name="category" value='<?php echo set_value('category',$before->category);?>'>
 </div>
 </div>
@@ -31,6 +31,15 @@
 <label for="Email Id">Email Id</label>
 <input type="email" id="Email Id" name="email" value='<?php echo set_value('email',$before->email);?>'>
 </div>
+</div>
+
+<div class="row">
+    <div class="col s12 m6">
+        <label>Question</label>
+        <textarea class="materialize-textarea"  name="question" placeholder="Enter text ...">
+            <?php echo set_value('question', $before->question);?>
+        </textarea>
+    </div>
 </div>
 
 <div class="row">

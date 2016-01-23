@@ -37,7 +37,7 @@ $this->load->view('json', $data);
 }
 
 
-public function contactsubmit()
+public function contactSubmit()
 {
 
   $data = json_decode(file_get_contents('php://input'), true);
@@ -47,7 +47,7 @@ public function contactsubmit()
   $email = $data['email'];
   $message = $data['message'];
 
-$data['message'] = $this->restapi_model->contactsubmit($firstname,$lastname,$mobile,$email,$message);
+$data['message'] = $this->restapi_model->contactSubmit($firstname,$lastname,$mobile,$email,$message);
 $this->load->view('json', $data);
 }
 
@@ -73,13 +73,7 @@ $data["message"]=$this->category_model->getCategoryById($id);
 $this->load->view("json",$data);
 }
 
-// public function getProductsByCategory()
-// {
-// $catid=$this->input->get_post("categoryid");
-// $subcatid=$this->input->get_post("subcategories");
-// $data["message"]=$this->product_model->getProductsByCategory($catid,$subcatid);
-// $this->load->view("json",$data);
-// }
+
 
 public function getProductsByCategory() {
 
