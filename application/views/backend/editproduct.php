@@ -89,13 +89,13 @@
         </div>
         <div class="row">
             <div class="input-field col s12 m8">
-                <?php echo form_dropdown('category', $category, set_value('category',$before->category)); ?>
+                <?php echo form_dropdown('category', $category, set_value('category',$before->category),"id=catid"); ?>
                     <label> Category</label>
             </div>
-        </div>
-        <div class="row">
+        </div>  
+              <div class="row">
             <div class="input-field col s12 m8">
-                <?php echo form_dropdown('subcategory', $subcategory, set_value('subcategory',$before->subcategory)); ?>
+                <?php echo form_dropdown('subcategory', $subcategory, set_value('subcategory',$before->subcategory),"id=catid"); ?>
                     <label>Sub Category</label>
             </div>
         </div>

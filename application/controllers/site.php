@@ -20,6 +20,13 @@ class Site extends CI_Controller
 		if(!in_array($accesslevel,$access))
 			redirect( base_url() . 'index.php/site?alerterror=You do not have access to this page. ', 'refresh' );
 	}
+    function getCategoryBySubCategory($id)
+	{
+        $id=$this->input->get_post('id');
+		$data1=$this->subcategory_model->getCategoryBySubCategory($id);
+          $data["message"] = $data1;
+        $this->load->view("json", $data);
+	}
     public function getOrderingDone()
     {
         $orderby=$this->input->get("orderby");

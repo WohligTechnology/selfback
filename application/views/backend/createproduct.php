@@ -84,16 +84,26 @@
 
         <div class="row">
             <div class="input-field col s12 m8">
-                <?php echo form_dropdown('category', $category, set_value('category')); ?>
+                <?php echo form_dropdown('category', $category, set_value('category'),"id=catid"); ?>
                     <label> Category</label>
             </div>
         </div>
+         <div class="row">
+            <div class="input-field col s12 m6">
+                <select name="subcategory" id="subcategory">
+                    <option value="">Select Subcategory</option>
+                </select>
+                <label>Sub Category</label>
+            </div>
+        </div>
+<!--
         <div class="row">
             <div class="input-field col s12 m8">
                 <?php echo form_dropdown('subcategory', $subcategory, set_value('subcategory')); ?>
                     <label>Sub Category</label>
             </div>
         </div>
+-->
         <!-- <div class="row">
             <div class="input-field col s12 m8">
                 <?php //echo form_dropdown('color', $color, set_value('color')); ?>
@@ -198,3 +208,28 @@
         </div>
     </form>
 </div>
+ <script>
+         function populate(data) {
+        var $forquestion = $("select[name=subcategory]");
+        $forquestion.html("");
+        $forquestion.append("<option value=''>Select Subcategory</option>");
+        for (var i = 0; i < data.length; i++) {
+            
+            $forquestion.append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+            $('select').material_select();
+        }
+    }
+  $(document).ready(function () {
+        var $cat = $("select[name=category]");
+        var new_base_url = "<?php echo site_url(); ?>";
+
+        $cat.change(function () {
+            $.getJSON(new_base_url + '/site/getCategoryBySubCategory', {
+                id: $("#catid").val()
+            }, function (data) {
+                populate(data);
+            });
+        });
+
+    });
+    </script>
