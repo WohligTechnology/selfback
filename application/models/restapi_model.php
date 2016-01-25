@@ -180,7 +180,7 @@ class restapi_model extends CI_Model
 		public function getFiltersLater ($query) {
 			$query2 = " SELECT `id` FROM ($query) as `tab1` ";
 			$query3['subcategory'] = $this->db->query(" SELECT DISTINCT `fynx_subcategory`.`name`,`fynx_subcategory`.`id`,`fynx_subcategory`.`order` FROM `fynx_product` INNER JOIN `fynx_subcategory` ON `fynx_product`.`subcategory` = `fynx_subcategory`.`id` WHERE `fynx_product`.`id` IN ($query2) " )->result();
-		
+
 			return $query3;
 		}
     public function updateProfile($user,$name,$email,$phone,$billingline1,$billingline2,$billingline3,$billingcity,$billingstate,$billingcountry,$billingpincode,$shippingline1,$shippingline2,$shippingline3,$shippingcity,$shippingstate,$shippingpincode,$shippingcountry){
@@ -212,6 +212,182 @@ class restapi_model extends CI_Model
         $useridquery = $this->db->query("SELECT `id`, `name`,`email`, `phone`, `billingaddress`, `billingcity`, `billingstate`, `billingcountry`, `billingcontact`, `billingpincode`, `shippingaddress`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `shippingname`, `shippingcontact`,  `billingline1`, `billingline2`, `shippingline1`, `shippingline2`, `billingline3`, `shippingline3` FROM `user` WHERE `id`='$user'")->row();
         return $useridquery;
     }
+
+		function addToCart($product, $quantity, $json,$status)
+{
+		//$data=$this->cart->contents();
+		$getexactproduct=$this->db->query("SELECT * FROM `fynx_product` WHERE `id`='$product'")->row();
+		$size=$getexactproduct->size;
+		$stockquantity=$getexactproduct->quantity;
+		$productname=$getexactproduct->name;
+		$price=$getexactproduct->price;
+		$color=$getexactproduct->color;
+		$image=$getexactproduct->image1;
+		$exactproduct=$getexactproduct->id;
+		$getsize=$this->db->query("SELECT `id`, `status`, `name` FROM `fynx_size` WHERE `id`='$size'")->row();
+		$sizeid=$getsize->id;
+		$sizename=$getsize->name;
+		$getcolor=$this->db->query("SELECT `id`, `name`, `status`, `timestamp` FROM `fynx_color` WHERE `id`='$color'")->row();
+		$colorid=$getcolor->id;
+		$colorname=$getcolor->name;
+				if($quantity > $stockquantity)
+				{
+						 $object = new stdClass();
+						 $object->value = false;
+						 $object->comment = 'quantity not available';
+						return $object;
+				}
+//        $getdesign=$this->db->query("SELECT `id`, `designer`, `image`, `status`, `timestamp` FROM `fynx_designs` WHERE `id`='$design'")->row();
+//        $designid=$getdesign->id;
+//        $designer=$getdesign->designer;
+//        $designimage=$getdesign->image;
+		$data = array(
+					 'id'      => $exactproduct,
+					 'name'      => '1',
+					 'qty'     => $quantity,
+					 'price'   => $price,
+//							 'design'   => $design,
+					 'image'   => $image,
+						'options' =>array(
+								'realname' => $productname,
+								'sizeid' => $sizeid,
+								'colorid' => $colorid,
+								'sizename' => $sizename,
+								'colorname' => $colorname
+						)
+		);
+		$userid=$this->session->userdata('id');
+				 if($userid=="")
+								{
+								$this->cart->insert($data);
+								$returnval=$this->cart->insert($data);
+								if(!empty($returnval)){
+								 $object = new stdClass();
+								 $object->value = true;
+								 return $object;
+								}
+								else{
+								$object->value = false;
+								$object->comment = 'Internal Server Error';
+								return $object;
+								}
+								}
+				else{
+						// USER ID IS PRESENT
+
+						if($status==1)
+						{
+								//PRODUCT DETAIL
+															//CHECK IF PRODUCT ALREADY THERE IN CART
+								$checkcart=$this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct'");
+								 if ( $checkcart->num_rows() > 0 )
+								 {
+										 //already in cart
+												 $object = new stdClass();
+												 $object->value = false;
+												 $object->comment = 'already in cart';
+												 return $object;
+								 }
+								else{
+										// INSERT PRODUCT IN CART
+												$query=$this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`,`design`) VALUES ('$userid','$exactproduct','$quantity',NULL,'$design')");
+										$this->cart->insert($data);
+										if($query){
+												 $object = new stdClass();
+												 $object->value = true;
+												return $object;
+												}
+										else{
+												$object = new stdClass();
+												 $object->value = false;
+												 $object->comment = 'Internal Server Error';
+												return $object;
+												}
+								}
+						}
+						else
+						{
+
+								$checkcartagain=$this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct'");
+									if ( $checkcartagain->num_rows() > 0 )
+								 {
+												//UPDATE DATABASE CART
+
+										$queryupdate=$this->db->query("UPDATE `fynx_cart` SET `quantity`='$quantity' WHERE `user`='$userid' AND `product`='$exactproduct'");
+										$this->cart->insert($data);
+										if($queryupdate){
+												 $object = new stdClass();
+												 $object->value = true;
+												 return $object;
+												}
+										else{
+												 $object = new stdClass();
+												 $object->value = false;
+												 $object->comment = 'Internal Server Error';
+												 return $object;
+										}
+								 }
+								else{
+										 // INSERT PRODUCT IN CART
+												$query=$this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`,`design`) VALUES ('$userid','$exactproduct','$quantity',NULL,'$design')");
+										$this->cart->insert($data);
+										if($query){
+												 $object = new stdClass();
+												 $object->value = true;
+												return $object;
+												}
+										else{
+												$object = new stdClass();
+												 $object->value = false;
+												 $object->comment = 'Internal Server Error';
+												return $object;
+												}
+								}
+
+						}
+
+				}
+
+}
+
+function removeFromCart($cart)
+{
+		$user = $this->session->userdata('id');
+		if($user!=''){
+				$deletecart=$this->db->query("DELETE FROM `fynx_cart` WHERE `product`='$cart' AND `user`='$user'");
+				if($deletecart)
+				{
+						$object = new stdClass();
+						$object->value = true;
+						return $object;
+				}
+				else
+				{
+						$object = new stdClass();
+						$object->value = false;
+						return $object;
+				}
+		}
+		else{
+				$id=$cart;
+				 $cart = $this->cart->contents();
+		$newcart = array();
+		foreach ($cart as $item) {
+				if ($item['id'] != $id) {
+						array_push($newcart, $item);
+				}
+		}
+		$this->cart->destroy();
+		$this->cart->insert($newcart);
+				 $object = new stdClass();
+						$object->value = true;
+						return $object;
+		}
+
+}
+
+
+
      public function changepassword($id, $oldpassword, $newpassword, $confirmpassword) {
         $oldpassword = md5($oldpassword);
         $newpassword = md5($newpassword);

@@ -168,6 +168,8 @@ public function signup()
 
 
 
+
+
     public function getalluseraddress()
     {
         $elements = array();
@@ -1779,13 +1781,32 @@ public function getsinglesize()
         $data['message'] = $this->order_model->addcartsession($cart);
         $this->load->view('json', $data);
     }
+    // public function addToCart()
+    // {
+    //     $product = $this->input->get_post('product');
+    //     $quantity = $this->input->get_post('quantity');
+    //     $design = $this->input->get_post('design');
+    //     $json = $this->input->get_post('json');
+    //     $data['message'] = $this->user_model->addToCart($product, $quantity, $design,$json);
+    //     $this->load->view('json', $data);
+    // }
+
     public function addToCart()
     {
-        $product = $this->input->get_post('product');
-        $quantity = $this->input->get_post('quantity');
-        $design = $this->input->get_post('design');
-        $json = $this->input->get_post('json');
-        $data['message'] = $this->user_model->addToCart($product, $quantity, $design,$json);
+        $data = json_decode(file_get_contents('php://input'), true);
+        $product = $data['product'];
+        $quantity = $data['quantity'];
+        $json = $data['json'];
+        $status = $data['status'];
+        $data['message'] = $this->restapi_model->addToCart($product, $quantity, $json,$status);
+        $this->load->view('json', $data);
+    }
+
+    public function removeFromCart()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $cart = $data['cart'];
+        $data['message'] = $this->restapi_model->removeFromCart($cart);
         $this->load->view('json', $data);
     }
 
@@ -2687,6 +2708,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         }
         $this->load->view('json', $data);
     }
+
      function checkoutCheck() {
         $userid = $this->session->userdata('id');
         if ($userid != '') {
