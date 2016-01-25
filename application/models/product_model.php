@@ -221,7 +221,8 @@ return $query;
             $quantity=$row['quantity'];
             $name=$row['name'];
             $type=$row['type'];
-            $description=$row['description'];
+            $about=$row['about'];
+            $nutritionalvalue=$row['nutritionalvalue'];
             $price=$row['price'];
             $category=$row['category'];
             $color=$row['color'];
@@ -242,7 +243,8 @@ return $query;
 		$data  = array(
             "quantity" => $quantity,
             "name" => $name,
-            "description" => $description,
+            "about" => $about,
+            "nutritionalvalue" => $nutritionalvalue,
             "visibility" => 1,
             "price" => $price,
             "status" => 2,

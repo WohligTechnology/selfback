@@ -6,7 +6,7 @@ class homeslide_model extends CI_Model
 
   public function getSlide()
   {
-    $query = $this->db->query("select image as 'img', name as 'title', description from `fynx_homeslide`")->result();
+    $query = $this->db->query("select image as 'img', name as 'title',link, description from `fynx_homeslide`")->result();
     return $query;
   }
 

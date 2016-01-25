@@ -2017,7 +2017,10 @@ public function getsinglesize()
     public function logout()
     {
         $this->session->sess_destroy();
-        $data['message'] = true;
+        $object = new stdClass();
+        $object->value = true;
+        //return $object;
+        $data['message'] = $object;
         $this->load->view('json', $data);
     }
     public function deletecart()

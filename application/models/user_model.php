@@ -646,7 +646,10 @@ class User_model extends CI_Model
             return $newdata;
         }
         else
-        return false;
+
+				$object = new stdClass();
+				$object->value = false;
+			return $object;
     }
     function addToCart($product, $quantity, $design,$json)
     {
