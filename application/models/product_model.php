@@ -329,14 +329,14 @@ return $query;
 
             if(empty($query2))
             {
-                $data=array("name" => $type,"status" => 1);
-                $query=$this->db->insert( "fynx_type", $data );
-                $typeid=$this->db->insert_id();
-
-                // update product
-                $data=array("type" => $typeid);
-                $this->db->where( "id", $productid );
-                $query=$this->db->update( "fynx_product", $data );
+                // $data=array("name" => $type,"status" => 1);
+                // $query=$this->db->insert( "fynx_type", $data );
+                // $typeid=$this->db->insert_id();
+                //
+                // // update product
+                // $data=array("type" => $typeid);
+                // $this->db->where( "id", $productid );
+                // $query=$this->db->update( "fynx_product", $data );
             }
             else
             {
@@ -351,14 +351,14 @@ return $query;
 
             if(empty($query3))
             {
-                $data=array("name" => $color,"status" => 1);
-                $query=$this->db->insert( "fynx_color", $data );
-                $colorid=$this->db->insert_id();
-
-                // update product
-                $data=array("color" => $colorid);
-                $this->db->where( "id", $productid );
-                $query=$this->db->update( "fynx_product", $data );
+                // $data=array("name" => $color,"status" => 1);
+                // $query=$this->db->insert( "fynx_color", $data );
+                // $colorid=$this->db->insert_id();
+                //
+                // // update product
+                // $data=array("color" => $colorid);
+                // $this->db->where( "id", $productid );
+                // $query=$this->db->update( "fynx_product", $data );
             }
             else
             {
@@ -374,14 +374,14 @@ return $query;
 
             if(empty($query4))
             {
-                $data=array("name" => $size,"status" => 1);
-                $query=$this->db->insert( "fynx_size", $data );
-                $sizeid=$this->db->insert_id();
-
-                // update product
-                $data=array("size" => $sizeid);
-                $this->db->where( "id", $productid );
-                $query=$this->db->update( "fynx_product", $data );
+                // $data=array("name" => $size,"status" => 1);
+                // $query=$this->db->insert( "fynx_size", $data );
+                // $sizeid=$this->db->insert_id();
+                //
+                // // update product
+                // $data=array("size" => $sizeid);
+                // $this->db->where( "id", $productid );
+                // $query=$this->db->update( "fynx_product", $data );
             }
             else
             {
@@ -396,14 +396,14 @@ return $query;
 
             if(empty($query5))
             {
-                $data=array("name" => $sizechart);
-                $query=$this->db->insert( "fynx_sizechart", $data );
-                $sizechartid=$this->db->insert_id();
-
-                // update product
-                $data=array("sizechart" => $sizechartid);
-                $this->db->where( "id", $productid );
-                $query=$this->db->update( "fynx_product", $data );
+                // $data=array("name" => $sizechart);
+                // $query=$this->db->insert( "fynx_sizechart", $data );
+                // $sizechartid=$this->db->insert_id();
+                //
+                // // update product
+                // $data=array("sizechart" => $sizechartid);
+                // $this->db->where( "id", $productid );
+                // $query=$this->db->update( "fynx_product", $data );
             }
             else
             {
