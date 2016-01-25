@@ -2712,6 +2712,9 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $this->load->view('json', $data);
     }
 
+
+
+
      function checkoutCheck() {
         $userid = $this->session->userdata('id');
         if ($userid != '') {
