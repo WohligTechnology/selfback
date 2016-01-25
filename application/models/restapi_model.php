@@ -246,16 +246,15 @@ class restapi_model extends CI_Model
 					 'name'      => '1',
 					 'qty'     => $quantity,
 					 'price'   => $price,
-					 'realname' => $productname,
 //							 'design'   => $design,
 					 'image'   => $image,
-						// 'options' =>array(
-						//
-						// 		'sizeid' => $sizeid,
-						// 		'colorid' => $colorid,
-						// 		'sizename' => $sizename,
-						// 		'colorname' => $colorname
-						// )
+						'options' =>array(
+								'realname' => $productname,
+								// 'sizeid' => $sizeid,
+								// 'colorid' => $colorid,
+								// 'sizename' => $sizename,
+								// 'colorname' => $colorname
+						)
 		);
 		$userid=$this->session->userdata('id');
 				 if($userid=="")

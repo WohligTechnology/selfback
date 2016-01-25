@@ -685,14 +685,14 @@ class User_model extends CI_Model
 
               	'options' =>array(
                     'realname' => $designname,
-                    'sizeid' => $sizeid,
-                    'colorid' => $colorid,
-                    'sizename' => $sizename,
-                    'colorname' => $colorname,
-                    'designid' => $designid,
-                    'designer' => $designer,
-                    'designimage' => $designimage,
-                    'json' => $json
+                    // 'sizeid' => $sizeid,
+                    // 'colorid' => $colorid,
+                    // 'sizename' => $sizename,
+                    // 'colorname' => $colorname,
+                    // 'designid' => $designid,
+                    // 'designer' => $designer,
+                    // 'designimage' => $designimage,
+                     'json' => $json
                 )
         );
 			}else{
@@ -707,13 +707,13 @@ class User_model extends CI_Model
 
               	'options' =>array(
                     'realname' => $designname,
-                    'sizeid' => $sizeid,
-                    'colorid' => $colorid,
-                    'sizename' => $sizename,
-                    'colorname' => $colorname,
-                    'designid' => "",
-                    'designer' => "",
-                    'designimage' => "",
+                    // 'sizeid' => $sizeid,
+                    // 'colorid' => $colorid,
+                    // 'sizename' => $sizename,
+                    // 'colorname' => $colorname,
+                    // 'designid' => "",
+                    // 'designer' => "",
+                    // 'designimage' => "",
                      'json' => $json
                 )
         );
@@ -750,26 +750,22 @@ class User_model extends CI_Model
             }
 
     }
-    public function showCart($user){
-        $query=$this->db->query("SELECT `fynx_cart`.`user`, `fynx_cart`.`quantity` as `qty`, `fynx_cart`.`product` as `id`,`fynx_product`.`image1` as `image`,`fynx_product`.`name` as `realname`,`fynx_product`.`price`,`fynx_cart`.`quantity`*`fynx_product`.`price` as `subtotal` FROM `fynx_cart`
+
+
+		public function showCart($user){
+			 $query=$this->db->query("SELECT `fynx_cart`.`user`, `fynx_cart`.`quantity` as `qty`, `fynx_cart`.`product` as `id`, `fynx_product`.`price` FROM `fynx_cart`
 INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_cart`.`product`
 WHERE `fynx_cart`.`user`='$user'")->result_array();
-//         foreach($query as $key => $row){
-//             $productid= $row["id"] ;
-//             $designid = $row["design"];
-//             $query[$key]["options"]=$this->db->query("SELECT `fynx_designs`.`name` as `realname`,`fynx_product`.`size` as `sizeid`,`fynx_product`.`color` as `colorid`,`fynx_size`.`name` as `sizename`,`fynx_color`.`name` as `colorname`,`fynx_cart`.`design` as `designid`,`fynx_designs`.`designer` as `designer`,`fynx_designs`.`image` as `designimage`,`fynx_cart`.`json` as `json` FROM `fynx_product`
-// LEFT OUTER JOIN `fynx_size` ON `fynx_size`.`id`=`fynx_product`.`size`
-// LEFT OUTER JOIN `fynx_color` ON `fynx_color`.`id`=`fynx_product`.`color`
-// LEFT OUTER JOIN `fynx_cart` ON `fynx_cart`.`product`=`fynx_product`.`id`
-// LEFT OUTER JOIN `fynx_designs` ON `fynx_designs`.`id`=`fynx_cart`.`design`
-// WHERE `fynx_product`.`id`='$productid'")->row();
-//         }
-// $querysubtotal=$this->db->query("SELECT `fynx_cart`.`quantity`*`fynx_product`.`price` as `subtotal` FROM `fynx_product` INNER JOIN `fynx_cart` ON `fynx_cart`.`product`=`fynx_product`.`id` WHERE `fynx_cart`.`product`='$productid'")->row();
-// $subtotal=$querysubtotal->subtotal;
-// $query["subtotal"]=$subtotal;
-
-        return $query;
-    }
+			 foreach($query as $key => $row){
+					 $productid= $row["id"] ;
+						 $query[$key]["options"]=$this->db->query("SELECT `fynx_product`.`name` as `realname` from `fynx_product`
+WHERE `fynx_product`.`id`='$productid'")->row();
+					 $querysubtotal=$this->db->query("SELECT `fynx_cart`.`quantity`*`fynx_product`.`price` as `subtotal` FROM `fynx_product` INNER JOIN `fynx_cart` ON `fynx_cart`.`product`=`fynx_product`.`id` WHERE `fynx_cart`.`product`='$productid'")->row();
+					 $subtotal=$querysubtotal->subtotal;
+					 $query[$key]["subtotal"]=$subtotal;
+			 }
+			 return $query;
+	 }
 
 
     function deletecartfromdb($id,$user,$design){
