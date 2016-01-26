@@ -1743,29 +1743,19 @@ public function getsinglesize()
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $user = $data['user'];
-        $firstname = $data['firstname'];
-        $lastname = $data['lastname'];
-        $email = $data['email'];
+        $name = $data['name'];
+      $address = $data['address'];
+      $pin = $data['pin'];
+      $city = $data['city'];
+      $state = $data['state'];
+        // $email = $data['email'];
 //        $billingcontact = $data['billingcontact'];
-        $phone = $data['mobile'];
-        $billingline1 = $data['billingline1'];
-        $billingline2 = $data['billingline2'];
-        $billingline3 = $data['billingline3'];
-        $billingcity = $data['billingcity'];
-        $billingstate = $data['billingstate'];
-        $billingcountry = $data['billingcountry'];
-        $billingpincode = $data['billingpincode'];
-        $shippingcity = $data['shippingcity'];
-        $shippingline1 = $data['shippingline1'];
-        $shippingline2 = $data['shippingline2'];
-        $shippingline3 = $data['shippingline3'];
-        $shippingcountry = $data['shippingcountry'];
-        $shippingstate = $data['shippingstate'];
-        $shippingpincode = $data['shippingpincode'];
+        $phone = $data['phone'];
+
         $carts = $data['cart'];
         $paymentmode = $data['paymentmode'];
 ////        print_r($order);
-        $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode);
+        $data['message'] = $this->order_model->placeOrder($user, $name,$address,$pin,$city,$state,$phone, $carts, $paymentmode);
 
         $this->load->view('json', $data);
     }

@@ -753,7 +753,7 @@ class User_model extends CI_Model
 
 
 		public function showCart($user){
-			 $query=$this->db->query("SELECT `fynx_cart`.`user`, `fynx_cart`.`quantity` as `qty`, `fynx_cart`.`product` as `id`, `fynx_product`.`price` FROM `fynx_cart`
+			 $query=$this->db->query("SELECT `fynx_cart`.`user`, `fynx_cart`.`quantity` as `qty`, `fynx_cart`.`product` as `id`, `fynx_product`.`price`,`fynx_product`.`image1` as 'image' FROM `fynx_cart`
 INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_cart`.`product`
 WHERE `fynx_cart`.`user`='$user'")->result_array();
 			 foreach($query as $key => $row){
