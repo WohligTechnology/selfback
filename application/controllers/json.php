@@ -95,12 +95,10 @@ public function getProductsByCategory() {
     $search = $this->input->get_post('search');
     $pageno = $this->input->get_post('pageno');
     $orderby = "price";
-    if($price == "2")
+    if($orderby=="")
     {
-      $orderorder = "DESC";
-    }
-    else {
-        $orderorder = "ASC";
+    $orderby="id";
+    $orderorder="ASC";
     }
 
     $maxrow = $this->input->get_post('maxrow');
