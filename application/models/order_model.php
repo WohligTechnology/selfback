@@ -90,22 +90,21 @@ class order_model extends CI_Model
 
         return $query;
     }
-    public function placeOrder($user, $name,$address,$pin,$city,$state,$phone, $carts, $paymentmode)
+    public function placeOrder($user,$firstname,$shippingaddress,$shippingpincode,$shippingcity,
+    $shippingstate,$shippingcontact,$email, $carts, $paymentmode)
     {
         $mysession = $this->session->all_userdata();
 
-        if ($address == '') {
-            $query = $this->db->query("INSERT INTO `fynx_order`(`user`, `firstname`,`billingcontact`) VALUES ('$user','$name','$phone')");
-        } else {
-            $query = $this->db->query("INSERT INTO `fynx_order`(`user`, `firstname`,`billingaddress`,`billingpincode`,`billingcity`,`billingstate`,`billingcontact`) VALUES ('$user','$name','$address','$pin','$city','$state','$phone')");
-        }
+
+            $query = $this->db->query("INSERT INTO `fynx_order`(`user`, `firstname`,`shippingaddress`,`shippingpincode`,`shippingcity`,`shippingstate`,`shippingcontact`,`email`,`orderstatus`) VALUES ('$user','$firstname','$shippingaddress','$shippingpincode','$shippingcity','$shippingstate','$shippingcontact','$email','1')");
+
 
         $order = $this->db->insert_id();
         $mysession['orderid'] = $order;
         $this->session->set_userdata($mysession);
 
        $cartcount=count($carts);
-       echo "    cart count    ".$cartcount."      "."end";
+      //  echo "    cart count    ".$cartcount."      "."end";
         foreach ($carts as $cart) {
             $querycart = $this->db->query("INSERT INTO `fynx_orderitem`(`order`, `product`, `quantity`, `price`, `finalprice`,`design`) VALUES ('$order','".$cart['id']."','".$cart['qty']."','".$cart['price']."','".$cart['subtotal']."','".$cart['design']."')");
             $quantity = intval($cart['qty']);

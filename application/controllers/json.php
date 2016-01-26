@@ -1743,19 +1743,19 @@ public function getsinglesize()
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $user = $data['user'];
-        $name = $data['name'];
-      $address = $data['address'];
-      $pin = $data['pin'];
-      $city = $data['city'];
-      $state = $data['state'];
-        // $email = $data['email'];
+        $firstname = $data['firstname'];
+      $shippingaddress = $data['shippingaddress'];
+      $shippingpincode = $data['shippingpincode'];
+      $shippingcity = $data['shippingcity'];
+      $shippingstate = $data['shippingstate'];
+        $email = $data['email'];
 //        $billingcontact = $data['billingcontact'];
-        $phone = $data['phone'];
+        $shippingcontact = $data['shippingcontact'];
 
         $carts = $data['cart'];
         $paymentmode = $data['paymentmode'];
 ////        print_r($order);
-        $data['message'] = $this->order_model->placeOrder($user, $name,$address,$pin,$city,$state,$phone, $carts, $paymentmode);
+        $data['message'] = $this->order_model->placeOrder($user, $firstname,$shippingaddress,$shippingpincode,$shippingcity,$shippingstate,$shippingcontact, $email,$carts, $paymentmode);
 
         $this->load->view('json', $data);
     }
