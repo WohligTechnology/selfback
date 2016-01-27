@@ -230,13 +230,13 @@ class restapi_model extends CI_Model
 		$getcolor=$this->db->query("SELECT `id`, `name`, `status`, `timestamp` FROM `fynx_color` WHERE `id`='$color'")->row();
 		$colorid=$getcolor->id;
 		$colorname=$getcolor->name;
-				if($quantity > $stockquantity)
-				{
-						 $object = new stdClass();
-						 $object->value = false;
-						//  $object->comment = 'quantity not available ';
-						return $object;
-				}
+				// if($quantity > $stockquantity)
+				// {
+				// 		 $object = new stdClass();
+				// 		 $object->value = false;
+				// 		 $object->comment = 'quantity not available ';
+				// 		return $object;
+				// }
 //        $getdesign=$this->db->query("SELECT `id`, `designer`, `image`, `status`, `timestamp` FROM `fynx_designs` WHERE `id`='$design'")->row();
 //        $designid=$getdesign->id;
 //        $designer=$getdesign->designer;
@@ -277,6 +277,7 @@ class restapi_model extends CI_Model
 
 						if($status==1)
 						{
+
 								//PRODUCT DETAIL
 															//CHECK IF PRODUCT ALREADY THERE IN CART
 								$checkcart=$this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct'");
@@ -289,7 +290,17 @@ class restapi_model extends CI_Model
 												 return $object;
 								 }
 								else{
-										// INSERT PRODUCT IN CART
+
+									if($quantity > $stockquantity)
+									{
+											 $object = new stdClass();
+											 $object->value = false;
+											 $object->comment = 'quantity not available ';
+											return $object;
+									}
+
+										else
+										{// INSERT PRODUCT IN CART
 												$query=$this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`,`design`) VALUES ('$userid','$exactproduct','$quantity',NULL,'$design')");
 										$this->cart->insert($data);
 										if($query){
@@ -303,6 +314,7 @@ class restapi_model extends CI_Model
 												 $object->comment = 'Internal Server Error';
 												return $object;
 												}
+											}
 								}
 						}
 						else
