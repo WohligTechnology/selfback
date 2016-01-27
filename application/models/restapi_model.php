@@ -234,7 +234,7 @@ class restapi_model extends CI_Model
 				{
 						 $object = new stdClass();
 						 $object->value = false;
-						 $object->comment = 'quantity not available';
+						//  $object->comment = 'quantity not available ';
 						return $object;
 				}
 //        $getdesign=$this->db->query("SELECT `id`, `designer`, `image`, `status`, `timestamp` FROM `fynx_designs` WHERE `id`='$design'")->row();
