@@ -2699,36 +2699,47 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $this->load->view('json', $data);
     }
 
-     function checkoutCheck() {
-        $userid = $this->session->userdata('id');
-        if ($userid != '') {
-            $data['message'] = $this->user_model->showCart($userid);
-        }
-        else
-        {
-            $cart = $this->cart->contents();
-            $newcart = array();
-            foreach ($cart as $item) {
-                array_push($newcart, $item);
-            }
-            $data['message'] = $newcart;
-        }
-        foreach($data["message"] as $key=>$element)
-        {
+    function checkoutCheck() {
+       $userid=$this->session->userdata("id");
+       $newcart=array();
+       if($userid!="")
+       {
+           $cart = $this->cart->contents();
+           foreach ($cart as $item) {
+               array_push($newcart, $item);
+           }
+       }
+       else
+       {
+           $cart = $this->cart->contents();
+           foreach ($cart as $item) {
+               $quantity=$item->options->productquantity;
+               $productid=$item->id;
+               array_push($newcart, $item);
+           }
+       }
+       $returnWhat=new stdClass();
+       $returnWhat->value=true;
+       $data["message"]=array();
+       foreach($newcart as $element)
+       {
+           $proid=$element["id"];
+           $element["maxQuantity"]=$this->restapi_model->checkproductquantity($proid);
+           $maxQuantity = intval($element["maxQuantity"]);
+           $cartQuantity = intval($element["qty"]);
+           if($cartQuantity <= $maxQuantity) {
+               //Enjoy
+           }
+           else
+           {
+                $returnWhat->value=false;
+           }
+       }
+       $data["message"]=$returnWhat;
+       $this->load->view("json", $data);
+   }
 
-            $proid=$element["id"];
-            $maxQuantity=$this->restapi_model->checkproductquantity($proid);
-            $cartQuantity = intval($element["qty"]);
-            if($cartQuantity <= $maxQuantity) {
-             $data['message'] = true;
-            }
-            else
-            {
-                $data['message'] = false;
-            }
-             $this->load->view('json', $data);
-        }
-    }
+
     public function removeFromWishlist()
     {
         $data = json_decode(file_get_contents('php://input'), true);

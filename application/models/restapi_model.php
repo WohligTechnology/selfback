@@ -446,10 +446,11 @@ function removeFromCart($cart)
             redirect("http://www.myfynx.com/testing/#/sorry/".$orderid);
             }
 }
-      public function checkproductquantity($prodid){
-         $query=$this->db->query("SELECT `quantity` FROM `fynx_product` WHERE `id`='$prodid'")->row();
-         $quantity=$query->quantity;
-        return $quantity;
-    }
+public function checkproductquantity($prodid)
+{
+	 $query=$this->db->query("SELECT `quantity` FROM `fynx_product` WHERE `id`='$prodid'")->row();
+	 $quantity=$query->quantity;
+	 return $quantity;
+}
 }
 ?>
