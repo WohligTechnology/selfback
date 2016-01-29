@@ -5025,5 +5025,866 @@ $this->load->view("redirect",$data);
 }
 
 
+
+public function viewhealthpackages()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewhealthpackages";
+$data["base_url"]=site_url("site/viewhealthpackagesjson");
+$data["title"]="View healthpackages";
+$this->load->view("template",$data);
+}
+function viewhealthpackagesjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`selftables_healthpackages`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`selftables_healthpackages`.`type`";
+$elements[1]->sort="1";
+$elements[1]->header="type";
+$elements[1]->alias="type";
+$elements[2]=new stdClass();
+$elements[2]->field="`selftables_healthpackages`.`months`";
+$elements[2]->sort="1";
+$elements[2]->header="months";
+$elements[2]->alias="months";
+$elements[3]=new stdClass();
+$elements[3]->field="`selftables_healthpackages`.`visits`";
+$elements[3]->sort="1";
+$elements[3]->header="visits";
+$elements[3]->alias="visits";
+$elements[4]=new stdClass();
+$elements[4]->field="`selftables_healthpackages`.`plan`";
+$elements[4]->sort="1";
+$elements[4]->header="plan";
+$elements[4]->alias="plan";
+$elements[5]=new stdClass();
+$elements[5]->field="`selftables_healthpackages`.`price_in_INR`";
+$elements[5]->sort="1";
+$elements[5]->header="price_in_INR";
+$elements[5]->alias="price_in_INR";
+$elements[6]=new stdClass();
+$elements[6]->field="`selftables_healthpackages`.`price_in_dollars`";
+$elements[6]->sort="1";
+$elements[6]->header="price_in_dollars";
+$elements[6]->alias="price_in_dollars";
+$elements[7]=new stdClass();
+$elements[7]->field="`selftables_healthpackages`.`description`";
+$elements[7]->sort="1";
+$elements[7]->header="description";
+$elements[7]->alias="description";
+$elements[8]=new stdClass();
+$elements[8]->field="`selftables_healthpackages`.`title`";
+$elements[8]->sort="1";
+$elements[8]->header="title";
+$elements[8]->alias="title";
+$elements[9]=new stdClass();
+$elements[9]->field="`selftables_healthpackages`.`subtype`";
+$elements[9]->sort="1";
+$elements[9]->header="subtype";
+$elements[9]->alias="subtype";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_healthpackages`");
+$this->load->view("json",$data);
+}
+
+
+
+
+public function createhealthpackages()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createhealthpackages";
+$data["title"]="Create healthpackages";
+$data[ 'subtype' ] =$this->healthpackages_model->getsubtypedropdown();
+  $data['plan']=$this->healthpackages_model->getplanrdropdown();
+$this->load->view("template",$data);
+}
+public function createhealthpackagessubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("type","type","trim");
+$this->form_validation->set_rules("months","months","trim");
+$this->form_validation->set_rules("visits","visits","trim");
+$this->form_validation->set_rules("plan","plan","trim");
+$this->form_validation->set_rules("price_in_INR","price_in_INR","trim");
+$this->form_validation->set_rules("price_in_dollars","price_in_dollars","trim");
+$this->form_validation->set_rules("description","description","trim");
+$this->form_validation->set_rules("title","title","trim");
+$this->form_validation->set_rules("subtype","subtype","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createhealthpackages";
+$data["title"]="Create healthpackages";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$type=$this->input->get_post("type");
+if($type=="Weight Loss")
+{
+	$subtype="";
+}
+else {
+$subtype=$this->input->get_post("subtype");
+}
+$months=$this->input->get_post("months");
+$visits=$this->input->get_post("visits");
+$plan=$this->input->get_post("plan");
+$price_in_INR=$this->input->get_post("price_in_INR");
+$price_in_dollars=$this->input->get_post("price_in_dollars");
+$description=$this->input->get_post("description");
+$title=$this->input->get_post("title");
+
+if($this->healthpackages_model->create($type,$months,$visits,$plan,$price_in_INR,$price_in_dollars,$description,$title,$subtype)==0)
+$data["alerterror"]="New healthpackages could not be created.";
+else
+$data["alertsuccess"]="healthpackages created Successfully.";
+$data["redirect"]="site/viewhealthpackages";
+$this->load->view("redirect",$data);
+}
+}
+public function edithealthpackages()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="edithealthpackages";
+$data["title"]="Edit healthpackages";
+$data[ 'subtype' ] =$this->healthpackages_model->getsubtypedropdown();
+  $data['plan']=$this->healthpackages_model->getplanrdropdown();
+$data["before"]=$this->healthpackages_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function edithealthpackagessubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("type","type","trim");
+$this->form_validation->set_rules("months","months","trim");
+$this->form_validation->set_rules("visits","visits","trim");
+$this->form_validation->set_rules("plan","plan","trim");
+$this->form_validation->set_rules("price_in_INR","price_in_INR","trim");
+$this->form_validation->set_rules("price_in_dollars","price_in_dollars","trim");
+$this->form_validation->set_rules("description","description","trim");
+$this->form_validation->set_rules("title","title","trim");
+$this->form_validation->set_rules("subtype","subtype","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="edithealthpackages";
+$data["title"]="Edit healthpackages";
+$data["before"]=$this->healthpackages_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$type=$this->input->get_post("type");
+$months=$this->input->get_post("months");
+$visits=$this->input->get_post("visits");
+$plan=$this->input->get_post("plan");
+$price_in_INR=$this->input->get_post("price_in_INR");
+$price_in_dollars=$this->input->get_post("price_in_dollars");
+$description=$this->input->get_post("description");
+$title=$this->input->get_post("title");
+$subtype=$this->input->get_post("subtype");
+if($this->healthpackages_model->edit($id,$type,$months,$visits,$plan,$price_in_INR,$price_in_dollars,$description,$title,$subtype)==0)
+$data["alerterror"]="New healthpackages could not be Updated.";
+else
+$data["alertsuccess"]="healthpackages Updated Successfully.";
+$data["redirect"]="site/viewhealthpackages";
+$this->load->view("redirect",$data);
+}
+}
+public function deletehealthpackages()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->healthpackages_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewhealthpackages";
+$this->load->view("redirect",$data);
+}
+public function viewsubtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewsubtype";
+$data["base_url"]=site_url("site/viewsubtypejson");
+$data["title"]="View subtype";
+$this->load->view("template",$data);
+}
+function viewsubtypejson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`selftables_subtype`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`selftables_subtype`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="name";
+$elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`selftables_subtype`.`image`";
+$elements[2]->sort="1";
+$elements[2]->header="image";
+$elements[2]->alias="image";
+$elements[3]=new stdClass();
+$elements[3]->field="`selftables_subtype`.`order`";
+$elements[3]->sort="1";
+$elements[3]->header="order";
+$elements[3]->alias="order";
+$elements[4]=new stdClass();
+$elements[4]->field="`selftables_subtype`.`status`";
+$elements[4]->sort="1";
+$elements[4]->header="status";
+$elements[4]->alias="status";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_subtype`");
+$this->load->view("json",$data);
+}
+
+public function createsubtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createsubtype";
+$data["title"]="Create subtype";
+$this->load->view("template",$data);
+}
+public function createsubtypesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("image","image","trim");
+$this->form_validation->set_rules("order","order","trim");
+$this->form_validation->set_rules("status","status","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createsubtype";
+$data["title"]="Create subtype";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$order=$this->input->get_post("order");
+$status=$this->input->get_post("status");
+$config['upload_path'] = './uploads/';
+$config['allowed_types'] = 'gif|jpg|png|jpeg';
+$this->load->library('upload', $config);
+$filename="image";
+$image="";
+if (  $this->upload->do_upload($filename))
+{
+$uploaddata = $this->upload->data();
+$image=$uploaddata['file_name'];
+
+		$config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+		$config_r['maintain_ratio'] = TRUE;
+		$config_t['create_thumb'] = FALSE;///add this
+		$config_r['width']   = 800;
+		$config_r['height'] = 800;
+		$config_r['quality']    = 100;
+		//end of configs
+
+		$this->load->library('image_lib', $config_r);
+		$this->image_lib->initialize($config_r);
+		if(!$this->image_lib->resize())
+		{
+				echo "Failed." . $this->image_lib->display_errors();
+				//return false;
+		}
+		else
+		{
+				//print_r($this->image_lib->dest_image);
+				//dest_image
+				$image=$this->image_lib->dest_image;
+				//return false;
+		}
+
+}
+
+if($this->subtype_model->create($name,$image,$order,$status)==0)
+$data["alerterror"]="New subtype could not be created.";
+else
+$data["alertsuccess"]="subtype created Successfully.";
+$data["redirect"]="site/viewsubtype";
+$this->load->view("redirect",$data);
+}
+}
+public function editsubtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editsubtype";
+$data["title"]="Edit subtype";
+$data["before"]=$this->subtype_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editsubtypesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("image","image","trim");
+$this->form_validation->set_rules("order","order","trim");
+$this->form_validation->set_rules("status","status","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editsubtype";
+$data["title"]="Edit subtype";
+$data["before"]=$this->subtype_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$order=$this->input->get_post("order");
+$status=$this->input->get_post("status");
+$config['upload_path'] = './uploads/';
+ $config['allowed_types'] = 'gif|jpg|png';
+ $this->load->library('upload', $config);
+ $filename="image";
+ $image="";
+ if (  $this->upload->do_upload($filename))
+ {
+	 $uploaddata = $this->upload->data();
+	 $image=$uploaddata['file_name'];
+ }
+if($image=="")
+			 {
+			 $image=$this->subtype_model->getimagebyid($id);
+					// print_r($image);
+					 $image=$image->image;
+			 }
+if($this->subtype_model->edit($id,$name,$image,$order,$status)==0)
+$data["alerterror"]="New subtype could not be Updated.";
+else
+$data["alertsuccess"]="subtype Updated Successfully.";
+$data["redirect"]="site/viewsubtype";
+$this->load->view("redirect",$data);
+}
+}
+public function deletesubtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->subtype_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewsubtype";
+$this->load->view("redirect",$data);
+}
+public function viewblog()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewblog";
+$data["base_url"]=site_url("site/viewblogjson");
+$data["title"]="View blog";
+$this->load->view("template",$data);
+}
+function viewblogjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`selftables_blog`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`selftables_blog`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="name";
+$elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`selftables_blog`.`description`";
+$elements[2]->sort="1";
+$elements[2]->header="description";
+$elements[2]->alias="description";
+$elements[3]=new stdClass();
+$elements[3]->field="`selftables_blog`.`posted_by`";
+$elements[3]->sort="1";
+$elements[3]->header="posted_by";
+$elements[3]->alias="posted_by";
+$elements[4]=new stdClass();
+$elements[4]->field="`selftables_blog`.`dateofposting`";
+$elements[4]->sort="1";
+$elements[4]->header="dateofposting";
+$elements[4]->alias="dateofposting";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_blog`");
+$this->load->view("json",$data);
+}
+
+public function createblog()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createblog";
+$data["title"]="Create blog";
+$this->load->view("template",$data);
+}
+public function createblogsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("description","description","trim");
+$this->form_validation->set_rules("image","image","trim");
+$this->form_validation->set_rules("posted_by","posted_by","trim");
+$this->form_validation->set_rules("dateofposting","dateofposting","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createblog";
+$data["title"]="Create blog";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$description=$this->input->get_post("description");
+$posted_by=$this->input->get_post("posted_by");
+$dateofposting=$this->input->get_post("dateofposting");
+$config['upload_path'] = './uploads/';
+$config['allowed_types'] = 'gif|jpg|png|jpeg';
+$this->load->library('upload', $config);
+$filename="image";
+$image="";
+if (  $this->upload->do_upload($filename))
+{
+$uploaddata = $this->upload->data();
+$image=$uploaddata['file_name'];
+
+		$config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+		$config_r['maintain_ratio'] = TRUE;
+		$config_t['create_thumb'] = FALSE;///add this
+		$config_r['width']   = 800;
+		$config_r['height'] = 800;
+		$config_r['quality']    = 100;
+		//end of configs
+
+		$this->load->library('image_lib', $config_r);
+		$this->image_lib->initialize($config_r);
+		if(!$this->image_lib->resize())
+		{
+				echo "Failed." . $this->image_lib->display_errors();
+				//return false;
+		}
+		else
+		{
+				//print_r($this->image_lib->dest_image);
+				//dest_image
+				$image=$this->image_lib->dest_image;
+				//return false;
+		}
+
+}
+if($this->blog_model->create($name,$image,$description,$posted_by,$dateofposting)==0)
+$data["alerterror"]="New blog could not be created.";
+else
+$data["alertsuccess"]="blog created Successfully.";
+$data["redirect"]="site/viewblog";
+$this->load->view("redirect",$data);
+}
+}
+public function editblog()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editblog";
+$data["title"]="Edit blog";
+$data["before"]=$this->blog_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editblogsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("description","description","trim");
+$this->form_validation->set_rules("posted_by","posted_by","trim");
+$this->form_validation->set_rules("dateofposting","dateofposting","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editblog";
+$data["title"]="Edit blog";
+$data["before"]=$this->blog_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$description=$this->input->get_post("description");
+$posted_by=$this->input->get_post("posted_by");
+$dateofposting=$this->input->get_post("dateofposting");
+$config['upload_path'] = './uploads/';
+ $config['allowed_types'] = 'gif|jpg|png';
+ $this->load->library('upload', $config);
+ $filename="image";
+ $image="";
+ if (  $this->upload->do_upload($filename))
+ {
+	 $uploaddata = $this->upload->data();
+	 $image=$uploaddata['file_name'];
+ }
+if($image=="")
+			 {
+			 $image=$this->subtype_model->getimagebyid($id);
+					// print_r($image);
+					 $image=$image->image;
+			 }
+if($this->blog_model->edit($id,$name,$image,$description,$posted_by,$dateofposting)==0)
+$data["alerterror"]="New blog could not be Updated.";
+else
+$data["alertsuccess"]="blog Updated Successfully.";
+$data["redirect"]="site/viewblog";
+$this->load->view("redirect",$data);
+}
+}
+public function deleteblog()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->blog_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewblog";
+$this->load->view("redirect",$data);
+}
+public function viewcomment()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewcomment";
+$data["base_url"]=site_url("site/viewcommentjson");
+$data["title"]="View comment";
+$this->load->view("template",$data);
+}
+function viewcommentjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`selftables_comment`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`selftables_comment`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="name";
+$elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`selftables_comment`.`email`";
+$elements[2]->sort="1";
+$elements[2]->header="email";
+$elements[2]->alias="email";
+$elements[3]=new stdClass();
+$elements[3]->field="`selftables_comment`.`website`";
+$elements[3]->sort="1";
+$elements[3]->header="website";
+$elements[3]->alias="website";
+$elements[4]=new stdClass();
+$elements[4]->field="`selftables_comment`.`comment`";
+$elements[4]->sort="1";
+$elements[4]->header="comment";
+$elements[4]->alias="comment";
+$elements[5]=new stdClass();
+$elements[5]->field="`selftables_comment`.`blog`";
+$elements[5]->sort="1";
+$elements[5]->header="blog";
+$elements[5]->alias="blog";
+$elements[6]=new stdClass();
+$elements[6]->field="`selftables_comment`.`timestamp`";
+$elements[6]->sort="1";
+$elements[6]->header="timestamp";
+$elements[6]->alias="timestamp";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_comment`");
+$this->load->view("json",$data);
+}
+
+public function createcomment()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createcomment";
+$data["title"]="Create comment";
+$this->load->view("template",$data);
+}
+public function createcommentsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("email","email","trim");
+$this->form_validation->set_rules("website","website","trim");
+$this->form_validation->set_rules("comment","comment","trim");
+$this->form_validation->set_rules("blog","blog","trim");
+$this->form_validation->set_rules("timestamp","timestamp","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createcomment";
+$data["title"]="Create comment";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$email=$this->input->get_post("email");
+$website=$this->input->get_post("website");
+$comment=$this->input->get_post("comment");
+$blog=$this->input->get_post("blog");
+if($this->comment_model->create($name,$email,$website,$comment,$blog,$timestamp)==0)
+$data["alerterror"]="New comment could not be created.";
+else
+$data["alertsuccess"]="comment created Successfully.";
+$data["redirect"]="site/viewcomment";
+$this->load->view("redirect",$data);
+}
+}
+public function editcomment()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editcomment";
+$data["title"]="Edit comment";
+$data["before"]=$this->comment_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editcommentsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("email","email","trim");
+$this->form_validation->set_rules("website","website","trim");
+$this->form_validation->set_rules("comment","comment","trim");
+$this->form_validation->set_rules("blog","blog","trim");
+$this->form_validation->set_rules("timestamp","timestamp","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editcomment";
+$data["title"]="Edit comment";
+$data["before"]=$this->comment_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$email=$this->input->get_post("email");
+$website=$this->input->get_post("website");
+$comment=$this->input->get_post("comment");
+$blog=$this->input->get_post("blog");
+$timestamp=$this->input->get_post("timestamp");
+if($this->comment_model->edit($id,$name,$email,$website,$comment,$blog,$timestamp)==0)
+$data["alerterror"]="New comment could not be Updated.";
+else
+$data["alertsuccess"]="comment Updated Successfully.";
+$data["redirect"]="site/viewcomment";
+$this->load->view("redirect",$data);
+}
+}
+public function deletecomment()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->comment_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewcomment";
+$this->load->view("redirect",$data);
+}
+public function viewrealtedblog()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewrealtedblog";
+$data["base_url"]=site_url("site/viewrealtedblogjson");
+$data["title"]="View realtedblog";
+$this->load->view("template",$data);
+}
+function viewrealtedblogjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`selftables_realtedblog`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`selftables_realtedblog`.`blog`";
+$elements[1]->sort="1";
+$elements[1]->header="blog";
+$elements[1]->alias="blog";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_realtedblog`");
+$this->load->view("json",$data);
+}
+
+public function createrealtedblog()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createrealtedblog";
+$data["title"]="Create realtedblog";
+$this->load->view("template",$data);
+}
+public function createrealtedblogsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("blog","blog","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createrealtedblog";
+$data["title"]="Create realtedblog";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$blog=$this->input->get_post("blog");
+if($this->realtedblog_model->create($blog)==0)
+$data["alerterror"]="New realtedblog could not be created.";
+else
+$data["alertsuccess"]="realtedblog created Successfully.";
+$data["redirect"]="site/viewrealtedblog";
+$this->load->view("redirect",$data);
+}
+}
+public function editrealtedblog()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editrealtedblog";
+$data["title"]="Edit realtedblog";
+$data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editrealtedblogsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("blog","blog","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editrealtedblog";
+$data["title"]="Edit realtedblog";
+$data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$blog=$this->input->get_post("blog");
+if($this->realtedblog_model->edit($id,$blog)==0)
+$data["alerterror"]="New realtedblog could not be Updated.";
+else
+$data["alertsuccess"]="realtedblog Updated Successfully.";
+$data["redirect"]="site/viewrealtedblog";
+$this->load->view("redirect",$data);
+}
+}
+public function deleterealtedblog()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->realtedblog_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewrealtedblog";
+$this->load->view("redirect",$data);
+}
+
 }
 ?>
