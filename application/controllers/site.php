@@ -5479,17 +5479,18 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createblog";
 $data["title"]="Create blog";
+  $data['tag']=$this->tags_model->gettagdropdown();
 $this->load->view("template",$data);
 }
 public function createblogsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
-$this->form_validation->set_rules("name","name","trim");
-$this->form_validation->set_rules("description","description","trim");
-$this->form_validation->set_rules("image","image","trim");
-$this->form_validation->set_rules("posted_by","posted_by","trim");
-$this->form_validation->set_rules("dateofposting","dateofposting","trim");
+$this->form_validation->set_rules("name","name","trim", "required");
+$this->form_validation->set_rules("description","description","trim", "required");
+$this->form_validation->set_rules("image","image","trim", "required");
+$this->form_validation->set_rules("posted_by","posted_by","trim", "required");
+$this->form_validation->set_rules("dateofposting","dateofposting","trim", "required");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
@@ -5504,6 +5505,7 @@ $name=$this->input->get_post("name");
 $description=$this->input->get_post("description");
 $posted_by=$this->input->get_post("posted_by");
 $dateofposting=$this->input->get_post("dateofposting");
+$tags=$this->input->get_post("tag");
 $config['upload_path'] = './uploads/';
 $config['allowed_types'] = 'gif|jpg|png|jpeg';
 $this->load->library('upload', $config);
@@ -5538,7 +5540,7 @@ $image=$uploaddata['file_name'];
 		}
 
 }
-if($this->blog_model->create($name,$image,$description,$posted_by,$dateofposting)==0)
+if($this->blog_model->create($name,$image,$description,$posted_by,$dateofposting,$tags)==0)
 $data["alerterror"]="New blog could not be created.";
 else
 $data["alertsuccess"]="blog created Successfully.";
@@ -5816,6 +5818,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createrealtedblog";
 $data["title"]="Create realtedblog";
+    $data['blog']=$this->realtedblog_model->getblogdropdown();
 $this->load->view("template",$data);
 }
 public function createrealtedblogsubmit()
@@ -5832,9 +5835,9 @@ $this->load->view("template",$data);
 }
 else
 {
-$id=$this->input->get_post("id");
+$bid=$this->input->get_post("bid");
 $blog=$this->input->get_post("blog");
-if($this->realtedblog_model->create($blog)==0)
+if($this->realtedblog_model->create($bid,$blog)==0)
 $data["alerterror"]="New realtedblog could not be created.";
 else
 $data["alertsuccess"]="realtedblog created Successfully.";
@@ -5849,6 +5852,7 @@ $this->checkaccess($access);
 $data["page"]="editrealtedblog";
 $data["title"]="Edit realtedblog";
 $data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
+    $data['blog']=$this->realtedblog_model->getblogdropdown();
 $this->load->view("template",$data);
 }
 public function editrealtedblogsubmit()
@@ -5883,6 +5887,122 @@ $access=array("1");
 $this->checkaccess($access);
 $this->realtedblog_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewrealtedblog";
+$this->load->view("redirect",$data);
+}
+
+public function viewtags()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewtags";
+$data["base_url"]=site_url("site/viewtagsjson");
+$data["title"]="View tags";
+$this->load->view("template",$data);
+}
+function viewtagsjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`tags`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`tags`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="name";
+$elements[1]->alias="name";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `tags`");
+$this->load->view("json",$data);
+}
+
+public function createtags()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createtags";
+$data["title"]="Create tags";
+$this->load->view("template",$data);
+}
+public function createtagssubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("name","name","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createtags";
+$data["title"]="Create tags";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+if($this->tags_model->create($name)==0)
+$data["alerterror"]="New tags could not be created.";
+else
+$data["alertsuccess"]="tags created Successfully.";
+$data["redirect"]="site/viewtags";
+$this->load->view("redirect",$data);
+}
+}
+public function edittags()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="edittags";
+$data["title"]="Edit tags";
+$data["before"]=$this->tags_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function edittagssubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("name","name","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="edittags";
+$data["title"]="Edit tags";
+$data["before"]=$this->tags_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+if($this->tags_model->edit($id,$name)==0)
+$data["alerterror"]="New tags could not be Updated.";
+else
+$data["alertsuccess"]="tags Updated Successfully.";
+$data["redirect"]="site/viewtags";
+$this->load->view("redirect",$data);
+}
+}
+public function deletetags()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->tags_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewtags";
 $this->load->view("redirect",$data);
 }
 

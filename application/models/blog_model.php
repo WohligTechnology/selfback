@@ -3,15 +3,53 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class blog_model extends CI_Model
 {
-public function create($name,$image,$description,$posted_by,$dateofposting)
+
+  function searchBlog($title){
+        $query=$this->db->query("SELECT `id`,`name` as 'title',`image` as 'coverimage',`description` as 'content' from `selftables_blog` where `name` like '$title%'")->result();
+
+   return $query;
+
+  }
+
+
+  function popularPost(){
+        $query=$this->db->query("SELECT `id`,`name` as 'title',`image` as 'coverimage',`description` as 'content' from `selftables_blog` order by `views` desc")->result();
+   return $query;
+
+  }
+
+  function getViews($id){
+        $query=$this->db->query("SELECT  max(views) as 'views' from `selftables_blog` where id=$id")->row();
+   return $query;
+
+  }
+
+
+
+public function create($name,$image,$description,$posted_by,$dateofposting,$tags)
 {
+
 $data=array("name" => $name,"image" => $image,"description" => $description,"posted_by" => $posted_by);
 $query=$this->db->insert( "selftables_blog", $data );
 $id=$this->db->insert_id();
+foreach($tags as $tag)
+{
+$query=$this->db->query("insert into tagsblog(tag,blog) values($tag,$id)");
+//  return $query;
+}
 if(!$query)
-return  0;
+{
+  return  0;
+}
+
 else
-return  $id;
+{
+  return  $id;
+
+
+}
+
+
 }
 public function beforeedit($id)
 {

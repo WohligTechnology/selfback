@@ -34,6 +34,17 @@ class restapi_model extends CI_Model
 
     }
 
+
+		public function commentSubmit($blogid,$name,$email,$website,$comment){
+
+				$this->db->query("INSERT INTO `selftables_comment`(`blog`,`name`,`email`,`website`,`comment`) VALUE('$blogid','$name','$email','$website','$comment')");
+				$object = new stdClass();
+				$object->value = true;
+				return $object;
+
+		}
+
+
 		public function contactSubmit($firstname,$lastname,$mobile,$email,$message){
 
 				$this->db->query("INSERT INTO `contact`(`firstname`,`lastname`,`telephone`,`email`,`comment`) VALUE('$firstname','$lastname','$mobile','$email','$message')");

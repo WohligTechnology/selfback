@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class realtedblog_model extends CI_Model
 {
-public function create($blog)
+public function create($bid,$blog)
 {
-$data=array("blog" => $blog);
+$data=array("blog" => $bid,"relatedblog" => $blog);
 $query=$this->db->insert( "selftables_realtedblog", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -48,7 +48,7 @@ return $query;
 }
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `selftables_realtedblog` ORDER BY `id` 
+$query=$this->db->query("SELECT * FROM `selftables_realtedblog` ORDER BY `id`
                     ASC")->row();
 $return=array(
 "" => "Select Option"
@@ -57,6 +57,20 @@ foreach($query as $row)
 {
 $return[$row->id]=$row->name;
 }
+return $return;
+}
+
+public function getblogdropdown()
+{
+$query=$this->db->query("SELECT * FROM `selftables_blog`  ORDER BY `id` ASC")->result();
+$return=array(
+"" => "Choose an option"
+);
+foreach($query as $row)
+{
+$return[$row->id]=$row->name;
+}
+
 return $return;
 }
 }

@@ -13,6 +13,74 @@ class Json extends CI_Controller
   $this->load->view('json', $data);
 }
 
+public function getAllBlog()
+{
+$tag=$this->input->get_post("tag");
+
+$this->chintantable->createelement("`selftables_blog`.`id`", '1', "ID", "id");
+$this->chintantable->createelement("`selftables_blog`.`name`", '1', "title", "title");
+$this->chintantable->createelement("`selftables_blog`.`image`", '0', "image", "image");
+// $this->chintantable->createelement("`selftables_blog`.`dateofposting`", '1', "timestamp", "timestamp");
+$this->chintantable->createelement("`selftables_blog`.`description`", '0', "content", "content");
+//$this->chintantable->createelement("group_concat(`tags`.`name` separator ',')", '0', "tags", "tags");
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=  5;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+
+if($tag=="")
+{
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_blog` LEFT OUTER JOIN `tagsblog` ON `selftables_blog`.`id` = `tagsblog`.`blog` LEFT OUTER JOIN `tags` ON `tags`.`id` = `tagsblog`.`tag`","","GROUP BY `selftables_blog`.`id`");
+}
+else {
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_blog` LEFT OUTER JOIN `tagsblog` ON `selftables_blog`.`id` = `tagsblog`.`blog` LEFT OUTER JOIN `tags` ON `tags`.`id` = `tagsblog`.`tag`"," WHERE `tags`.`name` = '$tag'","GROUP BY `selftables_blog`.`id`");
+}
+
+
+$this->load->view("json",$data);
+}
+
+
+
+function getAllTags()
+{
+  $data["message"]=$this->tags_model->getAllTags();
+  $this->load->view("json",$data);
+}
+
+function searchBlog()
+{
+
+  $title=$this->input->get_post("title");
+  $data['message']= $this->blog_model->searchBlog($title);
+  $this->load->view('json', $data);
+}
+
+function popularPost()
+{
+  $data['message']= $this->blog_model->popularpost();
+  $this->load->view('json', $data);
+}
+
+function getViews()
+{
+  $id= $this->input->get_post("id");
+  $data['message']= $this->blog_model->getViews($id);
+  $this->load->View('json', $data);
+
+}
+
+
 public function subscribe()
 {
   $email=$this->input->get_post("email");
@@ -32,6 +100,21 @@ public function askSumanSubmit()
   $question = $data['question'];
 
 $data['message'] = $this->restapi_model->askSumanSubmit($category,$name,$email,$question);
+$this->load->view('json', $data);
+}
+
+
+public function commentSubmit()
+{
+
+  $data = json_decode(file_get_contents('php://input'), true);
+    $blogid = $data['blogid'];
+    $name = $data['name'];
+  $email = $data['email'];
+  $website = $data['website'];
+  $comment = $data['comment'];
+
+$data['message'] = $this->restapi_model->commentSubmit($blogid,$name,$email,$website,$comment);
 $this->load->view('json', $data);
 }
 
