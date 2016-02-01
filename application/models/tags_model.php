@@ -93,7 +93,6 @@ foreach($query as $row)
 {
   $return[$row->id]=$row->name;
 }
-
 return $return;
 }
 

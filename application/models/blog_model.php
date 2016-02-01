@@ -55,7 +55,24 @@ public function beforeedit($id)
 {
 $this->db->where("id",$id);
 $query=$this->db->get("selftables_blog")->row();
+$gettags= $this->db->query("select tag from tagsblog where blog=$id")->result();
 return $query;
+// foreach($gettags as $tag)
+// {
+//   echo $tag;
+//   $q="SELECT * FROM `tags`  where id =$tag";
+//   echo $q;
+//   $query=$this->db->query($q)->result();
+//   $return=array(
+//   );
+//   foreach($query as $row)
+//   {
+//     $return[$row->id]=$row->name;
+//   }
+//
+//   return $return;
+// }
+
 }
 function getsingleblog($id){
 $this->db->where("id",$id);

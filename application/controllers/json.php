@@ -80,6 +80,21 @@ function getViews()
 
 }
 
+public function commentSubmit()
+{
+
+  $data = json_decode(file_get_contents('php://input'), true);
+    $blogid = $data['blogid'];
+    $name = $data['name'];
+  $email = $data['email'];
+  $website = $data['website'];
+  $comment = $data['comment'];
+
+$data['message'] = $this->restapi_model->commentSubmit($blogid,$name,$email,$website,$comment);
+$this->load->view('json', $data);
+}
+
+
 
 public function subscribe()
 {
@@ -104,19 +119,7 @@ $this->load->view('json', $data);
 }
 
 
-public function commentSubmit()
-{
 
-  $data = json_decode(file_get_contents('php://input'), true);
-    $blogid = $data['blogid'];
-    $name = $data['name'];
-  $email = $data['email'];
-  $website = $data['website'];
-  $comment = $data['comment'];
-
-$data['message'] = $this->restapi_model->commentSubmit($blogid,$name,$email,$website,$comment);
-$this->load->view('json', $data);
-}
 
 
 public function contactSubmit()

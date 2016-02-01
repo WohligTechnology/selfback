@@ -5554,6 +5554,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editblog";
 $data["title"]="Edit blog";
+$data['tag']=$this->tags_model->gettagdropdown();
 $data["before"]=$this->blog_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
