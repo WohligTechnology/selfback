@@ -192,6 +192,7 @@ class restapi_model extends CI_Model
 			$query2 = " SELECT `id` FROM ($query) as `tab1` ";
 			$query3['subcategory'] = $this->db->query(" SELECT DISTINCT `fynx_subcategory`.`name`,`fynx_subcategory`.`id`,`fynx_subcategory`.`order` FROM `fynx_product` INNER JOIN `fynx_subcategory` ON `fynx_product`.`subcategory` = `fynx_subcategory`.`id` WHERE `fynx_product`.`id` IN ($query2) " )->result();
 
+
 			return $query3;
 		}
     public function updateProfile($user,$name,$email,$phone,$billingline1,$billingline2,$billingline3,$billingcity,$billingstate,$billingcountry,$billingpincode,$shippingline1,$shippingline2,$shippingline3,$shippingcity,$shippingstate,$shippingpincode,$shippingcountry){

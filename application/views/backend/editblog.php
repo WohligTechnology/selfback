@@ -47,18 +47,18 @@
 
 
 
-<div class="row">
+<!-- <div class="row">
   <?php
-$mtags = array('food','b');
+//$mtags = array('food','b');
 ?>
 
 <div class="row">
   <div class="input-field col m6 s12">
-    <?php echo form_dropdown( 'tag',$tag,  $mtags); ?>
+    <?php //echo form_dropdown( 'tag',$tag,  $mtags); ?>
       <label>Tags</label>
   </div>
 </div>
-</div>
+</div> -->
 
 
 <div class="row">

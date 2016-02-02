@@ -1290,8 +1290,8 @@ if($this->product_model->create($subcategory,$quantity,$weight,$name,$type,$abou
 $data["alerterror"]="New product could not be created.";
 else
 $data["alertsuccess"]="product created Successfully.";
-$data["redirect"]="site/viewproduct";
-$this->load->view("redirect",$data);
+// $data["redirect"]="site/viewproduct";
+// $this->load->view("redirect",$data);
 }
 }
 public function editproduct()
@@ -5545,10 +5545,13 @@ public function editblog()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editblog";
+$data["page2"]="block/blogblock";
 $data["title"]="Edit blog";
+
 $data['tag']=$this->tags_model->gettagdropdown();
 $data["before"]=$this->blog_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+// $this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function editblogsubmit()
 {

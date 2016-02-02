@@ -169,7 +169,7 @@ public function getProductsByCategory() {
     $where = " ";
     if($subcategories != "")
     {
-      $where .= " AND `fynx_product`.`subcategory` IN ($subcategories) ";
+      $where .= " AND `productcategory`.`subcategory` IN ($subcategories) ";
     }
 
     $this->chintantable->createelement('`fynx_product`.`id`','1','ID', 'id');
@@ -188,8 +188,9 @@ public function getProductsByCategory() {
     }
 
     $maxrow = $this->input->get_post('maxrow');
-     $data3["data"] =  $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search,"", "FROM `fynx_product`","WHERE `fynx_product`.`category` = '$categoryid' $where ");
+     $data3["data"] =  $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search,"", "FROM `fynx_product` LEFT OUTER JOIN `productcategory` on `fynx_product`.id=`productcategory`.`product`","WHERE `fynx_product`.`category` = '$categoryid'", "$where", "GROUP BY `fynx_product`.`id`");
 $data3["filter"] = $this->restapi_model->getFiltersLater($data3["data"]->querycomplete);
+
         $data["message"] = $data3;
     $this->load->view('json', $data);
 }
