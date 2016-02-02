@@ -3,10 +3,10 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class productdesignimage_model extends CI_Model
 {
-public function create($product,$design,$image)
+public function create($product,$subcategory)
 {
-$data=array("product" => $product,"design" => $design,"image" => $image);
-$query=$this->db->insert( "productdesignimage", $data );
+$data=array("product" => $product,"subcategory" => $subcategory);
+$query=$this->db->insert( "productcategory", $data );
 $id=$this->db->insert_id();
 if(!$query)
 return  0;
@@ -16,7 +16,7 @@ return  $id;
 public function beforeedit($id)
 {
 $this->db->where("id",$id);
-$query=$this->db->get("productdesignimage")->row();
+$query=$this->db->get("productcategory")->row();
 return $query;
 }
 function getsingleproductdesignimage($id){
@@ -24,16 +24,16 @@ $this->db->where("id",$id);
 $query=$this->db->get("productdesignimage")->row();
 return $query;
 }
-public function edit($id,$product,$design,$image)
+public function edit($id,$product,$subcategory)
 {
-$data=array("product" => $product,"design" => $design,"image" => $image);
+$data=array("product" => $product,"subcategory" => $subcategory);
 $this->db->where( "id", $id );
-$query=$this->db->update( "productdesignimage", $data );
+$query=$this->db->update( "productcategory", $data );
 return 1;
 }
 public function delete($id)
 {
-$query=$this->db->query("DELETE FROM `productdesignimage` WHERE `id`='$id'");
+$query=$this->db->query("DELETE FROM `productcategory` WHERE `id`='$id'");
 return $query;
 }
      public function getproductdesignimagedropdown()
@@ -46,7 +46,7 @@ return $query;
 		{
 			$return[$row->id]=$row->name;
 		}
-		
+
 		return $return;
 	}
     public function getImageById($id)
