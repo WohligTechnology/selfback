@@ -38,7 +38,7 @@ return  $id;
 public function beforeedit($id)
 {
 $this->db->where("id",$id);
-$query=$this->db->get("selftables_subtype")->row();
+$query=$this->db->get("news")->row();
 return $query;
 }
 function getsinglesubtype($id){
@@ -46,19 +46,19 @@ $this->db->where("id",$id);
 $query=$this->db->get("selftables_subtype")->row();
 return $query;
 }
-public function edit($id,$name,$image,$order,$status)
+public function edit($id,$name,$image,$year,$status)
 {
 
-$data=array("name" => $name,"order" => $order,"status" => $status);
+$data=array("title" => $name,"year" => $year,"status" => $status);
 if($image != "")
   $data['image']=$image;
 $this->db->where( "id", $id );
-$query=$this->db->update( "selftables_subtype", $data );
+$query=$this->db->update( "news", $data );
 return 1;
 }
 public function delete($id)
 {
-$query=$this->db->query("DELETE FROM `selftables_subtype` WHERE `id`='$id'");
+$query=$this->db->query("DELETE FROM `news` WHERE `id`='$id'");
 return $query;
 }
 public function getimagebyid($id)

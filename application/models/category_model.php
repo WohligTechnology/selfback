@@ -15,7 +15,7 @@ class category_model extends CI_Model
 
 
   function getCategoryById($id){
-  $query=$this->db->query("SELECT `id`,`name`,`image2` as 'bannerimg' from `fynx_category` WHERE `id` = $id")->row();
+  $query=$this->db->query("SELECT `id`,`name`,`image2` as 'bannerimg',`description` from `fynx_category` WHERE `id` = $id")->row();
   return $query;
   }
 

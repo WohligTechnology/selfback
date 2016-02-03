@@ -5297,7 +5297,7 @@ $access=array("1");
 $this->checkaccess($access);
 $this->form_validation->set_rules("name","name","trim");
 $this->form_validation->set_rules("image","image","trim");
-$this->form_validation->set_rules("order","order","trim");
+$this->form_validation->set_rules("year","year","trim");
 $this->form_validation->set_rules("status","status","trim");
 if($this->form_validation->run()==FALSE)
 {
@@ -5355,6 +5355,221 @@ $data["redirect"]="site/createnews";
 $this->load->view("redirect",$data);
 }
 }
+public function editnews()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editnews";
+$data["title"]="Edit News";
+$data["before"]=$this->news_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editnewssubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("image","image","trim");
+$this->form_validation->set_rules("year","year","trim");
+$this->form_validation->set_rules("status","status","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editnews";
+$data["title"]="Edit News";
+$data["before"]=$this->news_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$year=$this->input->get_post("year");
+$status=$this->input->get_post("status");
+$config['upload_path'] = './uploads/';
+ $config['allowed_types'] = 'gif|jpg|png';
+ $this->load->library('upload', $config);
+ $filename="image";
+ $image="";
+ if (  $this->upload->do_upload($filename))
+ {
+	 $uploaddata = $this->upload->data();
+	 $image=$uploaddata['file_name'];
+ }
+if($image=="")
+			 {
+			 $image=$this->subtype_model->getimagebyid($id);
+					// print_r($image);
+					 $image=$image->image;
+			 }
+if($this->news_model->edit($id,$name,$image,$year,$status)==0)
+$data["alerterror"]="News could not be Updated.";
+else
+$data["alertsuccess"]="News Updated Successfully.";
+$data["redirect"]="site/viewnews";
+$this->load->view("redirect",$data);
+}
+}
+public function deletenews()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->news_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewnews";
+$this->load->view("redirect",$data);
+}
+
+
+
+public function viewvideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewvideo";
+$data["base_url"]=site_url("site/viewvideojson");
+$data["title"]="View Video";
+$this->load->view("template",$data);
+}
+function viewvideojson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`video`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`video`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="name";
+$elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`video`.`link`";
+$elements[2]->sort="1";
+$elements[2]->header="link";
+$elements[2]->alias="link";
+$elements[3]=new stdClass();
+$elements[3]->field="`video`.`status`";
+$elements[3]->sort="1";
+$elements[3]->header="status";
+$elements[3]->alias="status";
+// $elements[4]=new stdClass();
+// $elements[4]->field="`news`.`status`";
+// $elements[4]->sort="1";
+// $elements[4]->header="status";
+// $elements[4]->alias="status";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `video`");
+$this->load->view("json",$data);
+}
+
+
+public function createvideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createvideo";
+$data["title"]="create video";
+$this->load->view("template",$data);
+}
+public function createvideosubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("link","link","trim");
+$this->form_validation->set_rules("status","status","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createvideo";
+$data["title"]="Create Video";
+$this->load->view("template",$data);
+}
+else
+{
+$name=$this->input->get_post("name");
+$link=$this->input->get_post("link");
+$status=$this->input->get_post("status");
+
+if($this->video_model->create($name,$link,$status)==0)
+$data["alerterror"]="Video could not be Updated.";
+else
+$data["alertsuccess"]="Video Updated Successfully.";
+$data["redirect"]="site/viewvideo";
+$this->load->view("redirect",$data);
+}
+}
+
+public function editvideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editvideo";
+$data["title"]="Edit Video";
+$data["before"]=$this->video_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editvideosubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("link","link","trim");
+$this->form_validation->set_rules("status","status","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editvideo";
+$data["title"]="Edit Video";
+$data["before"]=$this->video_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$link=$this->input->get_post("link");
+$status=$this->input->get_post("status");
+
+if($this->video_model->edit($id,$name,$link,$status)==0)
+$data["alerterror"]="Video could not be Updated.";
+else
+$data["alertsuccess"]="Video Updated Successfully.";
+$data["redirect"]="site/viewvideo";
+$this->load->view("redirect",$data);
+}
+}
+
+
+public function deletevideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->video_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewvideo";
+$this->load->view("redirect",$data);
+}
+
+
+
+
+
 
 
 public function viewsubtype()
