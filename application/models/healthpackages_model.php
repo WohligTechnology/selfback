@@ -4,10 +4,17 @@ exit( "No direct script access allowed" );
 class healthpackages_model extends CI_Model
 {
 
-public function getPlans()
+public function getPlans($id)
 {
-$query= $this->db->query("select `id`,`months`,`visits`,`plan`,`price_in_INR`,`price_in_dollars`,`description`,`title` from selftables_healthpackages")->result();
-return $query;
+  if($id != "")
+  {
+    $query= $this->db->query("select `id`,`months`,`visits`,`plan`,`price_in_INR`,`price_in_dollars`,`description`,`title` from selftables_healthpackages where `subtype`=$id")->result();
+    return $query;
+      }
+else {
+  $query= $this->db->query("select `id`,`months`,`visits`,`plan`,`price_in_INR`,`price_in_dollars`,`description`,`title` from selftables_healthpackages")->result();
+  return $query;
+}
 }
 
 public function getSubPlans()
