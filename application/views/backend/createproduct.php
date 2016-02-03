@@ -88,28 +88,22 @@
                     <label> Category</label>
             </div>
         </div>
-         <!-- <div class="row">
+         <div class="row">
             <div class="input-field col s12 m6">
                 <select name="subcategory" id="subcategory">
                     <option value="">Select Subcategory</option>
                 </select>
                 <label>Sub Category</label>
             </div>
-        </div> -->
-
-        <div class="row">
-          <?php
-        $mtags = array('a','b');
-        ?>
-
-        <div class="row">
-          <div class="input-field col m6 s12">
-            <?php echo form_dropdown( 'subcategory[]',$subcategory,  $mtags); ?>
-              <label>Tags</label>
-          </div>
         </div>
+<!--
+        <div class="row">
+            <div class="input-field col s12 m8">
+                <?php echo form_dropdown('subcategory', $subcategory, set_value('subcategory')); ?>
+                    <label>Sub Category</label>
+            </div>
         </div>
-
+-->
         <!-- <div class="row">
             <div class="input-field col s12 m8">
                 <?php //echo form_dropdown('color', $color, set_value('color')); ?>

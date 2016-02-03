@@ -1220,6 +1220,7 @@ $data["page"]="createproduct";
 		$data['category']=$this->category_model->getcategorydropdown();
 		$data['subcategory']=$this->subcategory_model->getsubcategorydropdown();
 		$data['visibility']=$this->product_model->getvisibility();
+
         // $data['type']=$this->type_model->gettypedropdown();
         // $data['size']=$this->size_model->getsizedropdown();
         // $data['color']=$this->color_model->getcolordropdown();
@@ -1286,6 +1287,7 @@ $baseproduct=$this->input->get_post("baseproduct");
 				$uploaddata = $this->upload->data();
 				$image5=$uploaddata['file_name'];
 			}
+		
 if($this->product_model->create($subcategory,$quantity,$weight,$name,$type,$about,$nutritionalvalue,$visibility,$price,$relatedproduct,$category,$color,$size,$sizechart,$status,$sku,$image1,$image2,$image3,$image4,$image5,$baseproduct,$discountprice)==0)
 $data["alerterror"]="New product could not be created.";
 else

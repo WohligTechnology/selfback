@@ -3,6 +3,19 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class healthpackages_model extends CI_Model
 {
+
+public function getPlans()
+{
+$query= $this->db->query("select `id`,`months`,`visits`,`plan`,`price_in_INR`,`price_in_dollars`,`description`,`title` from selftables_healthpackages")->result();
+return $query;
+}
+
+public function getSubPlans()
+{
+$query= $this->db->query("select `id`,`name`,`image`,`order` from selftables_subtype where `status`=0")->result();
+return $query;
+}
+
 public function create($type,$months,$visits,$plan,$price_in_INR,$price_in_dollars,$description,$title,$subtype)
 {
 $data=array("type" => $type,"months" => $months,"visits" => $visits,"plan" => $plan,"price_in_INR" => $price_in_INR,"price_in_dollars" => $price_in_dollars,"description" => $description,"title" => $title,"subtype" => $subtype);

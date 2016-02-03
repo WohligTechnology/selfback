@@ -80,6 +80,21 @@ function getViews()
 
 }
 
+function getPlans()
+{
+  //$id= $this->input->get_post("id");
+  $data['message']= $this->healthpackages_model->getPlans();
+  $this->load->View('json', $data);
+
+}
+
+function getSubPlans()
+{
+  $data['message']= $this->healthpackages_model->getSubPlans();
+  $this->load->View('json', $data);
+
+}
+
 public function commentSubmit()
 {
 
