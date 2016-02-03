@@ -19,6 +19,14 @@
 </div>
 </div>
 <div class="row">
+    <div class="col s12 m6">
+        <label>Description</label>
+        <textarea class="materialize-textarea"  name="description" placeholder="Enter text ...">
+              <?php echo set_value('about', $before->description);?>
+        </textarea>
+    </div>
+</div>
+<div class="row">
 <div class="input-field col s6">
 <label for="Parent">Parent</label>
 <input type="text" id="Parent" name="parent" value='<?php echo set_value('parent',$before->parent);?>'>

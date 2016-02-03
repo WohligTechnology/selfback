@@ -9,7 +9,7 @@ class category_model extends CI_Model
 
   public function getCategory()
   {
-    $query = $this->db->query("select  `id`,`name` , `image1` as 'categoryimg',`order` from `fynx_category`")->result();
+    $query = $this->db->query("select  `id`,`name` , `image1` as 'categoryimg',`description`,`order` from `fynx_category`")->result();
     return $query;
   }
 
@@ -29,9 +29,9 @@ class category_model extends CI_Model
 
 
 
-public function create($order,$name,$parent,$status,$image1,$image2)
+public function create($order,$name,$description,$parent,$status,$image1,$image2)
 {
-$data=array("order" => $order,"name" => $name,"parent" => $parent,"status" => $status,"image1" => $image1,"image2" => $image2);
+$data=array("order" => $order,"name" => $name,"description" => $description,"parent" => $parent,"status" => $status,"image1" => $image1,"image2" => $image2);
 $query=$this->db->insert( "fynx_category", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -50,9 +50,9 @@ $this->db->where("id",$id);
 $query=$this->db->get("fynx_category")->row();
 return $query;
 }
-public function edit($id,$order,$name,$parent,$status,$image1,$image2)
+public function edit($id,$order,$name,$description,$parent,$status,$image1,$image2)
 {
-$data=array("order" => $order,"name" => $name,"parent" => $parent,"status" => $status);
+$data=array("order" => $order,"name" => $name,"description" => $description,"parent" => $parent,"status" => $status);
 if($image1 != "")
   $data['image1']=$image1;
 if($image2 != "")

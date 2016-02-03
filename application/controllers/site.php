@@ -1287,7 +1287,7 @@ $baseproduct=$this->input->get_post("baseproduct");
 				$uploaddata = $this->upload->data();
 				$image5=$uploaddata['file_name'];
 			}
-		
+
 if($this->product_model->create($subcategory,$quantity,$weight,$name,$type,$about,$nutritionalvalue,$visibility,$price,$relatedproduct,$category,$color,$size,$sizechart,$status,$sku,$image1,$image2,$image3,$image4,$image5,$baseproduct,$discountprice)==0)
 $data["alerterror"]="New product could not be created.";
 else
@@ -1541,7 +1541,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="createproductimage";
 $data['design']=$this->designs_model->getdesignsdropdown();
-$data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data['status'] =$this->user_model->getstatusdropdown();
 $data['relatedproduct']=$this->product_model->getproductdropdown();
 $data['product']=$this->product_model->getproductdropdown();
 $data["title"]="Create productimage";
@@ -2468,6 +2468,7 @@ $access=array("1");
 $this->checkaccess($access);
 $this->form_validation->set_rules("order","Order","trim");
 $this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("description","description","trim");
 $this->form_validation->set_rules("parent","Parent","trim");
 $this->form_validation->set_rules("status","Status","trim");
 $this->form_validation->set_rules("image1","Image1","trim");
@@ -2486,6 +2487,7 @@ $order=$this->input->get_post("order");
 $name=$this->input->get_post("name");
 $parent=$this->input->get_post("parent");
 $status=$this->input->get_post("status");
+$description=$this->input->get_post("description");
 //$image1=$this->input->get_post("image1");
 //$image2=$this->input->get_post("image2");
     $config['upload_path'] = './uploads/';
@@ -2505,7 +2507,7 @@ $status=$this->input->get_post("status");
 				$uploaddata = $this->upload->data();
 				$image2=$uploaddata['file_name'];
 			}
-if($this->category_model->create($order,$name,$parent,$status,$image1,$image2)==0)
+if($this->category_model->create($order,$name,$description,$parent,$status,$image1,$image2)==0)
 $data["alerterror"]="New category could not be created.";
 else
 $data["alertsuccess"]="category created Successfully.";
@@ -2550,6 +2552,8 @@ $order=$this->input->get_post("order");
 $name=$this->input->get_post("name");
 $parent=$this->input->get_post("parent");
 $status=$this->input->get_post("status");
+$description=$this->input->get_post("description");
+
 // $image1=$this->input->get_post("image1");
 // $image2=$this->input->get_post("image2");
 $config['upload_path'] = './uploads/';
@@ -2582,7 +2586,7 @@ if($image2=="")
 					 $image2=$image2->image2;
 			 }
 
-if($this->category_model->edit($id,$order,$name,$parent,$status,$image1,$image2)==0)
+if($this->category_model->edit($id,$order,$name,$description,$parent,$status,$image1,$image2)==0)
 $data["alerterror"]="New category could not be Updated.";
 else
 $data["alertsuccess"]="category Updated Successfully.";
@@ -5221,6 +5225,138 @@ $this->healthpackages_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewhealthpackages";
 $this->load->view("redirect",$data);
 }
+
+
+public function viewnews()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewnews";
+$data["base_url"]=site_url("site/viewnewsjson");
+$data["title"]="View News";
+$this->load->view("template",$data);
+}
+function viewnewsjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`news`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`news`.`title`";
+$elements[1]->sort="1";
+$elements[1]->header="title";
+$elements[1]->alias="title";
+$elements[2]=new stdClass();
+$elements[2]->field="`news`.`image`";
+$elements[2]->sort="1";
+$elements[2]->header="image";
+$elements[2]->alias="image";
+$elements[3]=new stdClass();
+$elements[3]->field="`news`.`year`";
+$elements[3]->sort="1";
+$elements[3]->header="year";
+$elements[3]->alias="year";
+$elements[4]=new stdClass();
+$elements[4]->field="`news`.`status`";
+$elements[4]->sort="1";
+$elements[4]->header="status";
+$elements[4]->alias="status";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `news`");
+$this->load->view("json",$data);
+}
+
+
+public function createnews()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createnews";
+$data["title"]="createnews subtype";
+$this->load->view("template",$data);
+}
+public function createnewssubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("image","image","trim");
+$this->form_validation->set_rules("order","order","trim");
+$this->form_validation->set_rules("status","status","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createnews";
+$data["title"]="Create News";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$year=$this->input->get_post("year");
+$status=$this->input->get_post("status");
+$config['upload_path'] = './uploads/';
+$config['allowed_types'] = 'gif|jpg|png|jpeg';
+$this->load->library('upload', $config);
+$filename="image";
+$image="";
+if (  $this->upload->do_upload($filename))
+{
+$uploaddata = $this->upload->data();
+$image=$uploaddata['file_name'];
+
+		$config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
+		$config_r['maintain_ratio'] = TRUE;
+		$config_t['create_thumb'] = FALSE;///add this
+		$config_r['width']   = 800;
+		$config_r['height'] = 800;
+		$config_r['quality']    = 100;
+		//end of configs
+
+		$this->load->library('image_lib', $config_r);
+		$this->image_lib->initialize($config_r);
+		if(!$this->image_lib->resize())
+		{
+				echo "Failed." . $this->image_lib->display_errors();
+				//return false;
+		}
+		else
+		{
+				//print_r($this->image_lib->dest_image);
+				//dest_image
+				$image=$this->image_lib->dest_image;
+				//return false;
+		}
+
+}
+
+if($this->news_model->create($name,$image,$year,$status)==0)
+$data["alerterror"]="New News could not be created.";
+else
+$data["alertsuccess"]="News created Successfully.";
+$data["redirect"]="site/createnews";
+$this->load->view("redirect",$data);
+}
+}
+
+
 public function viewsubtype()
 {
 $access=array("1");
@@ -5548,6 +5684,8 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editblog";
 $data["page2"]="block/blogblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
 $data["title"]="Edit blog";
 
 $data['tag']=$this->tags_model->gettagdropdown();
@@ -5770,16 +5908,19 @@ $this->comment_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewcomment";
 $this->load->view("redirect",$data);
 }
-public function viewrealtedblog()
+public function viewrelatedblog()
 {
 $access=array("1");
 $this->checkaccess($access);
-$data["page"]="viewrealtedblog";
-$data["base_url"]=site_url("site/viewrealtedblogjson");
-$data["title"]="View realtedblog";
-$this->load->view("template",$data);
+$data["page"]="viewrelatedblog";
+$data["page2"]="block/blogblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewrelatedblogjson?id=").$this->input->get('id');
+$data["title"]="View productimage";
+$this->load->view("templatewith2",$data);
 }
-function viewrealtedblogjson()
+function viewrelatedblogjson()
 {
 $elements=array();
 $elements[0]=new stdClass();
@@ -5792,6 +5933,12 @@ $elements[1]->field="`selftables_realtedblog`.`blog`";
 $elements[1]->sort="1";
 $elements[1]->header="blog";
 $elements[1]->alias="blog";
+
+$elements[2]=new stdClass();
+$elements[2]->field="`selftables_blog`.`name`";
+$elements[2]->sort="1";
+$elements[2]->header="name";
+$elements[2]->alias="name";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -5806,7 +5953,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_realtedblog`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_realtedblog` LEFT OUTER JOIN `selftables_blog` on `selftables_realtedblog`.`blog` =`selftables_blog`.`id`");
 $this->load->view("json",$data);
 }
 
@@ -5814,10 +5961,16 @@ public function createrealtedblog()
 {
 $access=array("1");
 $this->checkaccess($access);
+
 $data["page"]="createrealtedblog";
+$data["page2"]="block/blogblock";
 $data["title"]="Create realtedblog";
-    $data['blog']=$this->realtedblog_model->getblogdropdown();
-$this->load->view("template",$data);
+$data["before1"]=$this->input->get("id");
+$data["before2"]=$this->input->get("id");
+$data['blog']=$this->realtedblog_model->getblogdropdown();
+$data['relatedblog']=$this->realtedblog_model->getblogdropdown();
+$this->load->view("templatewith2",$data);
+
 }
 public function createrealtedblogsubmit()
 {
@@ -5833,13 +5986,13 @@ $this->load->view("template",$data);
 }
 else
 {
-$bid=$this->input->get_post("bid");
+$relatedblog=$this->input->get_post("relatedblog");
 $blog=$this->input->get_post("blog");
-if($this->realtedblog_model->create($bid,$blog)==0)
+if($this->realtedblog_model->create($relatedblog,$blog)==0)
 $data["alerterror"]="New realtedblog could not be created.";
 else
 $data["alertsuccess"]="realtedblog created Successfully.";
-$data["redirect"]="site/viewrealtedblog";
+$data["redirect"]="site/viewrelatedblog";
 $this->load->view("redirect",$data);
 }
 }
@@ -5847,11 +6000,15 @@ public function editrealtedblog()
 {
 $access=array("1");
 $this->checkaccess($access);
-$data["page"]="editrealtedblog";
-$data["title"]="Edit realtedblog";
-$data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
-    $data['blog']=$this->realtedblog_model->getblogdropdown();
-$this->load->view("template",$data);
+$data["page"]="createrealtedblog";
+$data["page2"]="block/blogblock";
+$data["title"]="Create realtedblog";
+$data["before1"]=$this->input->get("id");
+$data["before2"]=$this->input->get("id");
+$data['blog']=$this->realtedblog_model->getblogdropdown();
+$data['relatedblog']=$this->realtedblog_model->getblogdropdown();
+$this->load->view("templatewith2",$data);
+
 }
 public function editrealtedblogsubmit()
 {
@@ -5870,12 +6027,12 @@ $this->load->view("template",$data);
 else
 {
 $id=$this->input->get_post("id");
-$blog=$this->input->get_post("blog");
-if($this->realtedblog_model->edit($id,$blog)==0)
+$relatedblog=$this->input->get_post("relatedblog");
+if($this->realtedblog_model->edit($id,$relatedblog)==0)
 $data["alerterror"]="New realtedblog could not be Updated.";
 else
 $data["alertsuccess"]="realtedblog Updated Successfully.";
-$data["redirect"]="site/viewrealtedblog";
+$data["redirect"]="site/viewrelatedblog";
 $this->load->view("redirect",$data);
 }
 }
@@ -5884,7 +6041,7 @@ public function deleterealtedblog()
 $access=array("1");
 $this->checkaccess($access);
 $this->realtedblog_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewrealtedblog";
+$data["redirect"]="site/viewrelatedblog";
 $this->load->view("redirect",$data);
 }
 
@@ -5940,7 +6097,7 @@ public function createtagssubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
-$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("name","name","trim|required|min_length[4]");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();

@@ -15,12 +15,22 @@
 <input type="text" id="Name" name="name" value='<?php echo set_value('name');?>'>
 </div>
 </div>
-<div class="row">
+<!-- <div class="row">
 <div class="input-field col s6">
 <label for="Parent">Parent</label>
 <input type="text" id="Parent" name="parent" value='<?php echo set_value('parent');?>'>
 </div>
+</div> -->
+
+<div class="row">
+    <div class="col s12 m6">
+        <label>Description</label>
+        <textarea class="materialize-textarea"  name="description" placeholder="Enter text ...">
+            <?php echo set_value('description');?>
+        </textarea>
+    </div>
 </div>
+
  <div class="row">
             <div class="input-field col s12 m8">
                 <?php echo form_dropdown('status', $status, set_value('status')); ?>

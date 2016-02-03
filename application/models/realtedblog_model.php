@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class realtedblog_model extends CI_Model
 {
-public function create($bid,$blog)
+public function create($relatedblog,$blog)
 {
-$data=array("blog" => $bid,"relatedblog" => $blog);
+$data=array("blog" => $blog,"relatedblog" => $relatedblog);
 $query=$this->db->insert( "selftables_realtedblog", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,14 +24,9 @@ $this->db->where("id",$id);
 $query=$this->db->get("selftables_realtedblog")->row();
 return $query;
 }
-public function edit($id,$blog)
+public function edit($id,$relatedblog)
 {
-if($image=="")
-{
-$image=$this->realtedblog_model->getimagebyid($id);
-$image=$image->image;
-}
-$data=array("blog" => $blog);
+$data=array("relatedblog" => $relatedblog);
 $this->db->where( "id", $id );
 $query=$this->db->update( "selftables_realtedblog", $data );
 return 1;

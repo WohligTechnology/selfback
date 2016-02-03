@@ -13,6 +13,23 @@ class Json extends CI_Controller
   $this->load->view('json', $data);
 }
 
+
+public function getNews()
+{
+  $year= $this->input->get_post("year");
+$data['message'] = $this->news_model->getNews($year);
+$this->load->view('json', $data);
+}
+
+
+public function getNewsYear()
+{
+
+$data['message'] = $this->news_model->getNewsYear();
+$this->load->view('json', $data);
+}
+
+
 public function getAllBlog()
 {
 $tag=$this->input->get_post("tag");
@@ -88,9 +105,9 @@ function getPlans()
 
 }
 
-function getSubPlans()
+function getSubPackages()
 {
-  $data['message']= $this->healthpackages_model->getSubPlans();
+  $data['message']= $this->healthpackages_model->getSubPackages();
   $this->load->View('json', $data);
 
 }
