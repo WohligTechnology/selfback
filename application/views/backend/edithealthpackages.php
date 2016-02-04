@@ -1,6 +1,6 @@
 <div class="row">
 <div class="col s12">
-<h4 class="pad-left-15 capitalize">Edit healthpackages</h4>
+<h4 class="pad-left-15 capitalize">Edit health packages</h4>
 </div>
 </div>
 <div class="row">
@@ -38,11 +38,11 @@ if($before->type=="Health Management")
 </div>
 <div class="row">
 <div class="input-field col s6">
-<label for="visits">visits</label>
+<label for="visits">Consults</label>
 <input type="text" id="visits" name="visits" value='<?php echo set_value('visits',$before->visits);?>'>
 </div>
 </div>
-<div class=" row">
+<!-- <div class=" row">
 <div class=" input-field col s12 m6">
 <?php echo form_dropdown("plan",$plan,set_value('plan',$before->plan));?>
 <label for="plan">plan</label>
@@ -73,7 +73,7 @@ if($before->type=="Health Management")
 <label for="title">title</label>
 <input type="text" id="title" name="title" value='<?php echo set_value('title',$before->title);?>'>
 </div>
-</div>
+</div> -->
 <div class="row">
 <div class="col s6">
 <button type="submit" class="btn btn-primary waves-effect waves-light  blue darken-4">Save</button>

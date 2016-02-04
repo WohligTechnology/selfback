@@ -5052,7 +5052,7 @@ $elements[2]->sort="1";
 $elements[2]->header="months";
 $elements[2]->alias="months";
 $elements[3]=new stdClass();
-$elements[3]->field="`selftables_healthpackages`.`visits`";
+$elements[3]->field="`selftables_healthpackages`.`consults`";
 $elements[3]->sort="1";
 $elements[3]->header="visits";
 $elements[3]->alias="visits";
@@ -5066,11 +5066,7 @@ $elements[5]->field="`selftables_healthpackages`.`price_in_INR`";
 $elements[5]->sort="1";
 $elements[5]->header="price_in_INR";
 $elements[5]->alias="price_in_INR";
-$elements[6]=new stdClass();
-$elements[6]->field="`selftables_healthpackages`.`price_in_dollars`";
-$elements[6]->sort="1";
-$elements[6]->header="price_in_dollars";
-$elements[6]->alias="price_in_dollars";
+
 $elements[7]=new stdClass();
 $elements[7]->field="`selftables_healthpackages`.`description`";
 $elements[7]->sort="1";
@@ -5171,9 +5167,13 @@ $this->checkaccess($access);
 $data["page"]="edithealthpackages";
 $data["title"]="Edit healthpackages";
 $data[ 'subtype' ] =$this->healthpackages_model->getsubtypedropdown();
-  $data['plan']=$this->healthpackages_model->getplanrdropdown();
+$data['plan']=$this->healthpackages_model->getplanrdropdown();
+$data["page2"]="block/helthpackageblock";
+$data["before1"]=$this->input->get("id");
+$data["before2"]=$this->input->get("id");
 $data["before"]=$this->healthpackages_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
+
 }
 public function edithealthpackagessubmit()
 {
@@ -6138,6 +6138,8 @@ $this->load->view("templatewith2",$data);
 }
 function viewrelatedblogjson()
 {
+$id=$this->input->get('id');
+
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`selftables_realtedblog`.`id`";
@@ -6175,7 +6177,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_realtedblog` LEFT OUTER JOIN `selftables_blog` on `selftables_realtedblog`.`relatedblog` =`selftables_blog`.`id`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_realtedblog` LEFT OUTER JOIN `selftables_blog` on `selftables_realtedblog`.`relatedblog` =`selftables_blog`.`id`","WHERE `selftables_realtedblog`.`blog`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -6264,6 +6266,166 @@ $this->load->view("redirect",$data);
 }
 }
 public function deleterealtedblog()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->realtedblog_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewrelatedblog?id=".$this->input->get("productid");
+$this->load->view("redirect",$data);
+}
+
+
+public function viewplan()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewplan";
+$data["page2"]="block/blogblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewrelatedblogjson?id=").$this->input->get('id');
+$data["title"]="View productimage";
+$this->load->view("templatewith2",$data);
+}
+function viewplanjson()
+{
+$id=$this->input->get('id');
+
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`plans`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`plans`.`plan`";
+$elements[1]->sort="1";
+$elements[1]->header="plan";
+$elements[1]->alias="plan";
+
+$elements[2]=new stdClass();
+$elements[2]->field="`plans`.`title`";
+$elements[2]->sort="1";
+$elements[2]->header="title";
+$elements[2]->alias="title";
+
+$elements[3]=new stdClass();
+$elements[3]->field="`plans`.`packageid`";
+$elements[3]->sort="1";
+$elements[3]->header="packageid";
+$elements[3]->alias="packageid";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `plans` LEFT OUTER JOIN `selftables_healthpackages` on `plans`.`packageid` =`selftables_healthpackages`.`id`","WHERE `plans`.`packageid`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createplan()
+{
+$access=array("1");
+$this->checkaccess($access);
+
+$data["page"]="createplan";
+$data["page2"]="block/helthpackageblock";
+$data["title"]="Create Plan";
+$data["before1"]=$this->input->get("id");
+$data["before2"]=$this->input->get("id");
+  $data['plan']=$this->healthpackages_model->getplanrdropdown();
+// $data['plan']=$this->healthpackages_model->getplandropdown();
+$this->load->view("templatewith2",$data);
+
+}
+public function createplansubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("plan","plan","trim");
+$this->form_validation->set_rules("price_in_INR","price_in_INR","trim");
+$this->form_validation->set_rules("price_in_dollars","price_in_dollars","trim");
+$this->form_validation->set_rules("description","description","trim");
+$this->form_validation->set_rules("title","title","trim");
+$this->form_validation->set_rules("subtype","subtype","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createrealtedblog";
+$data["title"]="Create realtedblog";
+$this->load->view("template",$data);
+}
+else
+{
+	$id=$this->input->get('id');
+	$plan=$this->input->get_post("plan");
+	$price_in_INR=$this->input->get_post("price_in_INR");
+	$price_in_dollars=$this->input->get_post("price_in_dollars");
+	$description=$this->input->get_post("description");
+	$title=$this->input->get_post("title");
+if($this->plans_model->create($plan,$price_in_INR,$price_in_dollars,$description,$title,$id)==0)
+$data["alerterror"]="New Plan could not be created.";
+else
+$data["alertsuccess"]="Plan created Successfully.";
+$data["redirect"]="site/viewplan";
+$this->load->view("redirect",$data);
+}
+}
+public function editplan()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data['blog']=$this->realtedblog_model->getblogdropdown();
+$data['relatedblog']=$this->realtedblog_model->getblogdropdown();
+$data["page"]="editrealtedblog";
+$data["page2"]="block/blogblock";
+$data["title"]="Edit realtedblog";
+$data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
+$data["before1"]=$this->input->get("id");
+$data["before2"]=$this->input->get("id");
+$this->load->view("templatewith2",$data);
+
+}
+public function editplansubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("relatedblog","relatedblog","trim");
+$this->form_validation->set_rules("blog","blog","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data['blog']=$this->realtedblog_model->getblogdropdown();
+$data['relatedblog']=$this->realtedblog_model->getblogdropdown();
+$data["page"]="editrealtedblog";
+$data["title"]="Edit realtedblog";
+$data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$relatedblog=$this->input->get_post("relatedblog");
+$blog=$this->input->get_post("blog");
+if($this->realtedblog_model->edit($id,$relatedblog,$blog)==0)
+$data["alerterror"]="New realtedblog could not be Updated.";
+else
+$data["alertsuccess"]="realtedblog Updated Successfully.";
+$data["redirect"]="site/viewrelatedblog?id=".$blog;
+$this->load->view("redirect",$data);
+}
+}
+public function deleteplan()
 {
 $access=array("1");
 $this->checkaccess($access);
