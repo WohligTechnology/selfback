@@ -55,20 +55,6 @@ $myserver=$_SERVER['SERVER_NAME'];
 if($myserver != "localhost")
 //if($myserver != "localhost"  && $ip != "192.168")
 {
-<<<<<<< HEAD
-    //  $db['default']['hostname'] = 'localhost';
-    //  $db['default']['username'] = 'wohligco_self';
-    //  $db['default']['password'] = 'chintan123';
-    //  $db['default']['database'] = 'wohligco_self';
-    $db['default']['hostname'] = 'localhost';
-=======
-
-     $db['default']['hostname'] = 'localhost';
-      //   $db['default']['username'] = 'tingwork_self';
-      //   $db['default']['password'] = 'chintan123';
-      //   $db['default']['database'] = 'tingwork_self';
-      //  $db['default']['dbdriver'] = 'mysql';
->>>>>>> origin/master
     $db['default']['username'] = 'root';
     $db['default']['password'] = '';
     $db['default']['database'] = 'selfcare';
