@@ -24,11 +24,13 @@ $this->db->where("id",$id);
 $query=$this->db->get("selftables_realtedblog")->row();
 return $query;
 }
-public function edit($id,$relatedblog)
+public function edit($id,$relatedblog,$blog)
 {
+
 $data=array("relatedblog" => $relatedblog);
 $this->db->where( "id", $id );
 $query=$this->db->update( "selftables_realtedblog", $data );
+
 return 1;
 }
 public function delete($id)

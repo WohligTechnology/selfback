@@ -14,6 +14,13 @@ class Json extends CI_Controller
 }
 
 
+public function getTvVideo()
+{
+
+$data['message'] = $this->video_model->getTvVideo();
+$this->load->view('json', $data);
+}
+
 public function getNews()
 {
   $year= $this->input->get_post("year");

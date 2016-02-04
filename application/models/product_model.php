@@ -23,8 +23,7 @@ public function create($subcategory,$quantity,$weight,$name,$type,$about,$nutrit
 $data=array("quantity" => $quantity,"weight" => $weight,"name" => $name,"type" => $type,"about" => $about,"nutritionalvalue" => $nutritionalvalue, "visibility" => $visibility,"price" => $price,"category" => $category,"color" => $color,"size" => $size,"sizechart" => $sizechart,"status" => $status,"sku" => $sku,"image1" => $image1,"image2" => $image2,"image3" => $image3,"image4" => $image4,"image5" => $image5,"baseproduct" => $baseproduct,"discountprice" => $discountprice);
 $query=$this->db->insert( "fynx_product", $data );
 $id=$this->db->insert_id();
-echo $id;
-print_r($subcategory);
+
 // foreach($subcategory as $subcat)
 // {
 //   $q="insert into productcategory(subcategory,product) values($subcat,$id)";
