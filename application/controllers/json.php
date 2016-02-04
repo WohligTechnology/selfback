@@ -2927,13 +2927,79 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $this->load->view('json', $data);
     }
     public function payumoneysuccess()
-    {
-      $amount = $this->input->get_post('Amount');
-$responsecode =$this->input->get_post('ResponseCode');
-      $orderid = $this->input->get_post('MerchantRefNo');
-      $transactionid = $this->input->get_post('TransactionID');
-      $data['message'] = $this->restapi_model->updateorderstatusafterpayment($orderid, $transactionid, $responsecode,$amount);
-    }
+   {
+     $workingKey='825cors0t20vgfolcm9adon2ixpz2qll';		//Working Key should be provided here.
+ $encResponse=$_POST["encResponse"];			//This is the response sent by the CCAvenue Server
+echo "hey";
+print_r($_POST);
+echo "dfasdaf";
+ $rcvdString=$this->aes->decrypt($encResponse,$workingKey);		//AES Decryption used as per the specified working key.
+ $AuthDesc="";
+ $MerchantId="";
+ $OrderId="";
+ $Amount=0;
+ $Checksum=0;
+ $veriChecksum=false;
+
+ $decryptValues=explode('&', $rcvdString);
+ $dataSize=sizeof($decryptValues);
+ //******************************    Messages based on Checksum & AuthDesc   **********************************//
+ echo "<center>";
+
+
+ for($i = 0; $i < $dataSize; $i++)
+ {
+   $information=explode('=',$decryptValues[$i]);
+   if($i==0)	$MerchantId=$information[1];
+   if($i==1)	$OrderId=$information[1];
+   if($i==2)	$Amount=$information[1];
+   if($i==3)	$AuthDesc=$information[1];
+   if($i==4)	$Checksum=$information[1];
+ }
+
+ $rcvdString=$MerchantId.'|'.$OrderId.'|'.$Amount.'|'.$AuthDesc.'|'.$workingKey;
+ $veriChecksum=$this->adler->verifyChecksum(genchecksum($rcvdString), $Checksum);
+echo $veriChecksum;
+echo "sdd";
+ if($veriChecksum==TRUE && $AuthDesc==="Y")
+ {
+   echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
+
+   //Here you need to put in the routines for a successful
+   //transaction such as sending an email to customer,
+   //setting database status, informing logistics etc etc
+ }
+ else if($veriChecksum==TRUE && $AuthDesc==="B")
+ {
+   echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
+
+   //Here you need to put in the routines/e-mail for a  "Batch Processing" order
+   //This is only if payment for this transaction has been made by an American Express Card
+   //since American Express authorisation status is available only after 5-6 hours by mail from ccavenue and at the "View Pending Orders"
+ }
+ else if($veriChecksum==TRUE && $AuthDesc==="N")
+ {
+   echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
+
+   //Here you need to put in the routines for a failed
+   //transaction such as sending an email to customer
+   //setting database status etc etc
+ }
+ else
+ {
+   echo "dafd";
+   echo "<br>Security Error. Illegal access detected";
+
+   //Here you need to simply ignore this and dont need
+   //to perform any operation in this condition
+ }
+
+     //$amount = $this->input->get_post('Amount');
+     //$responsecode =$this->input->get_post('ResponseCode');
+     //$orderid = $this->input->get_post('MerchantRefNo');
+     //$transactionid = $this->input->get_post('TransactionID');
+     //$data['message'] = $this->restapi_model->updateorderstatusafterpayment($orderid, $transactionid, $responsecode,$amount);
+   }
 
     public function uploadImage()
     {
