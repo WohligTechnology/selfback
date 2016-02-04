@@ -4,17 +4,22 @@ exit( "No direct script access allowed" );
 class healthpackages_model extends CI_Model
 {
 
-public function getPlans($id)
+public function getPlans($sid)
 {
-  if($id != "")
-  {
-    $query= $this->db->query("select `id`,`months`,`visits`,`plan`,`price_in_INR`,`price_in_dollars`,`description`,`title` from selftables_healthpackages where `subtype`=$id")->result();
-    return $query;
-      }
-else {
-  $query= $this->db->query("select `id`,`months`,`visits`,`plan`,`price_in_INR`,`price_in_dollars`,`description`,`title` from selftables_healthpackages")->result();
-  return $query;
+if($sid !="")
+{
+    $return->plans = $this->db->query("select `id`,`consults`,`months`,`type` from `selftables_healthpackages` where `subtype`=$sid" )->result();
 }
+else {
+    $return->plans = $this->db->query("select `id`,`consults`,`months`,`type` from `selftables_healthpackages`")->result();
+}
+  foreach($return->plans  as $plan)
+  {
+    $plan->subplans = $this->db->query("select `plan`,`title`,`description` from `plans` where `packageid`= '$plan->id' ")->result();
+  }
+  return $return;
+
+
 }
 
 public function getSubPackages()
@@ -25,7 +30,7 @@ return $query;
 
 public function create($type,$months,$visits,$plan,$price_in_INR,$price_in_dollars,$description,$title,$subtype)
 {
-$data=array("type" => $type,"months" => $months,"visits" => $visits,"plan" => $plan,"price_in_INR" => $price_in_INR,"price_in_dollars" => $price_in_dollars,"description" => $description,"title" => $title,"subtype" => $subtype);
+$data=array("type" => $type,"months" => $months,"consults" => $visits,"plan" => $plan,"price_in_INR" => $price_in_INR,"price_in_dollars" => $price_in_dollars,"description" => $description,"title" => $title,"subtype" => $subtype);
 $query=$this->db->insert( "selftables_healthpackages", $data );
 $id=$this->db->insert_id();
 if(!$query)

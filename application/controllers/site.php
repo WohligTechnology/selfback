@@ -5054,8 +5054,8 @@ $elements[2]->alias="months";
 $elements[3]=new stdClass();
 $elements[3]->field="`selftables_healthpackages`.`consults`";
 $elements[3]->sort="1";
-$elements[3]->header="visits";
-$elements[3]->alias="visits";
+$elements[3]->header="consults";
+$elements[3]->alias="consults";
 $elements[4]=new stdClass();
 $elements[4]->field="`selftables_healthpackages`.`plan`";
 $elements[4]->sort="1";
@@ -6280,17 +6280,16 @@ public function viewplan()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewplan";
-$data["page2"]="block/blogblock";
+$data["page2"]="block/helthpackageblock";
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
-$data["base_url"]=site_url("site/viewrelatedblogjson?id=").$this->input->get('id');
+$data["base_url"]=site_url("site/viewplanjson?id=").$this->input->get('id');
 $data["title"]="View productimage";
 $this->load->view("templatewith2",$data);
 }
 function viewplanjson()
 {
-$id=$this->input->get('id');
-
+$id= $this->input->get("id");
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`plans`.`id`";
@@ -6310,10 +6309,23 @@ $elements[2]->header="title";
 $elements[2]->alias="title";
 
 $elements[3]=new stdClass();
-$elements[3]->field="`plans`.`packageid`";
+$elements[3]->field="`plans`.`price_in_INR`";
 $elements[3]->sort="1";
-$elements[3]->header="packageid";
-$elements[3]->alias="packageid";
+$elements[3]->header="price_in_INR";
+$elements[3]->alias="price_in_INR";
+
+$elements[4]=new stdClass();
+$elements[4]->field="`plans`.`price_in_dollars`";
+$elements[4]->sort="1";
+$elements[4]->header="price_in_dollars";
+$elements[4]->alias="price_in_dollars";
+
+
+$elements[5]=new stdClass();
+$elements[5]->field="`plans`.`packageid`";
+$elements[5]->sort="1";
+$elements[5]->header="packageid";
+$elements[5]->alias="packageid";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -6360,13 +6372,14 @@ $this->form_validation->set_rules("subtype","subtype","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
-$data["page"]="createrealtedblog";
-$data["title"]="Create realtedblog";
+$data["page"]="createplan";
+$data["title"]="Create Plan";
 $this->load->view("template",$data);
 }
 else
 {
-	$id=$this->input->get('id');
+
+		$id=$this->input->get_post("id");
 	$plan=$this->input->get_post("plan");
 	$price_in_INR=$this->input->get_post("price_in_INR");
 	$price_in_dollars=$this->input->get_post("price_in_dollars");
@@ -6376,22 +6389,22 @@ if($this->plans_model->create($plan,$price_in_INR,$price_in_dollars,$description
 $data["alerterror"]="New Plan could not be created.";
 else
 $data["alertsuccess"]="Plan created Successfully.";
-$data["redirect"]="site/viewplan";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewplan?id=".$id;
+$this->load->view("redirect2",$data);
 }
 }
 public function editplan()
 {
 $access=array("1");
 $this->checkaccess($access);
-$data['blog']=$this->realtedblog_model->getblogdropdown();
-$data['relatedblog']=$this->realtedblog_model->getblogdropdown();
-$data["page"]="editrealtedblog";
-$data["page2"]="block/blogblock";
-$data["title"]="Edit realtedblog";
-$data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
-$data["before1"]=$this->input->get("id");
-$data["before2"]=$this->input->get("id");
+//$data['plan']=$this->healthpackages_model->getplandropdown();
+$data["page"]="editplan";
+$data["page2"]="block/helthpackageblock";
+$data["title"]="Edit Plan";
+$data["before"]=$this->plans_model->beforeedit($this->input->get("id"));
+$data["before1"]=$this->input->get("packageid");
+$data["before2"]=$this->input->get("packageid");
+  $data['plan']=$this->healthpackages_model->getplanrdropdown();
 $this->load->view("templatewith2",$data);
 
 }
@@ -6399,39 +6412,47 @@ public function editplansubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
-$this->form_validation->set_rules("id","id","trim");
-$this->form_validation->set_rules("relatedblog","relatedblog","trim");
-$this->form_validation->set_rules("blog","blog","trim");
+$this->form_validation->set_rules("plan","plan","trim");
+$this->form_validation->set_rules("price_in_INR","price_in_INR","trim");
+$this->form_validation->set_rules("price_in_dollars","price_in_dollars","trim");
+$this->form_validation->set_rules("description","description","trim");
+$this->form_validation->set_rules("title","title","trim");
+$this->form_validation->set_rules("subtype","subtype","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data['blog']=$this->realtedblog_model->getblogdropdown();
 $data['relatedblog']=$this->realtedblog_model->getblogdropdown();
-$data["page"]="editrealtedblog";
+$data["page"]="editplan";
 $data["title"]="Edit realtedblog";
-$data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
+$data["before"]=$this->plans_model->beforeedit($this->input->get("id"));
 $this->load->view("templatewith2",$data);
 }
 else
 {
-$id=$this->input->get_post("id");
-$relatedblog=$this->input->get_post("relatedblog");
-$blog=$this->input->get_post("blog");
-if($this->realtedblog_model->edit($id,$relatedblog,$blog)==0)
-$data["alerterror"]="New realtedblog could not be Updated.";
+	$id=$this->input->get_post("id");
+		$pid=$this->input->get_post("pid");
+$plan=$this->input->get_post("plan");
+$price_in_INR=$this->input->get_post("price_in_INR");
+$price_in_dollars=$this->input->get_post("price_in_dollars");
+$description=$this->input->get_post("description");
+$title=$this->input->get_post("title");
+if($this->plans_model->edit($plan,$price_in_INR,$price_in_dollars,$description,$title,$id,$pid)==0)
+$data["alerterror"]="New Plan could not be Updated.";
 else
-$data["alertsuccess"]="realtedblog Updated Successfully.";
-$data["redirect"]="site/viewrelatedblog?id=".$blog;
-$this->load->view("redirect",$data);
+$data["alertsuccess"]="Plan Updated Successfully.";
+$data["redirect"]="site/viewplan?id=".$pid;
+$this->load->view("redirect2",$data);
 }
 }
 public function deleteplan()
 {
 $access=array("1");
 $this->checkaccess($access);
-$this->realtedblog_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewrelatedblog?id=".$this->input->get("productid");
-$this->load->view("redirect",$data);
+$this->plans_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewplan?id=".$this->input->get("packageid");
+$this->load->view("redirect2",$data);
+
 }
 
 public function viewtags()

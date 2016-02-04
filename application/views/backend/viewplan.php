@@ -24,7 +24,27 @@
 </div>
 <script>
 function drawtable(resultrow) {
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.name + "</td><td><a class='btn btn-primary btn-xs waves-effect waves-light blue darken-4 z-depth-0 less-pad' href='<?php echo site_url('site/editrealtedblog?id=');?>"+resultrow.id+"&productid="+resultrow.productid+"'><i class='fa fa-pencil propericon'></i></a><a class='btn btn-danger btn-xs waves-effect waves-light red pad10 z-depth-0 less-pad' onclick=return confirm(\"Are you sure you want to delete?\") href='<?php echo site_url('site/deleterealtedblog?id='); ?>"+resultrow.id+"&productid="+resultrow.productid+"'><i class='material-icons propericon'>delete</i></a></td></tr>";
+
+if(resultrow.plan==1)
+{
+  resultrow.plan="Silver";
+}
+else if(resultrow.plan==2)
+{
+  resultrow.plan="Gold";
+}
+else if(resultrow.plan==3)
+{
+  resultrow.plan="Platinum";
+}
+else if(resultrow.plan==4)
+{
+  resultrow.plan="Diamond";
+}
+
+
+
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.plan + "</td><td>" + resultrow.title + "</td><td>" + resultrow.price_in_INR + "</td><td>" + resultrow.price_in_dollars + "</td><td><a class='btn btn-primary btn-xs waves-effect waves-light blue darken-4 z-depth-0 less-pad' href='<?php echo site_url('site/editplan?id=');?>"+resultrow.id+"&packageid="+resultrow.packageid+"'><i class='fa fa-pencil propericon'></i></a><a class='btn btn-danger btn-xs waves-effect waves-light red pad10 z-depth-0 less-pad' onclick=return confirm(\"Are you sure you want to delete?\") href='<?php echo site_url('site/deleteplan?id='); ?>"+resultrow.id+"&packageid="+resultrow.packageid+"'><i class='material-icons propericon'>delete</i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>

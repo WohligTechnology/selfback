@@ -106,8 +106,8 @@ function getViews()
 
 function getPlans()
 {
-  $id= $this->input->get_post("id");
-  $data['message']= $this->healthpackages_model->getPlans($id);
+$sid= $this->input->get_post("id");
+  $data['message']= $this->healthpackages_model->getPlans($sid);
   $this->load->View('json', $data);
 
 }

@@ -16,7 +16,7 @@ return  $id;
 public function beforeedit($id)
 {
 $this->db->where("id",$id);
-$query=$this->db->get("selftables_realtedblog")->row();
+$query=$this->db->get("plans")->row();
 return $query;
 }
 function getsinglerealtedblog($id){
@@ -24,18 +24,17 @@ $this->db->where("id",$id);
 $query=$this->db->get("selftables_realtedblog")->row();
 return $query;
 }
-public function edit($id,$relatedblog,$blog)
+public function edit($plan,$price_in_INR,$price_in_dollars,$description,$title,$id,$pid)
 {
-
-$data=array("relatedblog" => $relatedblog);
+$data=array("plan" => $plan,"title" => $title,"description" => $description,"price_in_INR" => $price_in_INR,"price_in_dollars" => $price_in_dollars);
 $this->db->where( "id", $id );
-$query=$this->db->update( "selftables_realtedblog", $data );
+$query=$this->db->update( "plans", $data );
 
 return 1;
 }
 public function delete($id)
 {
-$query=$this->db->query("DELETE FROM `selftables_realtedblog` WHERE `id`='$id'");
+$query=$this->db->query("DELETE FROM `plans` WHERE `id`='$id'");
 return $query;
 }
 public function getimagebyid($id)

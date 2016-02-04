@@ -55,10 +55,15 @@ $myserver=$_SERVER['SERVER_NAME'];
 if($myserver != "localhost")
 //if($myserver != "localhost"  && $ip != "192.168")
 {
-    $db['default']['username'] = 'root';
-    $db['default']['password'] = '';
-    $db['default']['database'] = 'selfcare';
-    $db['default']['dbdriver'] = 'mysqli';
+  $db['default']['hostname'] = 'localhost';
+      $db['default']['username'] = 'tingwork_self';
+      $db['default']['password'] = 'chintan123';
+      $db['default']['database'] = 'tingwork_self';
+     $db['default']['dbdriver'] = 'mysql';
+    // $db['default']['username'] = 'root';
+    // $db['default']['password'] = '';
+    // $db['default']['database'] = 'selfcare';
+    // $db['default']['dbdriver'] = 'mysqli';
     $db['default']['dbprefix'] = '';
     $db['default']['pconnect'] = TRUE;
     $db['default']['db_debug'] = TRUE;
