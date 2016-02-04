@@ -1,6 +1,6 @@
 <div class="row">
 <div class="col s12">
-<h4 class="pad-left-15 capitalize">Edit News</h4>
+<h4 class="pad-left-15 capitalize">Edit Video</h4>
 </div>
 </div>
 <div class="row">
@@ -17,7 +17,7 @@
 
 <div class="row">
 <div class="input-field col s6">
-<label for="year">Year</label>
+<label for="year">Link</label>
 <input type="text" id="link" name="link" value='<?php echo set_value('order',$before->link);?>'>
 </div>
 </div>

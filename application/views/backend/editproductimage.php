@@ -22,7 +22,7 @@
 
         <!-- <div class="row">
             <div class="input-field col s12 m8">
-                <?php echo form_dropdown('design', $design, set_value('design',$before->design)); ?>
+                <?php //echo form_dropdown('design', $design, set_value('design',$before->design)); ?>
                     <label>Design</label>
             </div>
         </div> -->

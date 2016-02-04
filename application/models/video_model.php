@@ -5,7 +5,11 @@ class video_model extends CI_Model
 {
 
 
-
+  public function getTvVideo()
+  {
+    $query = $this->db->query("select id, name ,link  from `video` where `status`=0")->result();
+    return $query;
+  }
 public function create($name,$link,$status)
 {
 $data=array("name" => $name,"link" => $link,"status" => $status);

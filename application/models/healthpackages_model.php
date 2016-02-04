@@ -19,7 +19,7 @@ else {
 
 public function getSubPackages()
 {
-$query= $this->db->query("select `id`,`name`,`image`,`order` from selftables_subtype where `status`=0")->result();
+$query= $this->db->query("select `id`,`name`,`description`,`image`,`order` from selftables_subtype where `status`=0")->result();
 return $query;
 }
 

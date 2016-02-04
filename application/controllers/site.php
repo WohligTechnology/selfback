@@ -1292,8 +1292,8 @@ if($this->product_model->create($subcategory,$quantity,$weight,$name,$type,$abou
 $data["alerterror"]="New product could not be created.";
 else
 $data["alertsuccess"]="product created Successfully.";
-// $data["redirect"]="site/viewproduct";
-// $this->load->view("redirect",$data);
+$data["redirect"]="site/viewproduct";
+$this->load->view("redirect",$data);
 }
 }
 public function editproduct()
@@ -1589,7 +1589,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="editproductimage";
-$data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data['status' ] =$this->user_model->getstatusdropdown();
 $data['product']=$this->product_model->getproductdropdown();
     $data['design']=$this->designs_model->getdesignsdropdown();
 $data['relatedproduct']=$this->product_model->getproductdropdown();
@@ -5351,8 +5351,9 @@ if($this->news_model->create($name,$image,$year,$status)==0)
 $data["alerterror"]="New News could not be created.";
 else
 $data["alertsuccess"]="News created Successfully.";
-$data["redirect"]="site/createnews";
+$data["redirect"]="site/viewnews";
 $this->load->view("redirect",$data);
+
 }
 }
 public function editnews()
@@ -6144,16 +6145,22 @@ $elements[0]->sort="1";
 $elements[0]->header="id";
 $elements[0]->alias="id";
 $elements[1]=new stdClass();
-$elements[1]->field="`selftables_realtedblog`.`blog`";
+$elements[1]->field="`selftables_realtedblog`.`relatedblog`";
 $elements[1]->sort="1";
-$elements[1]->header="blog";
-$elements[1]->alias="blog";
+$elements[1]->header="relatedblog";
+$elements[1]->alias="relatedblog";
 
 $elements[2]=new stdClass();
 $elements[2]->field="`selftables_blog`.`name`";
 $elements[2]->sort="1";
 $elements[2]->header="name";
 $elements[2]->alias="name";
+
+$elements[3]=new stdClass();
+$elements[3]->field="`selftables_realtedblog`.`blog`";
+$elements[3]->sort="1";
+$elements[3]->header="productid";
+$elements[3]->alias="productid";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -6168,7 +6175,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_realtedblog` LEFT OUTER JOIN `selftables_blog` on `selftables_realtedblog`.`blog` =`selftables_blog`.`id`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_realtedblog` LEFT OUTER JOIN `selftables_blog` on `selftables_realtedblog`.`relatedblog` =`selftables_blog`.`id`");
 $this->load->view("json",$data);
 }
 
@@ -6215,13 +6222,14 @@ public function editrealtedblog()
 {
 $access=array("1");
 $this->checkaccess($access);
-$data["page"]="createrealtedblog";
-$data["page2"]="block/blogblock";
-$data["title"]="Create realtedblog";
-$data["before1"]=$this->input->get("id");
-$data["before2"]=$this->input->get("id");
 $data['blog']=$this->realtedblog_model->getblogdropdown();
 $data['relatedblog']=$this->realtedblog_model->getblogdropdown();
+$data["page"]="editrealtedblog";
+$data["page2"]="block/blogblock";
+$data["title"]="Edit realtedblog";
+$data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
+$data["before1"]=$this->input->get("id");
+$data["before2"]=$this->input->get("id");
 $this->load->view("templatewith2",$data);
 
 }
@@ -6230,24 +6238,28 @@ public function editrealtedblogsubmit()
 $access=array("1");
 $this->checkaccess($access);
 $this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("relatedblog","relatedblog","trim");
 $this->form_validation->set_rules("blog","blog","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
+$data['blog']=$this->realtedblog_model->getblogdropdown();
+$data['relatedblog']=$this->realtedblog_model->getblogdropdown();
 $data["page"]="editrealtedblog";
 $data["title"]="Edit realtedblog";
 $data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 else
 {
 $id=$this->input->get_post("id");
 $relatedblog=$this->input->get_post("relatedblog");
-if($this->realtedblog_model->edit($id,$relatedblog)==0)
+$blog=$this->input->get_post("blog");
+if($this->realtedblog_model->edit($id,$relatedblog,$blog)==0)
 $data["alerterror"]="New realtedblog could not be Updated.";
 else
 $data["alertsuccess"]="realtedblog Updated Successfully.";
-$data["redirect"]="site/viewrelatedblog";
+$data["redirect"]="site/viewrelatedblog?id=".$blog;
 $this->load->view("redirect",$data);
 }
 }
@@ -6256,7 +6268,7 @@ public function deleterealtedblog()
 $access=array("1");
 $this->checkaccess($access);
 $this->realtedblog_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewrelatedblog";
+$data["redirect"]="site/viewrelatedblog?id=".$this->input->get("productid");
 $this->load->view("redirect",$data);
 }
 

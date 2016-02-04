@@ -13,7 +13,13 @@
            </div>
        </div>
 
-      
+       <div class="row" style="display:none">
+                   <div class="input-field col s12 m8">
+                       <?php echo form_dropdown('blog', $blog, set_value('blog',$before->blog)); ?>
+                        <label> Product</label>
+                   </div>
+               </div>
+
 
 <div class="row">
 <div class="col s6">
