@@ -126,6 +126,34 @@ class restapi_model extends CI_Model
     $query->amount=$this->db->query("SELECT SUM(`finalprice`) as `amount` FROM `fynx_orderitem` WHERE `order`='$id'")->row();
         return $query;
     }
+
+
+		public function getorders($userid){
+if(empty($userid))
+{
+//echo "NO users found";
+}
+else {
+
+	  $return->plans = $this->db->query("select `id` from `fynx_order` where `user`=$userid" )->result();
+
+		foreach($return->plans  as $plan)
+			{
+				$q="SELECT `fynx_orderitem`.`order`,`fynx_product`.`name`,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id`  WHERE `fynx_orderitem`.`order`= '$plan->id' ";
+				//echo $q;
+					$plan->products = $this->db->query($q)->result();
+				}
+
+	// $query=$this->db->query("SELECT `fynx_orderitem`.`order`,`fynx_product`.`name`,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id` LEFT OUTER JOIN `fynx_order` ON `fynx_orderitem`.`order`=`fynx_order`.`id` WHERE `fynx_order`.`user`=$userid")->result();
+	// $query->amount=$this->db->query("SELECT SUM(`finalprice`) as `amount` FROM `fynx_orderitem`")->result();
+			  return $return;
+}
+
+		}
+
+// SELECT `fynx_orderitem`.`order`,`fynx_product`.`name`,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id` LEFT OUTER JOIN `fynx_order` ON `fynx_orderitem`.`order`=`fynx_order`.`id`
+
+
     public function getUserDetails($user){
     $query=$this->db->query("SELECT `id`, `name`, `password`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json`, `firstname`, `lastname`, `phone`, `billingaddress`, `billingcity`, `billingstate`, `billingcountry`, `billingcontact`, `billingpincode`, `shippingaddress`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `shippingname`, `shippingcontact`, `currency`, `credit`, `companyname`, `registrationno`, `vatnumber`, `country`, `fax`, `gender`, `facebook`, `google`, `twitter`, `street`, `address`, `pincode`, `state`, `dob`, `city`, `billingline1`, `billingline2`, `shippingline1`, `shippingline2`, `billingline3`, `shippingline3` FROM `user` WHERE `id`=$user")->row();
         return $query;
@@ -228,65 +256,85 @@ class restapi_model extends CI_Model
 
 		function addToCart($product, $quantity, $json,$status)
 {
-		//$data=$this->cart->contents();
 		if($status==2)
 		{
-				$getexactproduct=$this->db->query("SELECT * FROM `fynx_product` WHERE `id`='$product' and `status`=2")->row();
+					$getexactproduct=$this->db->query("SELECT * FROM `plans` WHERE `id`='$product'")->row();
+	$exactproduct=$getexactproduct->id;
+	$price=$getexactproduct->price_in_INR;
+		$productname=$getexactproduct->plan;
+	//$price=floatval($price);
+
+	echo " price ";
+	echo $price;
+	$data = array(
+				 'id'      => $exactproduct,
+				 'name'      => 1,
+				 'qty'     => 1,
+	 			'price'   => $price,
+				 'image'   => 0,
+					'options' =>array(
+							'status' => $status,
+							'realname' => $productname,
+					)
+	);
+
+
+
+
 		}
 		else {
 			$getexactproduct=$this->db->query("SELECT * FROM `fynx_product` WHERE `id`='$product'")->row();
+			$size=$getexactproduct->size;
+			$stockquantity=$getexactproduct->quantity;
+			$productname=$getexactproduct->name;
+			$price=$getexactproduct->price;
+			$color=$getexactproduct->color;
+			$image=$getexactproduct->image1;
+			$exactproduct=$getexactproduct->id;
+			$getsize=$this->db->query("SELECT `id`, `status`, `name` FROM `fynx_size` WHERE `id`='$size'")->row();
+			$sizeid=$getsize->id;
+			$sizename=$getsize->name;
+			$getcolor=$this->db->query("SELECT `id`, `name`, `status`, `timestamp` FROM `fynx_color` WHERE `id`='$color'")->row();
+			$colorid=$getcolor->id;
+			$colorname=$getcolor->name;
+			$data = array(
+						 'id'      => $exactproduct,
+						 'name'      => '1',
+						 'qty'     => $quantity,
+						 'price'   => $price,
+						 'image'   => $image,
+							'options' =>array(
+									'realname' => $productname,
+							)
+			);
 		}
 
-		$size=$getexactproduct->size;
-		$stockquantity=$getexactproduct->quantity;
-		$productname=$getexactproduct->name;
-		$price=$getexactproduct->price;
-		$color=$getexactproduct->color;
-		$image=$getexactproduct->image1;
-		$exactproduct=$getexactproduct->id;
-		$getsize=$this->db->query("SELECT `id`, `status`, `name` FROM `fynx_size` WHERE `id`='$size'")->row();
-		$sizeid=$getsize->id;
-		$sizename=$getsize->name;
-		$getcolor=$this->db->query("SELECT `id`, `name`, `status`, `timestamp` FROM `fynx_color` WHERE `id`='$color'")->row();
-		$colorid=$getcolor->id;
-		$colorname=$getcolor->name;
-				// if($quantity > $stockquantity)
-				// {
-				// 		 $object = new stdClass();
-				// 		 $object->value = false;
-				// 		 $object->comment = 'quantity not available ';
-				// 		return $object;
-				// }
-//        $getdesign=$this->db->query("SELECT `id`, `designer`, `image`, `status`, `timestamp` FROM `fynx_designs` WHERE `id`='$design'")->row();
-//        $designid=$getdesign->id;
-//        $designer=$getdesign->designer;
-//        $designimage=$getdesign->image;
-		$data = array(
-					 'id'      => $exactproduct,
-					 'name'      => '1',
-					 'qty'     => $quantity,
-					 'price'   => $price,
-//							 'design'   => $design,
-					 'image'   => $image,
-						'options' =>array(
-								'realname' => $productname,
-								// 'sizeid' => $sizeid,
-								// 'colorid' => $colorid,
-								// 'sizename' => $sizename,
-								// 'colorname' => $colorname
-						)
-		);
+
+
+
 		$userid=$this->session->userdata('id');
-				 if($userid=="")
+
+
+			if (empty($userid))
 								{
+
+
+									echo "no user ";
+											 print_r($data);
+											 echo "aftr datda";
 								$this->cart->insert($data);
 								$returnval=$this->cart->insert($data);
+								echo " this is return val ";
+								print_r($returnval);
 								if(!empty($returnval)){
+
+									echo "in if";
 								 $object = new stdClass();
 								 $object->value = true;
 								 return $object;
 								}
 								else{
+									echo"in else";
 								$object->value = false;
 								$object->comment = 'Internal Server Error';
 								return $object;

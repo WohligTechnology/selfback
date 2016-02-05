@@ -8,22 +8,77 @@ public function getPlans($sid)
 {
 if($sid !="")
 {
-    $return->plans = $this->db->query("select `id`,`consults`,`months`,`type` from `selftables_healthpackages` where `subtype`=$sid" )->result();
-}
+
+
+  //$pid= $data['message'][0]['id'];
+  $return->plans = $this->db->query("select `id`,`consults`,`months`,`type` from `selftables_healthpackages` where `subtype`=$sid" )->result();
+  }
 else {
+
     $return->plans = $this->db->query("select `id`,`consults`,`months`,`type` from `selftables_healthpackages`")->result();
 }
   foreach($return->plans  as $plan)
-  {
-    $plan->subplans = $this->db->query("select `id`,`plan`,`title`,`description`,`price_in_INR`,`price_in_dollars` from `plans` where `packageid`= '$plan->id' ")->result();
+    {
+        $plan->subplans = $this->db->query("select `id`,`plan`,`title`,`description`,`price_in_INR`,`price_in_dollars` from `plans` where `packageid`= '$plan->id' ")->result();
+      $userid=$this->session->userdata('id');
+      if($userid=="")
+             {
+               $cart = $this->cart->contents();
+               $newcart = array();
+               foreach ($cart as $item) {
+                   array_push($newcart, $item);
+               }
+               $data['message'] = $newcart;
+print_r($data['message']);
+                 foreach($data['message'] as $element)
+                 {
+
+                  //  print_r($element);
+                    //  if($status==2){
+                    //    $status=true;
+                    //  }
+                    //  else{
+                    //    $status=false;
+                    //  }
+
+ //                     if($element["options"]["status"]=="2")
+ //                     {
+ // $return->status=true;
+ //                     }
+ //                     else if ($element["options"]["status"]=="2"){
+ //  $return->status=false;
+ //                     }
+ //                       $subplan->status=$return->status;
+                 }
+             }
+             else {
+
+               foreach($plan->subplans  as $subplan)
+                 {
+   $chkplan=$this->db->query("select * from `fynx_cart` where `user`= '$userid' and `product`='$subplan->id'")->row();
+
+             if (!empty($chkplan))
+             {
+
+               $return->status=true;
+             }
+             else {
+                $return->status=false;
+             }
+              $subplan->status=$return->status;
+             }
+              }
+
   }
-  return $return;
+  // return $return;
 
 
 }
 
 public function getSubPackages()
 {
+
+
 $query= $this->db->query("select `id`,`name`,`description`,`image`,`order` from selftables_subtype where `status`=0")->result();
 return $query;
 }
@@ -56,7 +111,7 @@ if($image=="")
 $image=$this->healthpackages_model->getimagebyid($id);
 $image=$image->image;
 }
-$data=array("type" => $type,"months" => $months,"visits" => $visits,"plan" => $plan,"price_in_INR" => $price_in_INR,"price_in_dollars" => $price_in_dollars,"description" => $description,"title" => $title,"subtype" => $subtype);
+$data=array("type" => $type,"months" => $months,"consults" => $visits,"plan" => $plan,"price_in_INR" => $price_in_INR,"price_in_dollars" => $price_in_dollars,"description" => $description,"title" => $title,"subtype" => $subtype);
 $this->db->where( "id", $id );
 $query=$this->db->update( "selftables_healthpackages", $data );
 return 1;

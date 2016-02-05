@@ -39,7 +39,7 @@ if($before->type=="Health Management")
 <div class="row">
 <div class="input-field col s6">
 <label for="visits">Consults</label>
-<input type="text" id="visits" name="visits" value='<?php echo set_value('visits',$before->visits);?>'>
+<input type="text" id="visits" name="visits" value='<?php echo set_value('visits',$before->consults);?>'>
 </div>
 </div>
 <!-- <div class=" row">

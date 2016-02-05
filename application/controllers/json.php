@@ -2934,6 +2934,16 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $data['message'] = $this->restapi_model->getorderbyorderid($orderid);
         $this->load->view('json', $data);
     }
+
+    public function getorders()
+    {
+       $userid = $this->input->get('id');
+        //$userid = $this->session->userdata('id');
+        $data['message'] = $this->restapi_model->getorders($userid);
+        $this->load->view('json', $data);
+    }
+
+
     public function payumoneysuccess()
    {
      $workingKey='825cors0t20vgfolcm9adon2ixpz2qll';		//Working Key should be provided here.
