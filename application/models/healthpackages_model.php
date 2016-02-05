@@ -29,24 +29,18 @@ else {
                    array_push($newcart, $item);
                }
                $data['message'] = $newcart;
-print_r($data['message']);
-                 foreach($data['message'] as $element)
+
+                 foreach($data['message'] as $key=>$element)
                  {
+                     $proid=$element["id"];
 
-                  //  print_r($element);
-                    //  if($status==2){
-                    //    $status=true;
-                    //  }
-                    //  else{
-                    //    $status=false;
-                    //  }
-
- //                     if($element["options"]["status"]=="2")
+//                     echo $proid;
+ //                     if($proid==$subplan->id)
  //                     {
- // $return->status=true;
+ // $return->status="true";
  //                     }
- //                     else if ($element["options"]["status"]=="2"){
- //  $return->status=false;
+ //                     else {
+ //  $return->status="false";
  //                     }
  //                       $subplan->status=$return->status;
                  }
@@ -70,7 +64,7 @@ print_r($data['message']);
               }
 
   }
-  // return $return;
+  return $return;
 
 
 }

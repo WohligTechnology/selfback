@@ -139,7 +139,7 @@ else {
 
 		foreach($return->plans  as $plan)
 			{
-				$q="SELECT `fynx_orderitem`.`order`,`fynx_product`.`name`,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id`  WHERE `fynx_orderitem`.`order`= '$plan->id' ";
+				$q="SELECT `fynx_orderitem`.`order`,`fynx_product`.`name`,`fynx_product`.`image1` as 'image' ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id`  WHERE `fynx_orderitem`.`order`= '$plan->id' ";
 				//echo $q;
 					$plan->products = $this->db->query($q)->result();
 				}
@@ -264,8 +264,7 @@ else {
 		$productname=$getexactproduct->plan;
 	//$price=floatval($price);
 
-	echo " price ";
-	echo $price;
+
 	$data = array(
 				 'id'      => $exactproduct,
 				 'name'      => 1,
@@ -319,22 +318,17 @@ else {
 								{
 
 
-									echo "no user ";
-											 print_r($data);
-											 echo "aftr datda";
-								$this->cart->insert($data);
+												$this->cart->insert($data);
 								$returnval=$this->cart->insert($data);
-								echo " this is return val ";
-								print_r($returnval);
+
 								if(!empty($returnval)){
 
-									echo "in if";
-								 $object = new stdClass();
+									 $object = new stdClass();
 								 $object->value = true;
 								 return $object;
 								}
 								else{
-									echo"in else";
+
 								$object->value = false;
 								$object->comment = 'Internal Server Error';
 								return $object;

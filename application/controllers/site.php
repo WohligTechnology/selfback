@@ -5655,6 +5655,7 @@ else
 {
 $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
+$description=$this->input->get_post("description");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $config['upload_path'] = './uploads/';
@@ -5692,7 +5693,7 @@ $image=$uploaddata['file_name'];
 
 }
 
-if($this->subtype_model->create($name,$image,$order,$status)==0)
+if($this->subtype_model->create($name,$description,$image,$order,$status)==0)
 $data["alerterror"]="New subtype could not be created.";
 else
 $data["alertsuccess"]="subtype created Successfully.";
@@ -5730,6 +5731,7 @@ else
 {
 $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
+$description=$this->input->get_post("description");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $config['upload_path'] = './uploads/';
@@ -5748,7 +5750,7 @@ if($image=="")
 					// print_r($image);
 					 $image=$image->image;
 			 }
-if($this->subtype_model->edit($id,$name,$image,$order,$status)==0)
+if($this->subtype_model->edit($id,$name,$description,$image,$order,$status)==0)
 $data["alerterror"]="New subtype could not be Updated.";
 else
 $data["alertsuccess"]="subtype Updated Successfully.";

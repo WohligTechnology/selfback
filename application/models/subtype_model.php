@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class subtype_model extends CI_Model
 {
-public function create($name,$image,$order,$status)
+public function create($name,$description,$image,$order,$status)
 {
-$data=array("name" => $name,"image" => $image,"order" => $order,"status" => $status);
+$data=array("name" => $name,"image" => $image,"description" => $description,"order" => $order,"status" => $status);
 $query=$this->db->insert( "selftables_subtype", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,10 +24,10 @@ $this->db->where("id",$id);
 $query=$this->db->get("selftables_subtype")->row();
 return $query;
 }
-public function edit($id,$name,$image,$order,$status)
+public function edit($id,$name,$description,$image,$order,$status)
 {
 
-$data=array("name" => $name,"order" => $order,"status" => $status);
+$data=array("name" => $name,"description" => $description,"order" => $order,"status" => $status);
 if($image != "")
   $data['image']=$image;
 $this->db->where( "id", $id );

@@ -13,6 +13,15 @@
 </div>
 </div>
 
+
+<div class="row">
+           <div class="col s12 m6">
+               <label>Description</label>
+               <textarea id="some-textarea" name="description" placeholder="Enter text ...">
+                   <?php echo set_value('description',$before->description);?>
+               </textarea>
+           </div>
+       </div>
 <div class="row">
 			<div class="file-field input-field col m6 s12">
 				<span class="img-center big image1">

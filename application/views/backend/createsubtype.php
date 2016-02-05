@@ -9,6 +9,16 @@
 <input type="text" id="name" name="name" value='<?php echo set_value('name');?>'>
 </div>
 </div>
+
+<div class="row">
+           <div class="col s12 m6">
+               <label>Description</label>
+               <textarea id="some-textarea" name="description" placeholder="Enter text ...">
+                   <?php echo set_value('description');?>
+               </textarea>
+           </div>
+       </div>
+
 <div class="row">
   <div class="file-field input-field col m6 s12">
     <div class="btn blue darken-4">
