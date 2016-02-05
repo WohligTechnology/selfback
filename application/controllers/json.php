@@ -2890,7 +2890,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $user = $data['id'];
-        $name = $data['name'];
+        $firstname = $data['firstname'];
+        $lastname = $data['lastname'];
         $email = $data['email'];
         $phone = $data['phone'];
         $billingline1 = $data['billingline1'];
@@ -2908,7 +2909,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $shippingpincode = $data['shippingpincode'];
         $shippingcountry = $data['shippingcountry'];
 
-        $data['message'] = $this->restapi_model->updateProfile($user, $name, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $billingpincode, $shippingline1, $shippingline2, $shippingline3, $shippingcity, $shippingstate, $shippingpincode, $shippingcountry);
+        $data['message'] = $this->restapi_model->updateProfile($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $billingpincode, $shippingline1, $shippingline2, $shippingline3, $shippingcity, $shippingstate, $shippingpincode, $shippingcountry);
         $this->load->view('json', $data);
     }
     public function changepassword()

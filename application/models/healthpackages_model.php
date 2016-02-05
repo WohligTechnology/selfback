@@ -15,7 +15,7 @@ else {
 }
   foreach($return->plans  as $plan)
   {
-    $plan->subplans = $this->db->query("select `plan`,`title`,`description` from `plans` where `packageid`= '$plan->id' ")->result();
+    $plan->subplans = $this->db->query("select `id`,`plan`,`title`,`description`,`price_in_INR`,`price_in_dollars` from `plans` where `packageid`= '$plan->id' ")->result();
   }
   return $return;
 

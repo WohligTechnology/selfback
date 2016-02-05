@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 03, 2016 at 06:28 AM
+-- Generation Time: Feb 05, 2016 at 08:03 AM
 -- Server version: 10.1.9-MariaDB
 -- PHP Version: 7.0.0
 
@@ -92,23 +92,26 @@ CREATE TABLE `fynx_cart` (
   `product` varchar(255) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `design` varchar(255) NOT NULL,
-  `json` text NOT NULL
+  `json` text NOT NULL,
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `fynx_cart`
 --
 
-INSERT INTO `fynx_cart` (`id`, `user`, `quantity`, `product`, `timestamp`, `design`, `json`) VALUES
-(3, 11, 1, '1', '2016-02-01 10:01:19', '', ''),
-(5, 11, 10, '7', '2016-01-27 05:56:03', '', ''),
-(6, 11, 10, '2', '2016-01-27 11:17:34', '', ''),
-(7, 11, 1, '11', '2016-01-27 11:24:35', '', ''),
-(8, 11, 15, '9', '2016-01-27 11:30:08', '', ''),
-(9, 7, 4, '3', '2016-01-30 05:28:27', '', ''),
-(28, 1, 0, '', '2016-02-02 05:18:37', '', ''),
-(34, 1, 5, '1', '2016-02-02 06:42:59', '', ''),
-(35, 1, 2, '7', '2016-02-02 06:43:20', '', '');
+INSERT INTO `fynx_cart` (`id`, `user`, `quantity`, `product`, `timestamp`, `design`, `json`, `status`) VALUES
+(1, 1, 2, '1', '2016-02-05 06:43:43', '', '', 0),
+(2, 1, 0, '2', '2016-02-05 06:46:50', '', '', 0),
+(3, 1, 0, '2', '2016-02-05 06:47:49', '', '', 2),
+(4, 1, 5, '3', '2016-02-05 06:49:46', '', '', 2),
+(5, 1, 5, '3', '2016-02-05 06:49:46', '', '', 0),
+(6, 1, 0, '', '2016-02-05 06:50:21', '', '', 2),
+(7, 1, 0, '4', '2016-02-05 06:53:17', '', '', 2),
+(8, 1, 5, '4', '2016-02-05 06:53:52', '', '', 0),
+(9, 10, 1, '2', '2016-02-05 06:54:05', '', '', 0),
+(10, 10, 1, '1', '2016-02-05 06:54:26', '', '', 0),
+(11, 10, 0, '1', '2016-02-05 06:58:50', '', '', 2);
 
 -- --------------------------------------------------------
 
@@ -120,6 +123,7 @@ CREATE TABLE `fynx_category` (
   `id` int(11) NOT NULL,
   `order` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `description` longtext NOT NULL,
   `parent` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
   `image1` varchar(255) NOT NULL,
@@ -130,11 +134,11 @@ CREATE TABLE `fynx_category` (
 -- Dumping data for table `fynx_category`
 --
 
-INSERT INTO `fynx_category` (`id`, `order`, `name`, `parent`, `status`, `image1`, `image2`) VALUES
-(1, 1, 'FOOD MUNCHIES & BEVERAGES', '', '2', '1.jpg', 'apple.jpg'),
-(2, 2, 'VITAMINS & MINERALS', '', '2', '2.jpg', 'apple1.jpg'),
-(3, 3, 'PROTEIN SUPPLEMENT', '', '2', '3.jpg', 'apple2.jpg'),
-(4, 4, 'BOOKS & GADGETS', '', '2', '4.jpg', 'apple3.jpg');
+INSERT INTO `fynx_category` (`id`, `order`, `name`, `description`, `parent`, `status`, `image1`, `image2`) VALUES
+(1, 1, 'FOOD MUNCHIES & BEVERAGES', 'asdd                    ', '', '2', '121.png', 'apple.jpg'),
+(2, 2, 'VITAMINS & MINERALS', '', '', '2', '2.jpg', 'apple1.jpg'),
+(3, 3, 'PROTEIN SUPPLEMENT', '', '', '2', '3.jpg', 'apple2.jpg'),
+(4, 4, 'BOOKS & GADGETS', '', '', '2', '4.jpg', 'apple3.jpg');
 
 -- --------------------------------------------------------
 
@@ -370,7 +374,15 @@ INSERT INTO `fynx_order` (`id`, `user`, `firstname`, `lastname`, `email`, `billi
 (43, 11, 'Rohan', '', '', '', '', '', '', '', '', 'asd', 'demo add', '', '', 'phone', 'maharashtra', '1212', '', '', '', '', '2016-01-26 06:51:39', '', '', '', '', '', '', '', NULL),
 (45, 11, '', '', 'emailid@email.com', '', '', '', '', '', '', 'asd', 'demo add', '', '', 'phone', 'maharashtra', '1212', '', '', '', '1', '2016-01-26 07:21:30', '', '', '', '', '', '', '', NULL),
 (47, 11, '', '', 'emaailid@email.com', '', '', '', '', '', '', 'aaasd', 'daaaemo add', '', '', 'phaone', 'mahaarashtra', '1aaa212', '', '', '', '1', '2016-01-26 10:16:37', '', '', '', '', '', '', '', NULL),
-(48, 11, '', '', 'emaailid@email.com', '', '', '', '', '', '', 'aaasd', 'daaaemo add', '', '', 'phaone', 'mahaarashtra', '1aaa212', '', '', '', '1', '2016-01-27 05:57:24', '', '', '', '', '', '', '', NULL);
+(48, 11, '', '', 'emaailid@email.com', '', '', '', '', '', '', 'aaasd', 'daaaemo add', '', '', 'phaone', 'mahaarashtra', '1aaa212', '', '', '', '1', '2016-01-27 05:57:24', '', '', '', '', '', '', '', NULL),
+(49, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', '2016-02-04 09:35:10', '', '', '', '', '', '', '', NULL),
+(50, 0, 'jagruti', '', 'patiljagruti181@gmail.com', '', '', '', '', '', '', 'kjhj', '', '', '', '', 'kjlkj', '9898', '', '', '', '1', '2016-02-04 09:35:11', '', '', '', '', '', '', '', NULL),
+(51, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', '2016-02-04 09:35:49', '', '', '', '', '', '', '', NULL),
+(52, 0, 'jagruti', '', 'patiljagruti181@gmail.com', '', '', '', '', '', '', 'kjhkj', '', '', '', '', 'jhkjh', '980', '', '', '', '1', '2016-02-04 09:35:49', '', '', '', '', '', '', '', NULL),
+(53, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', '2016-02-04 09:36:52', '', '', '', '', '', '', '', NULL),
+(54, 0, 'jagruti', '', 'patiljagruti181@gmail.com', '', '', '', '', '', '', 'mnb', '', '', '', '', 'jljl', '80980', '', '', '', '1', '2016-02-04 09:36:53', '', '', '', '', '', '', '', NULL),
+(55, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', '2016-02-04 09:49:11', '', '', '', '', '', '', '', NULL),
+(56, 0, 'jagruti', '', 'patiljagruti181@gmail.com', '', '', '', '', '', '', 'kjhkj', '', '', '', '', 'hkjh', '09809', '', '', '', '1', '2016-02-04 09:49:11', '', '', '', '', '', '', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -395,7 +407,11 @@ CREATE TABLE `fynx_orderitem` (
 
 INSERT INTO `fynx_orderitem` (`id`, `discount`, `order`, `product`, `quantity`, `price`, `finalprice`, `design`) VALUES
 (25, 0, 20, 1, 1, 800, 800, 6),
-(26, 0, 20, 1, 1, 800, 800, 6);
+(26, 0, 20, 1, 1, 800, 800, 6),
+(27, 0, 50, 2, 1, 150, 150, 0),
+(28, 0, 52, 2, 1, 150, 150, 0),
+(29, 0, 54, 2, 1, 150, 150, 0),
+(30, 0, 56, 2, 1, 150, 150, 0);
 
 -- --------------------------------------------------------
 
@@ -435,13 +451,15 @@ CREATE TABLE `fynx_product` (
 --
 
 INSERT INTO `fynx_product` (`id`, `subcategory`, `quantity`, `weight`, `name`, `type`, `about`, `nutritionalvalue`, `visibility`, `price`, `relatedproduct`, `category`, `color`, `size`, `sizechart`, `status`, `sku`, `image1`, `image2`, `image3`, `image4`, `image5`, `baseproduct`, `discountprice`) VALUES
-(1, 7, '10', '', 'Limbu chana', '0', '                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea c', '                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea c', '1', '150', '', '1', NULL, NULL, NULL, '2', '', '121.png', NULL, NULL, NULL, NULL, '', ''),
-(2, 0, '10', '', 'Pudina chana', '0', '                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Du', '                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Du', '1', '150', '', '1', NULL, NULL, NULL, '2', '', '19.png', NULL, NULL, NULL, NULL, '', ''),
+(1, 0, '10', '', 'Limbu chana', '0', '                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea c', '                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea c', '1', '150', '', '1', NULL, NULL, NULL, '2', '', '121.png', NULL, NULL, NULL, NULL, '', ''),
+(2, 0, '6', '', 'Pudina chana', '0', '                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Du', '                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Du', '1', '150', '', '1', NULL, NULL, NULL, '2', '', '19.png', NULL, NULL, NULL, NULL, '', ''),
 (3, 0, '10', '', 'Tangy chana', '0', '                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Du', '                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Du', '1', '150', '', '1', NULL, NULL, NULL, '2', '', '23.png', NULL, NULL, NULL, NULL, '', ''),
 (4, 0, '10', '', 'Moong dal khakhra', '0', '                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Du', '                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Du', '1', '325', '', '1', NULL, NULL, NULL, '2', '', '15.png', NULL, NULL, NULL, NULL, '', ''),
 (5, 0, '10', '', 'Mix - dal khakhra', '0', '                    sadsd                ', '                                                                        ', '1', '325', '', '1', NULL, NULL, NULL, '2', '', '14.png', NULL, NULL, NULL, NULL, '', ''),
 (6, 0, '10', '', 'Chana Jor', '0', '                    dfdf                ', '                                                                ', '1', '150', '', '1', NULL, NULL, NULL, '2', '', '4.png', NULL, NULL, NULL, NULL, '', ''),
-(7, 0, '10', '', 'Jowar munch', '0', '                    sdfdsfs                ', '                                                                        ', '1', '150', '', '1', NULL, NULL, NULL, '2', '', '11.png', NULL, NULL, NULL, NULL, '', '');
+(7, 0, '10', '', 'Jowar munch', '0', '                    sdfdsfs                ', '                                                                        ', '1', '150', '', '1', NULL, NULL, NULL, '2', '', '11.png', NULL, NULL, NULL, NULL, '', ''),
+(8, 0, 'asd', '', 'test', '0', 'asd', '                                    asd', '1', '', '', '1', NULL, NULL, NULL, '2', '', 'braillestill26.jpg', '', '', '', '', '', 'sad'),
+(9, 0, '', '', 'Dasd', '0', '', '                                    ', '', '', '', '', NULL, NULL, NULL, '1', '', '', '', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -682,8 +700,8 @@ INSERT INTO `menu` (`id`, `name`, `description`, `keyword`, `url`, `linktype`, `
 (13, 'Blog', '', '', 'site/viewblog\n\n\n', 1, 0, 1, 10, 'icon-dashboard'),
 (14, 'Health Packages Type', '', '', 'site/viewsubtype\n', 1, 0, 1, 9, 'icon-dashboard'),
 (15, 'Tags', '', '', 'site/viewtags\n\n', 1, 0, 1, 10, 'icon-dashboard'),
-(30, 'Designer\n', '', '', 'site/viewdesigner\n', 1, 0, 1, 30, 'icon-dashboard'),
-(40, 'Offer\n', '', '', 'site/viewoffer\r\n\r\n', 1, 0, 1, 40, 'icon-dashboard');
+(16, 'News', '', '', 'site/viewnews\n\n', 1, 0, 1, 10, 'icon-dashboard'),
+(30, 'Designer\n', '', '', 'site/viewdesigner\n', 1, 0, 1, 30, 'icon-dashboard');
 
 -- --------------------------------------------------------
 
@@ -724,6 +742,31 @@ INSERT INTO `menuaccess` (`menu`, `access`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `news`
+--
+
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `year` varchar(255) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `news`
+--
+
+INSERT INTO `news` (`id`, `title`, `image`, `year`, `timestamp`, `status`) VALUES
+(1, 'asd', '127.jpeg', 'sa', '2016-02-03 14:10:31', 0),
+(2, 'asda', '', 'asd', '2016-02-03 14:13:47', 0),
+(3, 'dasd', '', '', '2016-02-03 14:15:06', 0),
+(4, 'sad', '', '', '2016-02-03 14:17:02', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `orderstatus`
 --
 
@@ -742,6 +785,39 @@ INSERT INTO `orderstatus` (`id`, `name`) VALUES
 (3, 'Shipping'),
 (4, 'Delivered'),
 (5, 'Cancel');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `plans`
+--
+
+CREATE TABLE `plans` (
+  `id` int(11) NOT NULL,
+  `plan` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` longtext NOT NULL,
+  `price_in_INR` varchar(255) NOT NULL,
+  `price_in_dollars` varchar(255) NOT NULL,
+  `packageid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `plans`
+--
+
+INSERT INTO `plans` (`id`, `plan`, `title`, `description`, `price_in_INR`, `price_in_dollars`, `packageid`) VALUES
+(3, 1, 'special addons', '<p>tset 1&nbsp;</p>', '5900', '95', 1),
+(4, 2, 'sad', '<p>asddsa</p>', '1500', '120', 1),
+(5, 3, 'sdf', '<p>sdfsfdsf</p>', '250', '21', 1),
+(6, 1, 'sda', '<p>asd</p>', '150', '210', 2),
+(7, 2, '02', '<p>sdff</p>', '50', '02', 2),
+(8, 1, 'SPECIAL ADDONS', '<ul class="chart-list font-semibold">\n<li>WhatsApp / Message support with your nutritionist.</li>\n<li>A folder, Diet Dairy and Measuremnet Card.</li>\n<li>10 Pillars of Health Design and Fruit Exchange List.</li>\n<li>Personalized exercise regime.</li>\n<li>Vitamin Check.</li>\n<li>Blood Report Analysis.</li>\n<li>Dietary support for ailments, if required.</li>\n<li>Invaluable tips on health, hair and skin care.</li>\n<li>Holiday survival guide &amp; Travel tips.</li>\n<li>Balanced dining out options for numerous cuisines.</li>\n<li>Medical guidance, if required.</li>\n</ul>', '5900', '95', 6),
+(9, 2, 'SPECIAL ADDONS', '<ul class="chart-list font-semibold">\n<li>Suman Madam&rsquo;s one to one consultation along with nutritionist for the first visit when the diet is created.</li>\n<li>WhatsApp / Message support with your nutritionist.</li>\n<li>A folder, Diet Dairy and Measuremnet Card.</li>\n<li>10 Pillars of Health Design and Fruit Exchange List.</li>\n<li>Personalized exercise regime.</li>\n<li>Vitamin Check.</li>\n<li>Blood Report Analysis.</li>\n<li>Dietary support for ailments, if required.</li>\n<li>Invaluable tips on health, hair and skin care.</li>\n<li>Holiday survival guide &amp; Travel tips.</li>\n<li>Balanced dining out options for numerous cuisines.</li>\n<li>Medical guidance, if required.</li>\n</ul>', '14900', '150', 6),
+(10, 3, 'SPECIAL ADDONS', '<ul class="chart-list font-semibold">\n<li>Suman Madam&rsquo;s one to one consultation along with nutritionist for the first visit when the diet is created.</li>\n<li>Suman Madam&rsquo;s one to one guidance as often as possible.</li>\n<li>If you not reach your goals in the stipulated time then you will be given an extension.</li>\n<li>We will try to attend you as soon as you arrive.</li>\n<li>WhatsApp / Message support with your nutritionist.</li>\n<li>A folder, Diet Dairy and Measuremnet Card.</li>\n<li>10 Pillars of Health Design and Fruit Exchange List.</li>\n<li>Personalized exercise regime.</li>\n<li>Vitamin Check.</li>\n<li>Blood Report Analysis.</li>\n<li>Dietary support for ailments, if required.</li>\n<li>Invaluable tips on health, hair and skin care.</li>\n<li>Holiday survival guide &amp; Travel tips.</li>\n<li>Balanced dining out options for numerous cuisines.</li>\n<li>Medical guidance, if required.</li>\n</ul>', '27900', '', 6),
+(11, 1, 'SPECIAL ADDONS', '<ul class="chart-list font-semibold">\n<li>WhatsApp / Message support with your nutritionist.</li>\n<li>A folder, Diet Dairy and Measuremnet Card.</li>\n<li>10 Pillars of Health Design and Fruit Exchange List.</li>\n<li>Personalized exercise regime.</li>\n<li>Vitamin Check.</li>\n<li>Blood Report Analysis.</li>\n<li>Dietary support for ailments, if required.</li>\n<li>Invaluable tips on health, hair and skin care.</li>\n<li>Holiday survival guide &amp; Travel tips.</li>\n<li>Balanced dining out options for numerous cuisines.</li>\n<li>Medical guidance, if required</li>\n</ul>', '9900', '165', 7),
+(12, 1, 'SPECIAL ADDONS', '<ul class="chart-list font-semibold">\n<li>WhatsApp / Message support with your nutritionist.</li>\n<li>A folder, Diet Dairy and Measuremnet Card.</li>\n<li>10 Pillars of Health Design and Fruit Exchange List.</li>\n<li>Personalized exercise regime.</li>\n<li>Vitamin Check.</li>\n<li>Blood Report Analysis.</li>\n<li>Dietary support for ailments, if required.</li>\n<li>Invaluable tips on health, hair and skin care.</li>\n<li>Holiday survival guide &amp; Travel tips.</li>\n<li>Balanced dining out options for numerous cuisines.</li>\n<li>Medical guidance, if required.</li>\n</ul>', '5900', '95', 8),
+(13, 2, 'SPECIAL ADDONS', '<p>tset</p>', '8900', '150', 8);
 
 -- --------------------------------------------------------
 
@@ -795,7 +871,6 @@ CREATE TABLE `relatedproduct` (
 --
 
 INSERT INTO `relatedproduct` (`id`, `product`, `relatedproduct`, `design`) VALUES
-(1, 2, 1, '4'),
 (2, 3, 1, '6'),
 (3, 3, 2, ''),
 (4, 4, 5, ''),
@@ -866,7 +941,7 @@ CREATE TABLE `selftables_healthpackages` (
   `id` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `months` int(11) NOT NULL,
-  `visits` int(11) NOT NULL,
+  `consults` int(11) NOT NULL,
   `plan` varchar(255) NOT NULL,
   `price_in_INR` int(11) NOT NULL,
   `price_in_dollars` int(11) NOT NULL,
@@ -879,11 +954,10 @@ CREATE TABLE `selftables_healthpackages` (
 -- Dumping data for table `selftables_healthpackages`
 --
 
-INSERT INTO `selftables_healthpackages` (`id`, `type`, `months`, `visits`, `plan`, `price_in_INR`, `price_in_dollars`, `description`, `title`, `subtype`) VALUES
-(1, 'Health Management', 1, 0, '1', 5900, 95, '<div class="tab-body">\n<h5 class="text-uppercase font-semibold">SPECIAL ADDONS</h5>\n<ul class="chart-list font-semibold">\n<li>WhatsApp / Message support with your nutritionist.</li>\n<li>A folder, Diet Dairy and Measuremnet Card.</li>\n<li>10 Pillars of Hea', 'SPECIAL ADDONS', 1),
-(2, 'Weight Loss', 1, 0, '1', 5900, 95, '<h5 class="text-uppercase font-semibold">SPECIAL ADDONS</h5>\n<ul class="chart-list font-semibold">\n<li>WhatsApp / Message support with your nutritionist.</li>\n<li>A folder, Diet Dairy and Measuremnet Card.</li>\n<li>10 Pillars of Health Design and Fruit Ex', 'special addons', 0),
-(3, 'Health Management', 2, 2, '2', 8900, 150, '<div class="tab-body">\n<h5 class="text-uppercase font-semibold">SPECIAL ADDONS</h5>\n<ul class="chart-list font-semibold">\n<li>Suman Madam&rsquo;s one to one consultation along with nutritionist for the first visit when the diet is created.</li>\n<li>WhatsA', 'special addons', 2),
-(4, 'Health Management', 1, 1, '1', 5900, 95, '<h5 class="text-uppercase font-semibold">SPECIAL ADDONS</h5>\n<ul class="chart-list font-semibold">\n<li>WhatsApp / Message support with your nutritionist.</li>\n<li>A folder, Diet Dairy and Measuremnet Card.</li>\n<li>10 Pillars of Health Design and Fruit Ex', 'special addons', 2);
+INSERT INTO `selftables_healthpackages` (`id`, `type`, `months`, `consults`, `plan`, `price_in_INR`, `price_in_dollars`, `description`, `title`, `subtype`) VALUES
+(6, 'Weight Loss', 1, 1, '0', 0, 0, '0', '0', 0),
+(7, 'Weight Loss', 2, 8, '0', 0, 0, '0', '0', 0),
+(8, 'Health Management', 1, 4, '0', 0, 0, '0', '0', 3);
 
 -- --------------------------------------------------------
 
@@ -906,6 +980,7 @@ CREATE TABLE `selftables_realtedblog` (
 CREATE TABLE `selftables_subtype` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `description` varchar(555) NOT NULL,
   `image` varchar(255) NOT NULL,
   `order` int(11) NOT NULL,
   `status` varchar(255) NOT NULL
@@ -915,10 +990,9 @@ CREATE TABLE `selftables_subtype` (
 -- Dumping data for table `selftables_subtype`
 --
 
-INSERT INTO `selftables_subtype` (`id`, `name`, `image`, `order`, `status`) VALUES
-(1, 'Weight loss for kids', 'kids.png', 1, '0'),
-(2, 'Weightloss with health gain', 'weightloss.png', 2, '0'),
-(3, 'Post pregnancy weight loss with lactation', 'lactation.png', 3, '0');
+INSERT INTO `selftables_subtype` (`id`, `name`, `description`, `image`, `order`, `status`) VALUES
+(3, 'Weight loss for kids', '', 'kids2.png', 1, '0'),
+(4, 'Weightloss with health gain', '', 'lactation2.png', 2, '0');
 
 -- --------------------------------------------------------
 
@@ -979,8 +1053,7 @@ INSERT INTO `tags` (`id`, `name`) VALUES
 (6, 'lemon honey water'),
 (7, 'monsoon'),
 (8, 'skin'),
-(9, 'skin friendly'),
-(10, 'tag1');
+(9, 'skin friendly');
 
 -- --------------------------------------------------------
 
@@ -1097,14 +1170,15 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `name`, `password`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json`, `firstname`, `lastname`, `phone`, `billingaddress`, `billingcity`, `billingstate`, `billingcountry`, `billingcontact`, `billingpincode`, `shippingaddress`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `shippingname`, `shippingcontact`, `currency`, `credit`, `companyname`, `registrationno`, `vatnumber`, `country`, `fax`, `gender`, `facebook`, `google`, `twitter`, `street`, `address`, `pincode`, `state`, `dob`, `city`, `billingline1`, `billingline2`, `billingline3`, `shippingline1`, `shippingline2`, `shippingline3`) VALUES
-(1, 'wohlig', 'a63526467438df9566c508027d9cb06b', 'wohlig@wohlig.com', 1, '0000-00-00 00:00:00', 1, 'images_(2)1.jpg', '', '', 'Facebook', '0', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(1, NULL, 'a63526467438df9566c508027d9cb06b', '', 1, '0000-00-00 00:00:00', 1, 'images_(2)1.jpg', '', '', 'Facebook', '0', 'fname', 'lname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '0000-00-00', '', 'billingline1', NULL, NULL, NULL, NULL, NULL),
 (6, 'Pooja Thakare', '', 'pooja.wohlig@gmail.com', 3, '2015-12-09 06:02:37', 2, 'https://lh5.googleusercontent.com/-5B1PwZZrwdI/AAAAAAAAAAI/AAAAAAAAABw/J3Hf871N8IE/photo.jpg', '', '103402210128529539675', 'Google', '', 'puja', 'thakare', '9870969411', '', 'bcity', 'bstate', 'bcountry', '', 'bpincode', '', 'scity', 'scountry', 'sstate', 'spincode', '', '', '', '', '', '', '', '', '', 0, '', '103402210128529539675', '', '', '', '', '', '0000-00-00', '', 'b1', 'b2', 'b3', 's1', 's2', 's3'),
 (7, NULL, 'd41d8cd98f00b204e9800998ecf8427e', '', NULL, '2015-12-16 06:23:23', NULL, NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL),
 (8, NULL, '81dc9bdb52d04dc20036dbd8313ed055', 'tushar@gmail.com', NULL, '2015-12-16 06:23:23', NULL, NULL, '', '', '', '', 'Tushar', 'Sachde', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL),
 (9, NULL, 'c96d1a174e9bdb6d4c9da3a7fdc1701c', 'jagrtui@wohlig.com', NULL, '2015-12-18 04:56:21', NULL, NULL, '', '', '', '', 'jagruti', 'patil', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL),
 (10, NULL, '3677b23baa08f74c28aba07f0cb6554e', 'jagruti@wohlig.com', NULL, '2015-12-18 05:07:59', NULL, NULL, '', '', '', '', 'jagruti', 'patil', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL),
 (11, NULL, 'a4021e130b1b574c1beb686b6e17e759', 'rohanwohlig@gmail.com', 3, '2016-01-23 07:46:22', 2, NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'aaasd', '', 'mahaarashtra', '1aaa212', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '0000-00-00', '', '', '', '', '', '', ''),
-(12, NULL, 'a4021e130b1b574c1beb686b6e17e759', 'arohanwohlig@gmail.com', 3, '2016-01-26 07:10:36', 2, NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL);
+(12, NULL, 'a4021e130b1b574c1beb686b6e17e759', 'arohanwohlig@gmail.com', 3, '2016-01-26 07:10:36', 2, NULL, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL),
+(13, NULL, '59a075e506355633cd5749fb230f4dab', 'amit.wohlig@gmail.com', 3, '2016-02-04 12:49:38', 2, NULL, '', '', '', '', 'Amit', 'Verma', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '', '', '', '', '', '0000-00-00', '', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1157,6 +1231,28 @@ INSERT INTO `userlog` (`id`, `onuser`, `status`, `description`, `timestamp`) VAL
 (30, 4, 6, 'User Details Edited', '2014-12-03 10:36:34'),
 (31, 4, 6, 'User Details Edited', '2014-12-03 10:36:49'),
 (32, 8, 6, 'User Details Edited', '2014-12-03 10:47:16');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `video`
+--
+
+CREATE TABLE `video` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `video`
+--
+
+INSERT INTO `video` (`id`, `name`, `link`, `status`) VALUES
+(1, 'Food Myths || Brown Bread is Healthier Than White Bread', 'IS7fddQf7O0', 0),
+(2, 'How To Make Sev Puri Detoxed || Healthy Recipes', 'QQnRebdLRWs', 0),
+(3, 'Lorem ipsum', 'HATRbH_UfbY', 0);
 
 --
 -- Indexes for dumped tables
@@ -1320,9 +1416,21 @@ ALTER TABLE `menu`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `news`
+--
+ALTER TABLE `news`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `orderstatus`
 --
 ALTER TABLE `orderstatus`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `plans`
+--
+ALTER TABLE `plans`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1359,7 +1467,7 @@ ALTER TABLE `selftables_comment`
 -- Indexes for table `selftables_healthpackages`
 --
 ALTER TABLE `selftables_healthpackages`
-  ADD PRIMARY KEY (`id`,`price_in_dollars`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `selftables_realtedblog`
@@ -1416,6 +1524,12 @@ ALTER TABLE `userlog`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `video`
+--
+ALTER TABLE `video`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1438,7 +1552,7 @@ ALTER TABLE `contact`
 -- AUTO_INCREMENT for table `fynx_cart`
 --
 ALTER TABLE `fynx_cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `fynx_category`
 --
@@ -1493,17 +1607,17 @@ ALTER TABLE `fynx_offerproduct`
 -- AUTO_INCREMENT for table `fynx_order`
 --
 ALTER TABLE `fynx_order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 --
 -- AUTO_INCREMENT for table `fynx_orderitem`
 --
 ALTER TABLE `fynx_orderitem`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `fynx_product`
 --
 ALTER TABLE `fynx_product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `fynx_productimage`
 --
@@ -1548,7 +1662,17 @@ ALTER TABLE `logintype`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+--
+-- AUTO_INCREMENT for table `news`
+--
+ALTER TABLE `news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `plans`
+--
+ALTER TABLE `plans`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `productcategory`
 --
@@ -1578,7 +1702,7 @@ ALTER TABLE `selftables_comment`
 -- AUTO_INCREMENT for table `selftables_healthpackages`
 --
 ALTER TABLE `selftables_healthpackages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `selftables_realtedblog`
 --
@@ -1588,7 +1712,7 @@ ALTER TABLE `selftables_realtedblog`
 -- AUTO_INCREMENT for table `selftables_subtype`
 --
 ALTER TABLE `selftables_subtype`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `statuses`
 --
@@ -1603,7 +1727,7 @@ ALTER TABLE `subscribe`
 -- AUTO_INCREMENT for table `tags`
 --
 ALTER TABLE `tags`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tagsblog`
 --
@@ -1618,12 +1742,17 @@ ALTER TABLE `testimonial`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `userlog`
 --
 ALTER TABLE `userlog`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+--
+-- AUTO_INCREMENT for table `video`
+--
+ALTER TABLE `video`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -195,9 +195,10 @@ class restapi_model extends CI_Model
 
 			return $query3;
 		}
-    public function updateProfile($user,$name,$email,$phone,$billingline1,$billingline2,$billingline3,$billingcity,$billingstate,$billingcountry,$billingpincode,$shippingline1,$shippingline2,$shippingline3,$shippingcity,$shippingstate,$shippingpincode,$shippingcountry){
+    public function updateProfile($user,$firstname,$lastname,$email,$phone,$billingline1,$billingline2,$billingline3,$billingcity,$billingstate,$billingcountry,$billingpincode,$shippingline1,$shippingline2,$shippingline3,$shippingcity,$shippingstate,$shippingpincode,$shippingcountry){
         $data  = array(
-			'name' => $name,
+			'firstname' => $firstname,
+			'lastname' => $lastname,
 			'email' => $email,
 
 			'phone' => $phone,
@@ -221,14 +222,21 @@ class restapi_model extends CI_Model
 		$this->db->where( 'id', $user );
 		$query=$this->db->update( 'user', $data );
 
-        $useridquery = $this->db->query("SELECT `id`, `name`,`email`, `phone`, `billingaddress`, `billingcity`, `billingstate`, `billingcountry`, `billingcontact`, `billingpincode`, `shippingaddress`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `shippingname`, `shippingcontact`,  `billingline1`, `billingline2`, `shippingline1`, `shippingline2`, `billingline3`, `shippingline3` FROM `user` WHERE `id`='$user'")->row();
+        $useridquery = $this->db->query("SELECT `id`, `firstname`,`lastname`,`email`, `phone`, `billingaddress`, `billingcity`, `billingstate`, `billingcountry`, `billingcontact`, `billingpincode`, `shippingaddress`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `shippingname`, `shippingcontact`,  `billingline1`, `billingline2`, `shippingline1`, `shippingline2`, `billingline3`, `shippingline3` FROM `user` WHERE `id`='$user'")->row();
         return $useridquery;
     }
 
 		function addToCart($product, $quantity, $json,$status)
 {
 		//$data=$this->cart->contents();
-		$getexactproduct=$this->db->query("SELECT * FROM `fynx_product` WHERE `id`='$product'")->row();
+		if($status==2)
+		{
+				$getexactproduct=$this->db->query("SELECT * FROM `fynx_product` WHERE `id`='$product' and `status`=2")->row();
+		}
+		else {
+			$getexactproduct=$this->db->query("SELECT * FROM `fynx_product` WHERE `id`='$product'")->row();
+		}
+
 		$size=$getexactproduct->size;
 		$stockquantity=$getexactproduct->quantity;
 		$productname=$getexactproduct->name;
@@ -292,7 +300,7 @@ class restapi_model extends CI_Model
 
 								//PRODUCT DETAIL
 															//CHECK IF PRODUCT ALREADY THERE IN CART
-								$checkcart=$this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct'");
+								$checkcart=$this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct' and `status`=0");
 								 if ( $checkcart->num_rows() > 0 )
 								 {
 										 //already in cart
@@ -329,6 +337,42 @@ class restapi_model extends CI_Model
 											}
 								}
 						}
+
+
+						if($status==2)
+						{
+
+								//PRODUCT DETAIL
+															//CHECK IF PRODUCT ALREADY THERE IN CART
+								$checkcart=$this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct'  and `status`=2");
+								 if ( $checkcart->num_rows() > 0 )
+								 {
+										 //already in cart
+												 $object = new stdClass();
+												 $object->value = false;
+												 $object->comment = 'already in cart';
+												 return $object;
+								 }
+								else{
+
+								// INSERT PRODUCT IN CART
+												$query=$this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `status`, `timestamp`,`design`) VALUES ('$userid','$exactproduct','$status',NULL,'$design')");
+										$this->cart->insert($data);
+										if($query){
+												 $object = new stdClass();
+												 $object->value = true;
+												return $object;
+												}
+										else{
+												$object = new stdClass();
+												 $object->value = false;
+												 $object->comment = 'Internal Server Error';
+												return $object;
+												}
+
+								}
+						}
+
 						else
 						{
 
@@ -337,7 +381,7 @@ class restapi_model extends CI_Model
 								 {
 												//UPDATE DATABASE CART
 
-										$queryupdate=$this->db->query("UPDATE `fynx_cart` SET `quantity`='$quantity' WHERE `user`='$userid' AND `product`='$exactproduct'");
+										$queryupdate=$this->db->query("UPDATE `fynx_cart` SET `quantity`='$quantity' WHERE `user`='$userid' AND `product`='$exactproduct' and `status`=0");
 										$this->cart->insert($data);
 										if($queryupdate){
 												 $object = new stdClass();
