@@ -90,37 +90,73 @@ class order_model extends CI_Model
 
         return $query;
     }
-    public function placeOrder($user,$firstname,$shippingaddress,$shippingpincode,$shippingcity,
-    $shippingstate,$shippingcontact,$email, $carts, $paymentmode)
-    {
-        $mysession = $this->session->all_userdata();
 
+    public function placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode)
+     {
+         $mysession = $this->session->all_userdata();
 
-            $query = $this->db->query("INSERT INTO `fynx_order`(`user`, `firstname`,`shippingaddress`,`shippingpincode`,`shippingcity`,`shippingstate`,`shippingcontact`,`email`,`orderstatus`) VALUES ('$user','$firstname','$shippingaddress','$shippingpincode','$shippingcity','$shippingstate','$shippingcontact','$email','1')");
+         if ($shippingline1 == '') {
+             $query = $this->db->query("INSERT INTO `fynx_order`(`user`, `firstname`, `lastname`, `email`,`billingcontact`, `billingline1`,`billingline2`,`billingline3`, `billingcity`, `billingstate`, `billingcountry`, `shippingline1`,`shippingline2`,`shippingline3`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `billingpincode`,`shippingcontact`,`orderstatus`,`paymentmode`) VALUES ('$user','$firstname','$lastname','$email','$phone','$billingline1','$billingline2','$billingline3','$billingcity','$billingstate','$billingcountry','$billingline1','$billingline2','$billingline3','$billingcity','$billingcountry','$billingstate','$billingpincode','$billingpincode','$phone','1','$paymentmode')");
+         } else {
+             $query = $this->db->query("INSERT INTO `fynx_order`(`user`, `firstname`, `lastname`, `email`,`billingcontact`, `billingline1`,`billingline2`,`billingline3`, `billingcity`, `billingstate`, `billingcountry`, `shippingline1`,`shippingline2`,`shippingline3`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `billingpincode`,`shippingcontact`,`orderstatus`,`paymentmode`) VALUES ('$user','$firstname','$lastname','$email','$phone','$billingline1','$billingline2','$billingline3','$billingcity','$billingstate','$billingcountry','$shippingline1','$shippingline2','$shippingline3','$shippingcity','$shippingcountry','$shippingstate','$shippingpincode','$billingpincode','$phone','1','$paymentmode')");
+         }
 
+         $order = $this->db->insert_id();
+         $mysession['orderid'] = $order;
+         $this->session->set_userdata($mysession);
+   //        print_r($carts);
+   //        $cartcount=count($carts);
+   //        echo "    cart count    ".$cartcount."      "."end";
+         foreach ($carts as $cart) {
+             $querycart = $this->db->query("INSERT INTO `fynx_orderitem`(`order`, `product`, `quantity`, `price`, `finalprice`,`design`) VALUES ('$order','".$cart['id']."','".$cart['qty']."','".$cart['price']."','".$cart['subtotal']."','".$cart['design']."')");
+             $quantity = intval($cart['qty']);
+             $productid = $cart['id'];
+             $this->db->query("UPDATE `fynx_product` SET `fynx_product`.`quantity`=`fynx_product`.`quantity`-$quantity WHERE `fynx_product`.`id`='$productid'");
+         }
 
-        $order = $this->db->insert_id();
-        $mysession['orderid'] = $order;
-        $this->session->set_userdata($mysession);
-
-       $cartcount=count($carts);
-      //  echo "    cart count    ".$cartcount."      "."end";
-        foreach ($carts as $cart) {
-            $querycart = $this->db->query("INSERT INTO `fynx_orderitem`(`order`, `product`, `quantity`, `price`, `finalprice`,`design`) VALUES ('$order','".$cart['id']."','".$cart['qty']."','".$cart['price']."','".$cart['subtotal']."','".$cart['design']."')");
-            $quantity = intval($cart['qty']);
-            $productid = $cart['id'];
-            $this->db->query("UPDATE `fynx_product` SET `fynx_product`.`quantity`=`fynx_product`.`quantity`-$quantity WHERE `fynx_product`.`id`='$productid'");
-        }
-	$table =$this->order_model->getorderitem($order);
-		$before=$this->order_model->beforeedit($order);
+   //		$table =$this->order_model->getorderitem($order);
+   //		$before=$this->order_model->beforeedit($order);
 
          $userquery = $this->db->query("UPDATE `user` SET `firstname`='$firstname',`lastname`='$lastname',`phone`='$phone',`status`='2',`billingline1`='$billingline1',`billingline2`='$billingline2',`billingline3`='$billingline3',`billingcity`='$billingcity',`billingstate`='$billingstate',`billingcountry`='$billingcountry',`billingpincode`='$billingpincode',`shippingline1`='$shippingline1',`shippingline2`='$shippingline2',`shippingline3`='$shippingline3',`shippingcity`='$shippingcity',`shippingcountry`='$shippingcountry',`shippingstate`='$shippingstate',`shippingpincode`='$shippingpincode' WHERE `id`='$user'");
-       if ($query) {
-            return $order;
-       } else {
-            return false;
+         if ($query) {
+             return $order;
+         } else {
+             return false;
          }
-    }
+     }
+     
+
+  //   public function placeOrder($user,$firstname,$shippingaddress,$shippingpincode,$shippingcity,
+  //   $shippingstate,$shippingcontact,$email, $carts, $paymentmode)
+  //   {
+  //       $mysession = $this->session->all_userdata();
+  //
+  //
+  //           $query = $this->db->query("INSERT INTO `fynx_order`(`user`, `firstname`,`shippingaddress`,`shippingpincode`,`shippingcity`,`shippingstate`,`shippingcontact`,`email`,`orderstatus`) VALUES ('$user','$firstname','$shippingaddress','$shippingpincode','$shippingcity','$shippingstate','$shippingcontact','$email','1')");
+  //
+  //
+  //       $order = $this->db->insert_id();
+  //       $mysession['orderid'] = $order;
+  //       $this->session->set_userdata($mysession);
+  //
+  //      $cartcount=count($carts);
+  //     //  echo "    cart count    ".$cartcount."      "."end";
+  //       foreach ($carts as $cart) {
+  //           $querycart = $this->db->query("INSERT INTO `fynx_orderitem`(`order`, `product`, `quantity`, `price`, `finalprice`,`design`) VALUES ('$order','".$cart['id']."','".$cart['qty']."','".$cart['price']."','".$cart['subtotal']."','".$cart['design']."')");
+  //           $quantity = intval($cart['qty']);
+  //           $productid = $cart['id'];
+  //           $this->db->query("UPDATE `fynx_product` SET `fynx_product`.`quantity`=`fynx_product`.`quantity`-$quantity WHERE `fynx_product`.`id`='$productid'");
+  //       }
+	// $table =$this->order_model->getorderitem($order);
+	// 	$before=$this->order_model->beforeedit($order);
+  //
+  //        $userquery = $this->db->query("UPDATE `user` SET `firstname`='$firstname',`lastname`='$lastname',`phone`='$phone',`status`='2',`billingline1`='$billingline1',`billingline2`='$billingline2',`billingline3`='$billingline3',`billingcity`='$billingcity',`billingstate`='$billingstate',`billingcountry`='$billingcountry',`billingpincode`='$billingpincode',`shippingline1`='$shippingline1',`shippingline2`='$shippingline2',`shippingline3`='$shippingline3',`shippingcity`='$shippingcity',`shippingcountry`='$shippingcountry',`shippingstate`='$shippingstate',`shippingpincode`='$shippingpincode' WHERE `id`='$user'");
+  //      if ($query) {
+  //           return $order;
+  //      } else {
+  //           return false;
+  //        }
+  //   }
 
     //////////////////////////////////////////////////////////////////////////////////////////////
 
