@@ -256,7 +256,7 @@ else {
 
 		function addToCart($product, $quantity, $json,$status)
 {
-		if($status==2)
+		if($status==3)
 		{
 					$getexactproduct=$this->db->query("SELECT * FROM `plans` WHERE `id`='$product'")->row();
 	$exactproduct=$getexactproduct->id;
@@ -386,7 +386,7 @@ else {
 						}
 
 
-						if($status==2)
+						if($status==3)
 						{
 
 								//PRODUCT DETAIL

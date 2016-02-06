@@ -10,7 +10,7 @@
 </div>
 </div>
 <div class="row">
-  <span>350 X 350</span>
+  <span>750 X 750</span>
   <div class="file-field input-field col m6 s12">
     <div class="btn blue darken-4">
       <span>Image</span>

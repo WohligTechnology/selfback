@@ -6,6 +6,7 @@ class healthpackages_model extends CI_Model
 
 public function getPlans($sid)
 {
+  
 if($sid !="")
 {
 
@@ -15,17 +16,19 @@ if($sid !="")
   }
 else {
 
-    $return->plans = $this->db->query("select `id`,`consults`,`months`,`type` from `selftables_healthpackages`")->result();
+    $return->plans = $this->db->query("SELECT `id`,`consults`,`months`,`type` FROM `selftables_healthpackages`")->result();
 }
   foreach($return->plans  as $plan)
     {
-        $plan->subplans = $this->db->query("select `id`,`plan`,`title`,`description`,`price_in_INR`,`price_in_dollars` from `plans` where `packageid`= '$plan->id' ")->result();
+
+        $plan->subplans = $this->db->query("SELECT `id`,`plan`,`title`,`description`,`price_in_INR`,`price_in_dollars` from `plans` where `packageid`= '$plan->id' ")->result();
       $userid=$this->session->userdata('id');
       if($userid=="")
              {
                $cart = $this->cart->contents();
                $newcart = array();
                foreach ($cart as $item) {
+
                    array_push($newcart, $item);
                }
                $data['message'] = $newcart;
