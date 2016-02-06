@@ -10,6 +10,7 @@
 </div>
 </div>
 <div class="row">
+  <span>350 X 350</span>
   <div class="file-field input-field col m6 s12">
     <div class="btn blue darken-4">
       <span>Image</span>
@@ -17,6 +18,7 @@
     </div>
     <div class="file-path-wrapper">
       <input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('image');?>">
+
     </div>
   </div>
 </div>

@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col s12 m6">
                 <label>About</label>
-                <textarea class="materialize-textarea"  name="about" placeholder="Enter text ...">
+                <textarea id="some-textarea" class="materialize-textarea"  name="about" placeholder="Enter text ...">
                     <?php echo set_value('about');?>
                 </textarea>
             </div>
@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col s12 m6">
                 <label>Nutritional Value</label>
-                <textarea class="materialize-textarea"  name="nutritionalvalue" placeholder="Enter text ...">
+                <textarea id="some-textarea" class="materialize-textarea"  name="nutritionalvalue" placeholder="Enter text ...">
                     <?php echo set_value('nutritionalvalue');?>
                 </textarea>
             </div>
