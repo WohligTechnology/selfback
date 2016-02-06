@@ -281,7 +281,7 @@ else {
 	               'id'      => $exactproduct,
 	               'qty'     => 1,
 	              'price'   => $price,
-	               'name'    => 1,
+	               'name'    => $productname,
 								 'options' =>array(
 							 							'status' => $status,
 							 							'realname' => $productname,

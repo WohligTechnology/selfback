@@ -755,18 +755,35 @@ class User_model extends CI_Model
 
 
 		public function showCart($user){
-			 $query=$this->db->query("SELECT `fynx_cart`.`user`,`fynx_cart`.`status`, `fynx_cart`.`quantity` as `qty`, `fynx_cart`.`product` as `id`, `fynx_product`.`price`,`fynx_product`.`image1` as 'image' FROM `fynx_cart`
-INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_cart`.`product`
-WHERE `fynx_cart`.`user`='$user'")->result_array();
-			 foreach($query as $key => $row){
-					 $productid= $row["id"] ;
-						 $query[$key]["options"]=$this->db->query("SELECT `fynx_product`.`name` as `realname` from `fynx_product`
-WHERE `fynx_product`.`id`='$productid'")->row();
-					 $querysubtotal=$this->db->query("SELECT `fynx_cart`.`quantity`*`fynx_product`.`price` as `subtotal` FROM `fynx_product` INNER JOIN `fynx_cart` ON `fynx_cart`.`product`=`fynx_product`.`id` WHERE `fynx_cart`.`product`='$productid'")->row();
-					 $subtotal=$querysubtotal->subtotal;
-					 $query[$key]["subtotal"]=$subtotal;
-			 }
-			 return $query;
+
+			  $return->plans = $this->db->query("select `id`,`product`,`status` from `fynx_cart` where `user`=$user" )->result();
+
+				foreach($return->plans  as $plan)
+			    {
+echo "status is".$plan->status;
+if($plan->status==2)
+{
+	echo "plan";
+
+}
+else if($plan->status==0)
+{
+	$query=$this->db->query("SELECT `fynx_cart`.`user`,`fynx_cart`.`status`, `fynx_cart`.`quantity` as `qty`, `fynx_cart`.`product` as `id`, `fynx_product`.`price`,`fynx_product`.`image1` as 'image' FROM `fynx_cart`
+	INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_cart`.`product`
+	WHERE `fynx_cart`.`user`='$user'")->result_array();
+	foreach($query as $key => $row){
+			$productid= $row["id"] ;
+				$query[$key]["options"]=$this->db->query("SELECT `fynx_product`.`name` as `realname` from `fynx_product`
+	WHERE `fynx_product`.`id`='$productid'")->row();
+			$querysubtotal=$this->db->query("SELECT `fynx_cart`.`quantity`*`fynx_product`.`price` as `subtotal` FROM `fynx_product` INNER JOIN `fynx_cart` ON `fynx_cart`.`product`=`fynx_product`.`id` WHERE `fynx_cart`.`product`='$productid'")->row();
+			$subtotal=$querysubtotal->subtotal;
+			$query[$key]["subtotal"]=$subtotal;
+	}
+	  return $query;
+}
+					}
+
+
 	 }
 
 
