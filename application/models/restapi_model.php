@@ -262,22 +262,31 @@ else {
 	$exactproduct=$getexactproduct->id;
 	$price=$getexactproduct->price_in_INR;
 		$productname=$getexactproduct->plan;
-	//$price=floatval($price);
+	$price=floatval($price);
 
+
+	// $data = array(
+	// 			 'id'      => $exactproduct,
+	// 			 'name'      => 1,
+	// 			 'qty'     => 1,
+	//  			'price'   => $price,
+	// 			 'image'   => 0,
+	// 				'options' =>array(
+	// 						'status' => $status,
+	// 						'realname' => $productname,
+	// 				)
+	// );
 
 	$data = array(
-				 'id'      => $exactproduct,
-				 'name'      => 1,
-				 'qty'     => 1,
-	 			'price'   => $price,
-				 'image'   => 0,
-					'options' =>array(
-							'status' => $status,
-							'realname' => $productname,
-					)
-	);
-
-
+	               'id'      => $exactproduct,
+	               'qty'     => 1,
+	              'price'   => $price,
+	               'name'    => 1,
+								 'options' =>array(
+							 							'status' => $status,
+							 							'realname' => $productname,
+							 					)
+	            );
 
 
 		}
@@ -316,14 +325,10 @@ else {
 
 			if (empty($userid))
 								{
-
-
-												$this->cart->insert($data);
+								$this->cart->insert($data);
 								$returnval=$this->cart->insert($data);
-
 								if(!empty($returnval)){
-
-									 $object = new stdClass();
+		 						 $object = new stdClass();
 								 $object->value = true;
 								 return $object;
 								}
