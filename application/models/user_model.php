@@ -756,22 +756,17 @@ class User_model extends CI_Model
 
 public function showCart($user)
 {
-    
  $return->plans = $this->db->query("select `id`,`product`,`status` from `fynx_cart` where `user`=$user" )->result();
-
  $plan1=array();
 foreach($return->plans  as $plan)
     {
-
         if($plan->status==2)
             {
             $query=$this->db->query("SELECT `fynx_cart`.`user`,`fynx_cart`.`status`, `fynx_cart`.`quantity` as `qty`, `fynx_cart`.`product` as `id`, `plans`.`plan`,`plans`.`description`,`plans`.`title`  FROM `fynx_cart`
 			INNER JOIN `plans` ON `plans`.`id`=`fynx_cart`.`product`
 			WHERE `fynx_cart`.`user`='$user' AND `fynx_cart`.`status`=2 AND `fynx_cart`.`product`='$plan->product'")->result_array();
-
             array_push($plan1,$query);
         }
- 
     else if($plan->status==0)
             {
                 $query=$this->db->query("SELECT `fynx_cart`.`user`,`fynx_cart`.`status`, `fynx_cart`.`quantity` as `qty`, `fynx_cart`.`product` as `id`, `fynx_product`.`price`,`fynx_product`.`image1` as 'image' FROM `fynx_cart`
