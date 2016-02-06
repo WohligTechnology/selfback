@@ -754,37 +754,43 @@ class User_model extends CI_Model
     }
 
 
-		public function showCart($user){
-
-			  $return->plans = $this->db->query("select `id`,`product`,`status` from `fynx_cart` where `user`=$user" )->result();
-
-				foreach($return->plans  as $plan)
-			    {
-echo "status is".$plan->status;
-if($plan->status==2)
+public function showCart($user)
 {
-	echo "plan";
+ $return->plans = $this->db->query("select `id`,`product`,`status` from `fynx_cart` where `user`=$user" )->result();
+print_r( $return->plans);
+foreach($return->plans  as $plan)
+    {
+        if($plan->status==2)
+            {
+            $query=$this->db->query("SELECT `fynx_cart`.`user`,`fynx_cart`.`status`, `fynx_cart`.`quantity` as `qty`, `fynx_cart`.`product` as `id`, `plans`.`plan`,`plans`.`description`  FROM `fynx_cart`
+			INNER JOIN `plans` ON `plans`.`id`=`fynx_cart`.`product`
+			WHERE `fynx_cart`.`user`='$user' AND `fynx_cart`.`status`=2")->result_array();
+			foreach($query as $key => $row){
+					$productid= $row["id"] ;
+						$query[$key]["options"]=$this->db->query("SELECT `plans`.`plan` as `realname` from `plans`
+			WHERE `plans`.`id`='$productid'")->row();
+            }
+        }
+                       
+    else if($plan->status==0)
+            {
+                $query=$this->db->query("SELECT `fynx_cart`.`user`,`fynx_cart`.`status`, `fynx_cart`.`quantity` as `qty`, `fynx_cart`.`product` as `id`, `fynx_product`.`price`,`fynx_product`.`image1` as 'image' FROM `fynx_cart`
+                INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_cart`.`product`
+                WHERE `fynx_cart`.`user`='$user' AND `fynx_cart`.`status`=0")->result_array();
+                foreach($query as $key => $row){
+                        $productid= $row["id"] ;
+                            $query[$key]["options"]=$this->db->query("SELECT `fynx_product`.`name` as `realname` from `fynx_product`
+                WHERE `fynx_product`.`id`='$productid'")->row();
+                        $querysubtotal=$this->db->query("SELECT `fynx_cart`.`quantity`*`fynx_product`.`price` as `subtotal` FROM `fynx_product` INNER JOIN `fynx_cart` ON `fynx_cart`.`product`=`fynx_product`.`id` WHERE `fynx_cart`.`product`='$productid'")->row();
+                        $subtotal=$querysubtotal->subtotal;
+                        $query[$key]["subtotal"]=$subtotal;
+                }
+                  return $query;
+            }
+    }
 
-}
-else if($plan->status==0)
-{
-	$query=$this->db->query("SELECT `fynx_cart`.`user`,`fynx_cart`.`status`, `fynx_cart`.`quantity` as `qty`, `fynx_cart`.`product` as `id`, `fynx_product`.`price`,`fynx_product`.`image1` as 'image' FROM `fynx_cart`
-	INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_cart`.`product`
-	WHERE `fynx_cart`.`user`='$user'")->result_array();
-	foreach($query as $key => $row){
-			$productid= $row["id"] ;
-				$query[$key]["options"]=$this->db->query("SELECT `fynx_product`.`name` as `realname` from `fynx_product`
-	WHERE `fynx_product`.`id`='$productid'")->row();
-			$querysubtotal=$this->db->query("SELECT `fynx_cart`.`quantity`*`fynx_product`.`price` as `subtotal` FROM `fynx_product` INNER JOIN `fynx_cart` ON `fynx_cart`.`product`=`fynx_product`.`id` WHERE `fynx_cart`.`product`='$productid'")->row();
-			$subtotal=$querysubtotal->subtotal;
-			$query[$key]["subtotal"]=$subtotal;
-	}
-	  return $query;
-}
-					}
 
-
-	 }
+ }
 
 
     function deletecartfromdb($id,$user,$design){
