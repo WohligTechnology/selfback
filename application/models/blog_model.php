@@ -12,8 +12,15 @@ class blog_model extends CI_Model
   }
 
 
+  function getBlogById($id){
+        $query=$this->db->query("SELECT `selftables_blog`.`id`,`selftables_blog`.`name` as 'title',`selftables_blog`.`image` as 'coverimage',`selftables_blog`.`description` as 'content',`selftables_blog`.`dateofposting`,`selftables_blog`.`posted_by`,`selftables_blog`.`views`,GROUP_CONCAT(DISTINCT `tags`.`name` ORDER BY `tags`.`id` SEPARATOR ',') as 'tags' from `selftables_blog` LEFT OUTER JOIN `tagsblog` ON `selftables_blog`.`id`=`tagsblog`.`blog` LEFT OUTER JOIN `tags` ON `tags`.`id`=`tagsblog`.`tag` WHERE `selftables_blog`.`id`= '$id'")->row();
+
+   return $query;
+
+  }
+
   function popularPost(){
-        $query=$this->db->query("SELECT `id`,`name` as 'title',`image` as 'coverimage',`description` as 'content' from `selftables_blog` order by `views` desc")->result();
+        $query=$this->db->query("SELECT `id`,`name` as 'title',`image` as 'coverimage',`description` as 'content' from `selftables_blog` order by `views` desc  LIMIT 0, 5")->result();
    return $query;
 
   }

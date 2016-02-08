@@ -8,7 +8,7 @@
 <div class="row">
 <div class="input-field col s6">
 <label for="Name">Recipe Name</label>
-<input type="text" id="Name" name="name" value='<?php echo set_value('name',$before->name);?>'>
+<input type="text" id="name" name="name" value='<?php echo set_value('name',$before->name);?>'>
 </div>
 </div>
 

@@ -6874,6 +6874,7 @@ public function editrecipessubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
+$id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $status=$this->input->get_post("status");
 $description=$this->input->get_post("description");
@@ -6899,7 +6900,7 @@ if($image1=="")
 					 $image1=$image1->image1;
 			 }
 //print_r($_POST);
-if($this->recipes_model->edit($name,$description,$ingredients,$method,$valueperserve,$status,$image1)==0)
+if($this->recipes_model->edit($id,$name,$description,$ingredients,$method,$valueperserve,$status,$image1)==0)
 $data["alerterror"]="New Recipe could not be Updated.";
 else
 $data["alertsuccess"]="Recipe Updated Successfully.";

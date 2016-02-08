@@ -81,6 +81,12 @@ function getAllTags()
   $data["message"]=$this->tags_model->getAllTags();
   $this->load->view("json",$data);
 }
+function getBlogById()
+{
+    $id=$this->input->get_post("id");
+  $data["message"]=$this->blog_model->getBlogById($id);
+  $this->load->view("json",$data);
+}
 
 function searchBlog()
 {

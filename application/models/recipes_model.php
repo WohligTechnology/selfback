@@ -46,16 +46,17 @@ $query=$this->db->get("recipes")->row();
 return $query;
 }
 
-public function edit($name,$description,$ingredients,$method,$valueperserve,$status,$image1)
+public function edit($id,$name,$description,$ingredients,$method,$valueperserve,$status,$image1)
 {
-//  echo "in update";
+
 $data=array("name" => $name,"description" => $description,"ingredients" => $ingredients,"method" => $method,"valueperserve" => $valueperserve,"status" => $status);
 if($image1 != "")
   $data['image']=$image1;
-//  print_r($data);
-$this->db->where( "id", $id );
 
+$this->db->where( "id", $id );
 $query=$this->db->update( "recipes", $data );
+
+// $query=$this->db->update( "recipes", $data );
 
 return 1;
 }
