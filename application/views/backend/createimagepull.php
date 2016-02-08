@@ -4,9 +4,6 @@
 </div>
 <form class='col s12' method='post' action='<?php echo site_url("site/createimagepullsubmit");?>' enctype= 'multipart/form-data'>
 
-
-
-
 <div class="row">
   <div class="file-field input-field col m6 s12">
     <div class="btn blue darken-4">

@@ -6,6 +6,7 @@ class imagepull_model extends CI_Model
 public function create($image)
 {
 $data=array("image" => $image);
+print_r($data);
 $query=$this->db->insert( "imagepull", $data );
 $id=$this->db->insert_id();
 if(!$query)

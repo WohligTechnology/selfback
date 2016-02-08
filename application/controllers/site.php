@@ -6620,20 +6620,20 @@ public function createimagepull()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createimagepull";
-$data["title"]="Create Image";
+$data["title"]="Create Iamge";
 $this->load->view("template",$data);
 }
 public function createimagepullsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
-$this->form_validation->set_rules("image","image","trim");
 
+$this->form_validation->set_rules("image","image","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createimagepull";
-$data["title"]="Create Image";
+$data["title"]="Create Iamge";
 $this->load->view("template",$data);
 }
 else
@@ -6673,71 +6673,14 @@ $image=$uploaddata['file_name'];
 		}
 
 }
-echo "test";
+echo 'test';
 if($this->imagepull_model->create($image)==0)
 $data["alerterror"]="New Image could not be created.";
 else
 $data["alertsuccess"]="Image created Successfully.";
-// $data["redirect"]="site/viewimagepull";
-// $this->load->view("redirect",$data);
-}
-}
-public function editimagepull()
-{
-$access=array("1");
-$this->checkaccess($access);
-$data["page"]="editsubtype";
-$data["title"]="Edit subtype";
-$data["before"]=$this->subtype_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
-}
-public function editimagepullsubmit()
-{
-$access=array("1");
-$this->checkaccess($access);
-$this->form_validation->set_rules("image","image","trim");
-if($this->form_validation->run()==FALSE)
-{
-$data["alerterror"]=validation_errors();
-$data["page"]="editsubtype";
-$data["title"]="Edit subtype";
-$data["before"]=$this->imagepull_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
-}
-else
-{
-$id=$this->input->get_post("id");
-$config['upload_path'] = './uploads/';
- $config['allowed_types'] = 'gif|jpg|png';
- $this->load->library('upload', $config);
- $filename="image";
- $image="";
- if (  $this->upload->do_upload($filename))
- {
-	 $uploaddata = $this->upload->data();
-	 $image=$uploaddata['file_name'];
- }
-if($image=="")
-			 {
-			 $image=$this->imagepull_model->getimagebyid($id);
-					// print_r($image);
-					 $image=$image->image;
-			 }
-if($this->subtype_model->edit($id,$image)==0)
-$data["alerterror"]="New subtype could not be Updated.";
-else
-$data["alertsuccess"]="subtype Updated Successfully.";
-$data["redirect"]="site/viewsubtype";
+$data["redirect"]="site/viewimagepull";
 $this->load->view("redirect",$data);
 }
-}
-public function deleteimagepull()
-{
-$access=array("1");
-$this->checkaccess($access);
-$this->subtype_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewsubtype";
-$this->load->view("redirect",$data);
 }
 
 
