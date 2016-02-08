@@ -6880,24 +6880,7 @@ $description=$this->input->get_post("description");
 $ingredients=$this->input->get_post("ingredients");
 $method=$this->input->get_post("method");
 $valueperserve=$this->input->get_post("valueperserve");
-if($this->form_validation->run()==FALSE)
-{
-$data["alerterror"]=validation_errors();
-$data["page"]="editrecipes";
-   $data['status']=$this->user_model->getstatusdropdown();
-$data["title"]="Edit Recipe";
-$data["before"]=$this->recipes_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
-}
-else
-{
-	echo "start";
-$id=$this->input->get_post("id");
-$order=$this->input->get_post("order");
-$name=$this->input->get_post("name");
-$parent=$this->input->get_post("parent");
-$status=$this->input->get_post("status");
-$description=$this->input->get_post("description");
+
 
 $config['upload_path'] = './uploads/';
  $config['allowed_types'] = 'gif|jpg|png';
@@ -6915,14 +6898,14 @@ if($image1=="")
 					// print_r($image);
 					 $image1=$image1->image1;
 			 }
-echo "print data";
+//print_r($_POST);
 if($this->recipes_model->edit($name,$description,$ingredients,$method,$valueperserve,$status,$image1)==0)
 $data["alerterror"]="New Recipe could not be Updated.";
 else
 $data["alertsuccess"]="Recipe Updated Successfully.";
-// $data["redirect"]="site/viewrecipes";
-// $this->load->view("redirect",$data);
-}
+ $data["redirect"]="site/viewrecipes";
+ $this->load->view("redirect",$data);
+
 }
 public function deleterecipes()
 {
