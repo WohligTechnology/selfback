@@ -43,7 +43,7 @@ $config =
 
 			"Twitter" => array (
 				"enabled" => true,
-				"keys"    => array ( "key" => "mKuSDE0ffjaUMSHi9eSVwpVaj", "secret" => "gwqEY8S0KodDorNHY2vksg41jlm5rdJwvjXCW3IQJpSZaLwHZY" )
+				"keys"    => array ( "key" => "gCWlQBLeYdOis9t9UHOcHtjpe", "secret" => "M8dKFtM893fJMBmTt0xUxWgWn0v0dEWzuqYY9QK4KkUXxbu1I1" )
 			),
 
 			// windows live
