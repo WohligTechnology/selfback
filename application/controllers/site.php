@@ -6628,16 +6628,6 @@ public function createimagepullsubmit()
 $access=array("1");
 $this->checkaccess($access);
 
-$this->form_validation->set_rules("image","image","trim");
-if($this->form_validation->run()==FALSE)
-{
-$data["alerterror"]=validation_errors();
-$data["page"]="createimagepull";
-$data["title"]="Create Iamge";
-$this->load->view("template",$data);
-}
-else
-{
 $id=$this->input->get_post("id");
 $config['upload_path'] = './uploads/';
 $config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -6680,7 +6670,7 @@ else
 $data["alertsuccess"]="Image created Successfully.";
 $data["redirect"]="site/viewimagepull";
 $this->load->view("redirect",$data);
-}
+
 }
 
 
