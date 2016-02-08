@@ -6,7 +6,6 @@ class imagepull_model extends CI_Model
 public function create($image)
 {
 $data=array("image" => $image);
-print_r($data);
 $query=$this->db->insert( "imagepull", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -17,27 +16,23 @@ return  $id;
 public function beforeedit($id)
 {
 $this->db->where("id",$id);
-$query=$this->db->get("selftables_subtype")->row();
+$query=$this->db->get("imagepull")->row();
 return $query;
 }
-function getsinglesubtype($id){
-$this->db->where("id",$id);
-$query=$this->db->get("selftables_subtype")->row();
-return $query;
-}
-public function edit($id,$name,$description,$image,$order,$status)
-{
 
-$data=array("name" => $name,"description" => $description,"order" => $order,"status" => $status);
+public function edit($id,$image)
+{
 if($image != "")
+{
   $data['image']=$image;
 $this->db->where( "id", $id );
-$query=$this->db->update( "selftables_subtype", $data );
+$query=$this->db->update("imagepull", $data );
 return 1;
+}
 }
 public function delete($id)
 {
-$query=$this->db->query("DELETE FROM `selftables_subtype` WHERE `id`='$id'");
+$query=$this->db->query("DELETE FROM `imagepull` WHERE `id`='$id'");
 return $query;
 }
 public function getimagebyid($id)

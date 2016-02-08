@@ -7,7 +7,8 @@
 <thead>
 <tr>
 <th data-field="id">id</th>
-<th data-field="image">name</th>
+<th data-field="image">image</th>
+<th data-field="path">path</th>
 
 </tr>
 </thead>
@@ -22,7 +23,7 @@
 </div>
 <script>
 function drawtable(resultrow) {
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.iamge + "</td><td><a class='btn btn-primary btn-xs waves-effect waves-light blue darken-4 z-depth-0 less-pad' href='<?php echo site_url('site/editimagepull?id=');?>"+resultrow.id+"'><i class='fa fa-pencil propericon'></i></a><a class='btn btn-danger btn-xs waves-effect waves-light red pad10 z-depth-0 less-pad'onclick=\"return confirm('Are you sure you want to delete?');\"  href='<?php echo site_url('site/deleteimagepull?id='); ?>"+resultrow.id+"'><i class='material-icons propericon'>delete</i></a></td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td><img style='height:40px; width:40px; border-radius:50%;' src='http://localhost/selfbackend/uploads/" + resultrow.image + "'/></td><td>http://localhost/selfbackend/uploads/" + resultrow.image + "</td><td><a class='btn btn-primary btn-xs waves-effect waves-light blue darken-4 z-depth-0 less-pad' href='<?php echo site_url('site/editimagepull?id=');?>"+resultrow.id+"'><i class='fa fa-pencil propericon'></i></a><a class='btn btn-danger btn-xs waves-effect waves-light red pad10 z-depth-0 less-pad'onclick=\"return confirm('Are you sure you want to delete?');\"  href='<?php echo site_url('site/deleteimagepull?id='); ?>"+resultrow.id+"'><i class='material-icons propericon'>delete</i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>

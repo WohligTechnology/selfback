@@ -6672,8 +6672,265 @@ $data["redirect"]="site/viewimagepull";
 $this->load->view("redirect",$data);
 
 }
+public function editimagepull()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editimagepull";
+$data["title"]="Edit Image";
+$data["before"]=$this->imagepull_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editimagepullsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("image","image","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editimagepull";
+$data["title"]="Edit Image";
+$data["before"]=$this->imagepull_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$config['upload_path'] = './uploads/';
+ $config['allowed_types'] = 'gif|jpg|png';
+ $this->load->library('upload', $config);
+ $filename="image";
+ $image="";
+ if (  $this->upload->do_upload($filename))
+ {
+	 $uploaddata = $this->upload->data();
+	 $image=$uploaddata['file_name'];
+ }
+if($image=="")
+			 {
+			 $image=$this->subtype_model->getimagebyid($id);
+					// print_r($image);
+					 $image=$image->image;
+			 }
+if($this->imagepull_model->edit($id,$image)==0)
+$data["alerterror"]="New Image could not be Updated.";
+else
+$data["alertsuccess"]="Image Updated Successfully.";
+$data["redirect"]="site/viewimagepull";
+$this->load->view("redirect",$data);
+}
+}
+public function deleteimagepull()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->imagepull_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewimagepull";
+$this->load->view("redirect",$data);
+}
+public function viewrecipes()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewrecipes";
+$data["base_url"]=site_url("site/viewrecipesjson");
+$data["title"]="View Recipes";
+$this->load->view("template",$data);
+}
+function viewrecipesjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`recipes`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`recipes`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="name";
+$elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`recipes`.`description`";
+$elements[2]->sort="1";
+$elements[2]->header="description";
+$elements[2]->alias="description";
+$elements[3]=new stdClass();
+$elements[3]->field="`recipes`.`ingredients`";
+$elements[3]->sort="1";
+$elements[3]->header="ingredients";
+$elements[3]->alias="ingredients";
+$elements[4]=new stdClass();
+$elements[4]->field="`recipes`.`method`";
+$elements[4]->sort="1";
+$elements[4]->header="method";
+$elements[4]->alias="method";
+$elements[5]=new stdClass();
+$elements[5]->field="`recipes`.`valueperserve`";
+$elements[5]->sort="1";
+$elements[5]->header="valueperserve";
+$elements[5]->alias="valueperserve";
+$elements[6]=new stdClass();
+$elements[6]->field="`recipes`.`image`";
+$elements[6]->sort="1";
+$elements[6]->header="Image";
+$elements[6]->alias="image";
+$elements[7]=new stdClass();
+$elements[7]->field="`recipes`.`image`";
+$elements[7]->sort="1";
+$elements[7]->header="Image";
+$elements[7]->alias="image";
+$elements[8]=new stdClass();
+$elements[8]->field="`recipes`.`status`";
+$elements[8]->sort="1";
+$elements[8]->header="status";
+$elements[8]->alias="status";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `recipes`");
+$this->load->view("json",$data);
+}
+public function createrecipes()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createrecipes";
+   $data['status']=$this->user_model->getstatusdropdown();
+$data["title"]="Create Recipes";
+$this->load->view("template",$data);
+}
+public function createrecipessubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("description","description","trim");
+$this->form_validation->set_rules("ingredients","ingredients","trim");
+$this->form_validation->set_rules("method","method","trim");
+$this->form_validation->set_rules("valueperserve","valueperserve","trim");
+$this->form_validation->set_rules("status","Status","trim");
+$this->form_validation->set_rules("image1","Image1","trim");
 
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createrecipes";
+   $data['status']=$this->user_model->getstatusdropdown();
+$data["title"]="Create Recipes";
+$this->load->view("template",$data);
+}
+else
+{
+$name=$this->input->get_post("name");
+$status=$this->input->get_post("status");
+$description=$this->input->get_post("description");
+$ingredients=$this->input->get_post("ingredients");
+$method=$this->input->get_post("method");
+$valueperserve=$this->input->get_post("valueperserve");
 
+    $config['upload_path'] = './uploads/';
+			$config['allowed_types'] = 'gif|jpg|png';
+			$this->load->library('upload', $config);
+			$filename="image1";
+			$image1="";
+			if (  $this->upload->do_upload($filename))
+			{
+				$uploaddata = $this->upload->data();
+				$image1=$uploaddata['file_name'];
+			}
+
+if($this->recipes_model->create($name,$description,$ingredients,$method,$valueperserve,$status,$image1)==0)
+$data["alerterror"]="New Recipe could not be created.";
+else
+$data["alertsuccess"]="Recipe created Successfully.";
+$data["redirect"]="site/viewrecipes";
+$this->load->view("redirect",$data);
+}
+}
+public function editrecipes()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editrecipes";
+$data["title"]="Edit Recipe";
+   $data['status']=$this->user_model->getstatusdropdown();
+$data["before"]=$this->recipes_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editrecipessubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$name=$this->input->get_post("name");
+$status=$this->input->get_post("status");
+$description=$this->input->get_post("description");
+$ingredients=$this->input->get_post("ingredients");
+$method=$this->input->get_post("method");
+$valueperserve=$this->input->get_post("valueperserve");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editrecipes";
+   $data['status']=$this->user_model->getstatusdropdown();
+$data["title"]="Edit Recipe";
+$data["before"]=$this->recipes_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$order=$this->input->get_post("order");
+$name=$this->input->get_post("name");
+$parent=$this->input->get_post("parent");
+$status=$this->input->get_post("status");
+$description=$this->input->get_post("description");
+
+$config['upload_path'] = './uploads/';
+ $config['allowed_types'] = 'gif|jpg|png';
+ $this->load->library('upload', $config);
+ $filename="image1";
+ $image1="";
+ if (  $this->upload->do_upload($filename))
+ {
+	 $uploaddata = $this->upload->data();
+	 $image1=$uploaddata['file_name'];
+ }
+if($image1=="")
+			 {
+			 $image1=$this->product_model->getimage1byid($id);
+					// print_r($image);
+					 $image1=$image1->image1;
+			 }
+
+if($this->recipes_model->edit($name,$description,$ingredients,$method,$valueperserve,$status,$image1)==0)
+$data["alerterror"]="New Recipe could not be Updated.";
+else
+$data["alertsuccess"]="Recipe Updated Successfully.";
+// $data["redirect"]="site/viewrecipes";
+// $this->load->view("redirect",$data);
+}
+}
+public function deleterecipes()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->recipes_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewrecipes";
+$this->load->view("redirect",$data);
+}
 
 
 }

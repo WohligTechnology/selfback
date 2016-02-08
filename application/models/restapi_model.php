@@ -510,16 +510,24 @@ function removeFromCart($cart)
         if ($newpassword == $confirmpassword) {
             $useridquery = $this->db->query("SELECT `id` FROM `user` WHERE `password`='$oldpassword'");
             if ($useridquery->num_rows() == 0) {
-                return 0;
+							$object = new stdClass();
+								 $object->value = false;
+								 return $object;
+
             } else {
                 $query = $useridquery->row();
                 $userid = $query->id;
                 $updatequery = $this->db->query("UPDATE `user` SET `password`='$newpassword' WHERE `id`='$userid'");
-                return 1;
+								$object = new stdClass();
+									 $object->value = true;
+									 return $object;
             }
         } else {
 //            echo "New password and confirm password do not match!!!";
-			return -1;
+		//	return -1;
+		$object = new stdClass();
+			 $object->value = false;
+			 return $object;
         }
     }
      public function checkstatus($orderid){
