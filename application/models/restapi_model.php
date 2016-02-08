@@ -546,11 +546,11 @@ function removeFromCart($cart)
                     $user=$getuser->user;
                     $this->cart->destroy();
                     $deletecart=$this->db->query("DELETE FROM `fynx_cart` WHERE `user`='$user'");
-            redirect("http://www.myfynx.com/testing/#/thankyou/".$orderid);
+            redirect("http://wohlig.co.in/selfcare/#/thankyou/".$orderid);
                 }
                 else{
                       $query=$this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$transactionid' WHERE `id`='$orderid'");
-            redirect("http://www.myfynx.com/testing/#/sorry/".$orderid);
+            redirect("http://wohlig.co.in/selfcare/#/wentwrong/".$orderid);
                 }
 
 
@@ -558,7 +558,7 @@ function removeFromCart($cart)
             else
             {
             $query=$this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$transactionid' WHERE `id`='$orderid'");
-            redirect("http://www.myfynx.com/testing/#/sorry/".$orderid);
+            redirect("http://wohlig.co.in/selfcare/#/wentwrong/".$orderid);
             }
 }
 public function checkproductquantity($prodid)
