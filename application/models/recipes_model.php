@@ -48,11 +48,13 @@ return $query;
 
 public function edit($name,$description,$ingredients,$method,$valueperserve,$status,$image1)
 {
+  echo "in update";
 $data=array("name" => $name,"description" => $description,"ingredients" => $ingredients,"method" => $method,"valueperserve" => $valueperserve,"status" => $status);
 if($image1 != "")
   $data['image']=$image1;
+  print_r($data);
 $this->db->where( "id", $id );
-print_r($data);
+
 $query=$this->db->update( "recipes", $data );
 
 return 1;

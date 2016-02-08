@@ -6891,6 +6891,7 @@ $this->load->view("template",$data);
 }
 else
 {
+	echo "start";
 $id=$this->input->get_post("id");
 $order=$this->input->get_post("order");
 $name=$this->input->get_post("name");
@@ -6914,7 +6915,7 @@ if($image1=="")
 					// print_r($image);
 					 $image1=$image1->image1;
 			 }
-
+echo "print data";
 if($this->recipes_model->edit($name,$description,$ingredients,$method,$valueperserve,$status,$image1)==0)
 $data["alerterror"]="New Recipe could not be Updated.";
 else
