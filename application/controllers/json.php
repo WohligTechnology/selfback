@@ -39,6 +39,7 @@ $this->load->view('json', $data);
 
 public function getAllBlog()
 {
+  $where = " WHERE 1 ";
 $tag=$this->input->get_post("tag");
 
 $this->chintantable->createelement("`selftables_blog`.`id`", '1', "ID", "id");
@@ -62,14 +63,11 @@ $orderby="id";
 $orderorder="ASC";
 }
 
-if($tag=="")
+if($tag != "")
 {
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_blog` LEFT OUTER JOIN `tagsblog` ON `selftables_blog`.`id` = `tagsblog`.`blog` LEFT OUTER JOIN `tags` ON `tags`.`id` = `tagsblog`.`tag`","","GROUP BY `selftables_blog`.`id`");
+  $where= " WHERE `tags`.`name` = '$tag' ";
 }
-else {
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_blog` LEFT OUTER JOIN `tagsblog` ON `selftables_blog`.`id` = `tagsblog`.`blog` LEFT OUTER JOIN `tags` ON `tags`.`id` = `tagsblog`.`tag`"," WHERE `tags`.`name` = '$tag'","GROUP BY `selftables_blog`.`id`");
-}
-
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_blog` LEFT OUTER JOIN `tagsblog` ON `selftables_blog`.`id` = `tagsblog`.`blog` LEFT OUTER JOIN `tags` ON `tags`.`id` = `tagsblog`.`tag`",$where,"GROUP BY `selftables_blog`.`id`");
 
 $this->load->view("json",$data);
 }
@@ -79,6 +77,13 @@ $this->load->view("json",$data);
 function getAllTags()
 {
   $data["message"]=$this->tags_model->getAllTags();
+  $this->load->view("json",$data);
+}
+
+
+function popularPost()
+{
+  $data["message"]=$this->blog_model->popularPost();
   $this->load->view("json",$data);
 }
 function getBlogById()
@@ -96,19 +101,6 @@ function searchBlog()
   $this->load->view('json', $data);
 }
 
-function popularPost()
-{
-  $data['message']= $this->blog_model->popularpost();
-  $this->load->view('json', $data);
-}
-
-function getViews()
-{
-  $id= $this->input->get_post("id");
-  $data['message']= $this->blog_model->getViews($id);
-  $this->load->View('json', $data);
-
-}
 
 function getPlans()
 {

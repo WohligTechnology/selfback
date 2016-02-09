@@ -770,7 +770,7 @@ for($i=0;$i<count($query);$i++)
 {
 	$query[$i]["options"] = new stdClass();
 	$query[$i]["options"]->realname = $query[$i]["name"];
-	
+
 }
 						return array_merge($query1,$query);
 

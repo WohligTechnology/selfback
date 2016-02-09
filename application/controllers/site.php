@@ -6917,6 +6917,165 @@ $data["redirect"]="site/viewrecipes";
 $this->load->view("redirect",$data);
 }
 
+public function viewblogtag()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewblogtag";
+$data["page2"]="block/blogblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewblogtagjson?id=").$this->input->get('id');
+$data["title"]="View productimage";
+$this->load->view("templatewith2",$data);
+}
+function viewblogtagjson()
+{
+$id=$this->input->get('id');
+
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`tags`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`tagsblog`.`blog`";
+$elements[1]->sort="1";
+$elements[1]->header="blog";
+$elements[1]->alias="blog";
+
+$elements[2]=new stdClass();
+$elements[2]->field="`tagsblog`.`tag`";
+$elements[2]->sort="1";
+$elements[2]->header="tag";
+$elements[2]->alias="tag";
+
+$elements[3]=new stdClass();
+$elements[3]->field="`tags`.`name`";
+$elements[3]->sort="1";
+$elements[3]->header="name";
+$elements[3]->alias="name";
+
+$elements[4]=new stdClass();
+$elements[4]->field="`tagsblog`.`blog`";
+$elements[4]->sort="1";
+$elements[4]->header="blogid";
+$elements[4]->alias="blogid";
+
+
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `tagsblog` LEFT OUTER JOIN `tags` on `tagsblog`.`tag` =`tags`.`id`","WHERE `tagsblog`.`blog`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createblogtag()
+{
+$access=array("1");
+$this->checkaccess($access);
+
+$data["page"]="createblogtag";
+$data["page2"]="block/blogblock";
+$data["title"]="Create Blogtags";
+$data["before1"]=$this->input->get("id");
+$data["before2"]=$this->input->get("id");
+$data['blog']=$this->blogtag_model->getblogdropdown();
+$data['tags']=$this->realtedblog_model->getblogdropdown();
+$this->load->view("templatewith2",$data);
+
+}
+public function createblogtagsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("blog","blog","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createrealtedblog";
+$data["title"]="Create realtedblog";
+$this->load->view("template",$data);
+}
+else
+{
+$relatedblog=$this->input->get_post("relatedblog");
+$blog=$this->input->get_post("blog");
+if($this->realtedblog_model->create($relatedblog,$blog)==0)
+$data["alerterror"]="New realtedblog could not be created.";
+else
+$data["alertsuccess"]="realtedblog created Successfully.";
+$data["redirect"]="site/viewrelatedblog";
+$this->load->view("redirect",$data);
+}
+}
+public function editblogtag()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data['blog']=$this->realtedblog_model->getblogdropdown();
+$data['relatedblog']=$this->realtedblog_model->getblogdropdown();
+$data["page"]="editrealtedblog";
+$data["page2"]="block/blogblock";
+$data["title"]="Edit realtedblog";
+$data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
+$data["before1"]=$this->input->get("id");
+$data["before2"]=$this->input->get("id");
+$this->load->view("templatewith2",$data);
+
+}
+public function editblogtagsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("relatedblog","relatedblog","trim");
+$this->form_validation->set_rules("blog","blog","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data['blog']=$this->realtedblog_model->getblogdropdown();
+$data['relatedblog']=$this->realtedblog_model->getblogdropdown();
+$data["page"]="editrealtedblog";
+$data["title"]="Edit realtedblog";
+$data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$relatedblog=$this->input->get_post("relatedblog");
+$blog=$this->input->get_post("blog");
+if($this->realtedblog_model->edit($id,$relatedblog,$blog)==0)
+$data["alerterror"]="New Blogtag could not be Updated.";
+else
+$data["alertsuccess"]="Blogtag Updated Successfully.";
+$data["redirect"]="site/viewblogtag?id=".$blog;
+$this->load->view("redirect",$data);
+}
+}
+public function deleteblogtag()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->blogtag_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewblogtag?id=".$this->input->get("productid");
+$this->load->view("redirect",$data);
+}
+
+
 
 }
 ?>

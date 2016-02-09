@@ -14,23 +14,21 @@ class blog_model extends CI_Model
 
   function getBlogById($id){
         $query=$this->db->query("SELECT `selftables_blog`.`id`,`selftables_blog`.`name` as 'title',`selftables_blog`.`image` as 'coverimage',`selftables_blog`.`description` as 'content',`selftables_blog`.`dateofposting`,`selftables_blog`.`posted_by`,`selftables_blog`.`views`,GROUP_CONCAT(DISTINCT `tags`.`name` ORDER BY `tags`.`id` SEPARATOR ',') as 'tags' from `selftables_blog` LEFT OUTER JOIN `tagsblog` ON `selftables_blog`.`id`=`tagsblog`.`blog` LEFT OUTER JOIN `tags` ON `tags`.`id`=`tagsblog`.`tag` WHERE `selftables_blog`.`id`= '$id'")->row();
+        $this->db->query("UPDATE `selftables_blog` SET `views`=`views`+1 where id=$id");
+        $query->related = $this->db->query("SELECT `selftables_blog`.`id`,`selftables_blog`.`image` FROM `selftables_realtedblog` INNER JOIN `selftables_blog` ON `selftables_realtedblog`.`relatedblog`=`selftables_blog`.`id` where `selftables_realtedblog`.`blog`=$id LIMIT 0,3")->result();
+          $query->prev = $this->db->query("SELECT `id`,`name` FROM `selftables_blog` WHERE `id` < $id  order by id desc LIMIT 0,1")->row();
 
-   return $query;
+        // $query->prev = $prev->name;
+        $query->next = $this->db->query("SELECT `id`,`name` FROM `selftables_blog` WHERE `id` > $id LIMIT 0,1")->row();
 
+        return $query;
   }
 
   function popularPost(){
-        $query=$this->db->query("SELECT `id`,`name` as 'title',`image` as 'coverimage',`description` as 'content' from `selftables_blog` order by `views` desc  LIMIT 0, 5")->result();
+        $query=$this->db->query("SELECT `id`,`name` as 'title',`image` as 'coverimage' from `selftables_blog` order by `views` desc  LIMIT 0, 5")->result();
    return $query;
 
   }
-
-  function getViews($id){
-        $query=$this->db->query("SELECT  max(views) as 'views' from `selftables_blog` where id=$id")->row();
-   return $query;
-
-  }
-
 
 
 public function create($name,$image,$description,$posted_by,$dateofposting,$tags)

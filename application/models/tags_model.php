@@ -6,8 +6,9 @@ class tags_model extends CI_Model
 
   function getAllTags(){
       $query=$this->db->query("SELECT `id`,`name` from `tags`")->result();
+      $post=$this->db->query("SELECT `id`,`name` as 'title',`image` as 'coverimage' from `selftables_blog` order by `views` desc  LIMIT 0, 5")->result();
 
-   return $query;
+  return $query;
 
   }
 
