@@ -3,10 +3,10 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class blogtag_model extends CI_Model
 {
-public function create($relatedblog,$blog)
+public function create($relatedtag,$blog)
 {
-$data=array("blog" => $blog,"relatedblog" => $relatedblog);
-$query=$this->db->insert( "selftables_realtedblog", $data );
+$data=array("blog" => $blog,"tag" => $relatedtag);
+$query=$this->db->insert( "tagsblog", $data );
 $id=$this->db->insert_id();
 if(!$query)
 return  0;
@@ -16,7 +16,7 @@ return  $id;
 public function beforeedit($id)
 {
 $this->db->where("id",$id);
-$query=$this->db->get("selftables_realtedblog")->row();
+$query=$this->db->get("tagsblog")->row();
 return $query;
 }
 function getsinglerealtedblog($id){
@@ -24,18 +24,18 @@ $this->db->where("id",$id);
 $query=$this->db->get("selftables_realtedblog")->row();
 return $query;
 }
-public function edit($id,$relatedblog,$blog)
+public function edit($id,$relatedtag,$blog)
 {
 
-$data=array("relatedblog" => $relatedblog);
+$data=array("tag" => $relatedtag);
 $this->db->where( "id", $id );
-$query=$this->db->update( "selftables_realtedblog", $data );
+$query=$this->db->update( "tagsblog", $data );
 
 return 1;
 }
 public function delete($id)
 {
-$query=$this->db->query("DELETE FROM `selftables_realtedblog` WHERE `id`='$id'");
+$query=$this->db->query("DELETE FROM `tagsblog` WHERE `id`='$id'");
 return $query;
 }
 public function getimagebyid($id)

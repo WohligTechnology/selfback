@@ -6218,7 +6218,7 @@ if($this->realtedblog_model->create($relatedblog,$blog)==0)
 $data["alerterror"]="New realtedblog could not be created.";
 else
 $data["alertsuccess"]="realtedblog created Successfully.";
-$data["redirect"]="site/viewrelatedblog";
+$data["redirect"]="site/viewrelatedblog?id=".$blog;
 $this->load->view("redirect",$data);
 }
 }
@@ -6926,7 +6926,7 @@ $data["page2"]="block/blogblock";
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["base_url"]=site_url("site/viewblogtagjson?id=").$this->input->get('id');
-$data["title"]="View productimage";
+$data["title"]="View Blog Tag";
 $this->load->view("templatewith2",$data);
 }
 function viewblogtagjson()
@@ -6935,7 +6935,7 @@ $id=$this->input->get('id');
 
 $elements=array();
 $elements[0]=new stdClass();
-$elements[0]->field="`tags`.`id`";
+$elements[0]->field="`tagsblog`.`id`";
 $elements[0]->sort="1";
 $elements[0]->header="id";
 $elements[0]->alias="id";
@@ -6993,7 +6993,7 @@ $data["title"]="Create Blogtags";
 $data["before1"]=$this->input->get("id");
 $data["before2"]=$this->input->get("id");
 $data['blog']=$this->blogtag_model->getblogdropdown();
-$data['tags']=$this->realtedblog_model->getblogdropdown();
+$data['relatedtag']=$this->tags_model->gettagdropdown();
 $this->load->view("templatewith2",$data);
 
 }
@@ -7005,32 +7005,32 @@ $this->form_validation->set_rules("blog","blog","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
-$data["page"]="createrealtedblog";
-$data["title"]="Create realtedblog";
+$data["page"]="createblogtag";
+$data["title"]="Create Blog Tags";
 $this->load->view("template",$data);
 }
 else
 {
-$relatedblog=$this->input->get_post("relatedblog");
+$relatedtag=$this->input->get_post("relatedtag");
 $blog=$this->input->get_post("blog");
-if($this->realtedblog_model->create($relatedblog,$blog)==0)
-$data["alerterror"]="New realtedblog could not be created.";
+if($this->blogtag_model->create($relatedtag,$blog)==0)
+$data["alerterror"]="New Blog Tag could not be created.";
 else
-$data["alertsuccess"]="realtedblog created Successfully.";
-$data["redirect"]="site/viewrelatedblog";
-$this->load->view("redirect",$data);
+$data["alertsuccess"]="Blog Tag created Successfully.";
+$data["redirect"]="site/viewblogtag?id=".$blog;
+$this->load->view("redirect2",$data);
 }
 }
 public function editblogtag()
 {
 $access=array("1");
 $this->checkaccess($access);
-$data['blog']=$this->realtedblog_model->getblogdropdown();
-$data['relatedblog']=$this->realtedblog_model->getblogdropdown();
-$data["page"]="editrealtedblog";
+$data['blog']=$this->blogtag_model->getblogdropdown();
+$data['relatedtag']=$this->tags_model->gettagdropdown();
+$data["page"]="editblogtag";
 $data["page2"]="block/blogblock";
-$data["title"]="Edit realtedblog";
-$data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
+$data["title"]="Edit Blog Tag";
+$data["before"]=$this->blogtag_model->beforeedit($this->input->get("id"));
 $data["before1"]=$this->input->get("id");
 $data["before2"]=$this->input->get("id");
 $this->load->view("templatewith2",$data);
@@ -7041,14 +7041,13 @@ public function editblogtagsubmit()
 $access=array("1");
 $this->checkaccess($access);
 $this->form_validation->set_rules("id","id","trim");
-$this->form_validation->set_rules("relatedblog","relatedblog","trim");
 $this->form_validation->set_rules("blog","blog","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data['blog']=$this->realtedblog_model->getblogdropdown();
 $data['relatedblog']=$this->realtedblog_model->getblogdropdown();
-$data["page"]="editrealtedblog";
+$data["page"]="editblogtag";
 $data["title"]="Edit realtedblog";
 $data["before"]=$this->realtedblog_model->beforeedit($this->input->get("id"));
 $this->load->view("templatewith2",$data);
@@ -7056,14 +7055,14 @@ $this->load->view("templatewith2",$data);
 else
 {
 $id=$this->input->get_post("id");
-$relatedblog=$this->input->get_post("relatedblog");
+$relatedtag=$this->input->get_post("relatedtag");
 $blog=$this->input->get_post("blog");
-if($this->realtedblog_model->edit($id,$relatedblog,$blog)==0)
+if($this->blogtag_model->edit($id,$relatedtag,$blog)==0)
 $data["alerterror"]="New Blogtag could not be Updated.";
 else
 $data["alertsuccess"]="Blogtag Updated Successfully.";
 $data["redirect"]="site/viewblogtag?id=".$blog;
-$this->load->view("redirect",$data);
+$this->load->view("redirect2",$data);
 }
 }
 public function deleteblogtag()
@@ -7071,7 +7070,7 @@ public function deleteblogtag()
 $access=array("1");
 $this->checkaccess($access);
 $this->blogtag_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewblogtag?id=".$this->input->get("productid");
+$data["redirect"]="site/viewblogtag?id=".$this->input->get("blogid");
 $this->load->view("redirect",$data);
 }
 

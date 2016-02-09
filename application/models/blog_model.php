@@ -17,8 +17,7 @@ class blog_model extends CI_Model
         $this->db->query("UPDATE `selftables_blog` SET `views`=`views`+1 where id=$id");
         $query->related = $this->db->query("SELECT `selftables_blog`.`id`,`selftables_blog`.`image` FROM `selftables_realtedblog` INNER JOIN `selftables_blog` ON `selftables_realtedblog`.`relatedblog`=`selftables_blog`.`id` where `selftables_realtedblog`.`blog`=$id LIMIT 0,3")->result();
           $query->prev = $this->db->query("SELECT `id`,`name` FROM `selftables_blog` WHERE `id` < $id  order by id desc LIMIT 0,1")->row();
-
-        // $query->prev = $prev->name;
+          // $query->prev = $prev->name;
         $query->next = $this->db->query("SELECT `id`,`name` FROM `selftables_blog` WHERE `id` > $id LIMIT 0,1")->row();
 
         return $query;
