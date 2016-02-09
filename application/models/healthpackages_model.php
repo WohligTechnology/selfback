@@ -6,17 +6,17 @@ class healthpackages_model extends CI_Model
 
 public function getPlans($sid)
 {
-  
+
 if($sid !="")
 {
 
 
   //$pid= $data['message'][0]['id'];
-  $return->plans = $this->db->query("select `id`,`consults`,`months`,`type` from `selftables_healthpackages` where `subtype`=$sid" )->result();
+  $return->plans = $this->db->query("SELECT `id`,`consults`,`months`,`type` FROM `selftables_healthpackages` WHERE `subtype`=$sid" )->result();
   }
 else {
 
-    $return->plans = $this->db->query("SELECT `id`,`consults`,`months`,`type` FROM `selftables_healthpackages`")->result();
+    $return->plans = $this->db->query("SELECT `id`,`consults`,`months`,`type` FROM `selftables_healthpackages` WHERE `type`='Weight Loss' ")->result();
 }
   foreach($return->plans  as $plan)
     {

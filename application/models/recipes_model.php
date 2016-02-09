@@ -7,24 +7,15 @@ class recipes_model extends CI_Model
 
 
 
-  public function getCategory()
-  {
-    $query = $this->db->query("select  `id`,`name` , `image1` as 'categoryimg',`description`,`order` from `fynx_category`")->result();
-    return $query;
+  function getRecipeDetail($id){
+      $query['recipe']=$this->db->query("SELECT `id`, `name`, `image`, `description`, `ingredients`, `method`, `valueperserve` FROM `recipes` WHERE `id` = $id")->row();
+//       $query['relatedproduct']=$this->db->query("SELECT  `fynx_product`.`id` ,  `fynx_product`.`image1` AS  `image` ,  `fynx_product`.`price` ,  `fynx_product`.`name`
+// FROM  `fynx_product`
+// INNER JOIN  `relatedproduct` ON  `relatedproduct`.`relatedproduct` =  `fynx_product`.`id`
+// WHERE  `relatedproduct`.`product` ='$id'")->result();
+   return $query;
+
   }
-
-
-  function getCategoryById($id){
-  $query=$this->db->query("SELECT `id`,`name`,`image2` as 'bannerimg',`description` from `fynx_category` WHERE `id` = $id")->row();
-  return $query;
-  }
-
-
-
-    function getSubCategory($id){
-    $query=$this->db->query("SELECT `id`,`name`,`order` from `fynx_subcategory` WHERE `category` = $id")->result();
-    return $query;
-    }
 
 
 

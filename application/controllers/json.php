@@ -239,6 +239,14 @@ $id=$this->input->get_post("id");
 $data["message"]=$this->product_model->getProductDetail($id);
 $this->load->view("json",$data);
 }
+
+public function getRecipeDetail()
+{
+$id=$this->input->get_post("id");
+$data["message"]=$this->recipes_model->getRecipeDetail($id);
+$this->load->view("json",$data);
+}
+
 public function getRelatedProduct()
 {
   $id=$this->input->get_post("id");

@@ -778,6 +778,60 @@ for($i=0;$i<count($query);$i++)
  }
 
 
+ function getidbyemail($useremail)
+ {
+	 $query = $this->db->query("SELECT `id` FROM `user`
+	 WHERE `email`='$useremail'")->row();
+				$userid=$query->id;
+	 return $userid;
+ }
+
+
+		function forgotpasswordsubmit($hashcode,$password)
+		{
+				$normalfromhash=base64_decode ($hashcode);
+				$returnvalue=explode("&",$normalfromhash);
+
+
+				$userid=$returnvalue[0];
+				$password=md5($password);
+				$query=$this->db->query("UPDATE `user` SET `password`='$password' WHERE `id`='$userid'");
+
+        $getemailbyid=$this->db->query("SELECT `email` FROM `user` WHERE `id`='$userid'")->row();
+        $email=$getemailbyid->email;
+
+        $this->load->library('email');
+        $this->email->from('amitwohlig@gmail.com', 'Selfcare');
+        $this->email->to($email);
+        $this->email->subject('Access Password Changed');
+
+        $message = "<html>
+
+<body>
+
+  <div style='text-align:center;   width: 50%; margin: 0 auto;'>
+        <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
+        <p style='font-size: 1em;padding-bottom: 10px;'>Your Password Has Been Changed Successfully!!! </p>
+
+    </div>
+    <div style='text-align:center;position: relative;'>
+        <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
+            Thank You
+        </p>
+
+    </div>
+</body>
+
+</html>";
+        $this->email->message($message);
+        $this->email->send();
+	 if(!$query)
+		 return  0;
+	 else
+		 return  1;
+		}
+
+
     function deletecartfromdb($id,$user,$design){
 		//	echo "DELETE FROM `fynx_cart` WHERE `product`='$id' AND `user`='$user' AND `design`='$design'";
     $query=$this->db->query("DELETE FROM `fynx_cart` WHERE `product`='$id' AND `user`='$user' AND `design`='$design'");
