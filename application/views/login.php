@@ -50,6 +50,9 @@
 </head>
 
 <body>
+
+    <?php echo $alerterror;?>
+
     <div class="padding-top">
 <!--
         <div style="text-align:center; color: #fff; font-size: 38px">
@@ -117,6 +120,9 @@
             </form>
         </div>
     </div>
+
+
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>

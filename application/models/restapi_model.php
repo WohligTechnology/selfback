@@ -312,6 +312,7 @@ else {
 						 'price'   => $price,
 						 'image'   => $image,
 							'options' =>array(
+									'status' => $status,
 									'realname' => $productname,
 							)
 			);

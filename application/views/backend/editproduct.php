@@ -93,12 +93,12 @@
                     <label> Category</label>
             </div>
         </div>
-              <div class="row">
+              <!-- <div class="row">
             <div class="input-field col s12 m8">
                 <?php echo form_dropdown('subcategory', $subcategory, set_value('subcategory',$before->subcategory),"id=catid"); ?>
                     <label>Sub Category</label>
             </div>
-        </div>
+        </div> -->
         <!-- <div class="row">
             <div class="input-field col s12 m8">
                 <?php //echo form_dropdown('color', $color, set_value('color',$before->color)); ?>

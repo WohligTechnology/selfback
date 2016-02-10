@@ -12,6 +12,7 @@ class User_model extends CI_Model
 		INNER JOIN `accesslevel` ON `user`.`accesslevel` = `accesslevel`.`id`
 		WHERE `email` LIKE '$username' AND `password` LIKE '$password' AND `status`=1 AND `accesslevel` IN (1,2) ";
 		$row =$this->db->query( $query );
+
 		if ( $row->num_rows() > 0 ) {
 			$row=$row->row();
 			$this->id       = $row->id;
@@ -778,12 +779,15 @@ for($i=0;$i<count($query);$i++)
  }
 
 
- function getidbyemail($useremail)
+ function getidbyemail($email)
  {
 	 $query = $this->db->query("SELECT `id` FROM `user`
-	 WHERE `email`='$useremail'")->row();
+	 WHERE `email`='$email'")->row();
+
 				$userid=$query->id;
+
 	 return $userid;
+
  }
 
 
@@ -795,36 +799,37 @@ for($i=0;$i<count($query);$i++)
 
 				$userid=$returnvalue[0];
 				$password=md5($password);
-				$query=$this->db->query("UPDATE `user` SET `password`='$password' WHERE `id`='$userid'");
+				$q="UPDATE `user` SET `password`='$password' WHERE `id`='$userid'";
+				echo $q;
+				$query=$this->db->query($q);
 
-        $getemailbyid=$this->db->query("SELECT `email` FROM `user` WHERE `id`='$userid'")->row();
-        $email=$getemailbyid->email;
-
-        $this->load->library('email');
-        $this->email->from('amitwohlig@gmail.com', 'Selfcare');
-        $this->email->to($email);
-        $this->email->subject('Access Password Changed');
-
-        $message = "<html>
-
-<body>
-
-  <div style='text-align:center;   width: 50%; margin: 0 auto;'>
-        <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
-        <p style='font-size: 1em;padding-bottom: 10px;'>Your Password Has Been Changed Successfully!!! </p>
-
-    </div>
-    <div style='text-align:center;position: relative;'>
-        <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
-            Thank You
-        </p>
-
-    </div>
-</body>
-
-</html>";
-        $this->email->message($message);
-        $this->email->send();
+//         $getemailbyid=$this->db->query("SELECT `email` FROM `user` WHERE `id`='$userid'")->row();
+//         $email=$getemailbyid->email;
+// 			  $this->load->library('email');
+//         $this->email->from('amitwohlig@gmail.com', 'Selfcare');
+//         $this->email->to($email);
+//         $this->email->subject('Access Password Changed');
+//
+//         $message = "<html>
+//
+// <body>
+//
+//   <div style='text-align:center;   width: 50%; margin: 0 auto;'>
+//         <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
+//         <p style='font-size: 1em;padding-bottom: 10px;'>Your Password Has Been Changed Successfully!!! </p>
+//
+//     </div>
+//     <div style='text-align:center;position: relative;'>
+//         <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
+//             Thank You
+//         </p>
+//
+//     </div>
+// </body>
+//
+// </html>";
+//         $this->email->message($message);
+        // $this->email->send();
 	 if(!$query)
 		 return  0;
 	 else

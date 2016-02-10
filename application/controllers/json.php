@@ -2559,7 +2559,7 @@ public function getsinglesize()
         $data = json_decode(file_get_contents('php://input'), true);
         $email = $data['email'];
         $userid = $this->user_model->getidbyemail($email);
-//        echo "userid=".$userid."end";
+        $data["message"] = $userid;
         if ($userid == '') {
             $data['message'] = 'Not A Valid Email.';
             $this->load->view('json', $data);
@@ -2567,37 +2567,39 @@ public function getsinglesize()
             $hashvalue = base64_encode($userid.'&access');
             $link = "<a href='http://localhost/pav-bhaji/#/resetpassword/$hashvalue'>Click here </a> To Reset Your Password.";
 
-            $this->load->library('email');
-            $this->email->from('pooja.wohlig@gmail.com', 'Access');
-            $this->email->to($email);
-            $this->email->subject('Forgot Password');
-
-            $message = "<html>
-
-<body style=\"background:url('http://magicmirror.in/emaildata/emailer.jpg')no-repeat center; background-size:cover;\">
-    <div style='text-align:center; padding-top: 40px;'>
-        <img src='http://magicmirror.in/emaildata/email.png'>
-    </div>
-    <div style='text-align:center;   width: 50%; margin: 0 auto;'>
-        <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
-        <p style='font-size: 1em;padding-bottom: 10px;'>$link </p>
-
-    </div>
-    <div style='text-align:center;position: relative;'>
-        <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
-            Thank You
-        </p>
-        <img src='http://magicmirror.in/emaildata/magicfooter.png '>
-    </div>
-</body>
-
-</html>";
-            $this->email->message($message);
-            $this->email->send();
-            echo $this->email->print_debugger();
+//             $this->load->library('email');
+//             $this->email->from('pooja.wohlig@gmail.com', 'Access');
+//             $this->email->to($email);
+//             $this->email->subject('Forgot Password');
+//
+//             $message = "<html>
+//
+// <body style=\"background:url('http://magicmirror.in/emaildata/emailer.jpg')no-repeat center; background-size:cover;\">
+//     <div style='text-align:center; padding-top: 40px;'>
+//         <img src='http://magicmirror.in/emaildata/email.png'>
+//     </div>
+//     <div style='text-align:center;   width: 50%; margin: 0 auto;'>
+//         <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
+//         <p style='font-size: 1em;padding-bottom: 10px;'>$link </p>
+//
+//     </div>
+//     <div style='text-align:center;position: relative;'>
+//         <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
+//             Thank You
+//         </p>
+//         <img src='http://magicmirror.in/emaildata/magicfooter.png '>
+//     </div>
+// </body>
+//
+// </html>";
+//             $this->email->message($message);
+//             $this->email->send();
+//             echo $this->email->print_debugger();
 //        $data["message"] = $this->email->print_debugger();
 //        $data["message"] = 'true';
-//        $this->load->view("json", $data);
+ //
+ //
+  $this->load->view("json", $data);
         }
     }
 

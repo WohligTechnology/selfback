@@ -88,14 +88,14 @@
                     <label> Category</label>
             </div>
         </div>
-         <div class="row">
+         <!-- <div class="row">
             <div class="input-field col s12 m6">
                 <select name="subcategory" id="subcategory">
                     <option value="">Select Subcategory</option>
                 </select>
                 <label>Sub Category</label>
             </div>
-        </div>
+        </div> -->
 <!--
         <div class="row">
             <div class="input-field col s12 m8">
