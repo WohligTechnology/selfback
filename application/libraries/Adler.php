@@ -5,14 +5,14 @@ class Adler {
 	{
 		$str ="$MerchantId|$OrderId|$Amount|$URL|$WorkingKey";
 		$adler = 1;
-		$adler = adler32($adler,$str);
+		$adler = $this->adler32($adler,$str);
 		return $adler;
 	}
 
 	function genchecksum($str)
 	{
 		$adler = 1;
-		$adler = adler32($adler,$str);
+		$adler = $this->adler32($adler,$str);
 		return $adler;
 	}
 
@@ -33,7 +33,7 @@ class Adler {
 			$s1 = ($s1 + Ord($str[$i])) % $BASE ;
 			$s2 = ($s2 + $s1) % $BASE ;
 		}
-		return leftshift($s2 , 16) + $s1;
+		return $this->leftshift($s2 , 16) + $s1;
 	}
 
 	function leftshift($str , $num)
@@ -50,7 +50,7 @@ class Adler {
 			$str = substr($str , 1 ) ;
 			//echo "str : $str <BR>";
 		}
-		return cdec($str) ;
+		return $this->cdec($str) ;
 	}
 
 	function cdec($num)

@@ -2559,7 +2559,7 @@ public function getsinglesize()
         $data = json_decode(file_get_contents('php://input'), true);
         $email = $data['email'];
         $userid = $this->user_model->getidbyemail($email);
-        $data["message"] = $userid;
+//        echo "userid=".$userid."end";
         if ($userid == '') {
             $data['message'] = 'Not A Valid Email.';
             $this->load->view('json', $data);
@@ -2567,39 +2567,37 @@ public function getsinglesize()
             $hashvalue = base64_encode($userid.'&access');
             $link = "<a href='http://localhost/pav-bhaji/#/resetpassword/$hashvalue'>Click here </a> To Reset Your Password.";
 
-//             $this->load->library('email');
-//             $this->email->from('pooja.wohlig@gmail.com', 'Access');
-//             $this->email->to($email);
-//             $this->email->subject('Forgot Password');
-//
-//             $message = "<html>
-//
-// <body style=\"background:url('http://magicmirror.in/emaildata/emailer.jpg')no-repeat center; background-size:cover;\">
-//     <div style='text-align:center; padding-top: 40px;'>
-//         <img src='http://magicmirror.in/emaildata/email.png'>
-//     </div>
-//     <div style='text-align:center;   width: 50%; margin: 0 auto;'>
-//         <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
-//         <p style='font-size: 1em;padding-bottom: 10px;'>$link </p>
-//
-//     </div>
-//     <div style='text-align:center;position: relative;'>
-//         <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
-//             Thank You
-//         </p>
-//         <img src='http://magicmirror.in/emaildata/magicfooter.png '>
-//     </div>
-// </body>
-//
-// </html>";
-//             $this->email->message($message);
-//             $this->email->send();
-//             echo $this->email->print_debugger();
+            $this->load->library('email');
+            $this->email->from('pooja.wohlig@gmail.com', 'Access');
+            $this->email->to($email);
+            $this->email->subject('Forgot Password');
+
+            $message = "<html>
+
+<body style=\"background:url('http://magicmirror.in/emaildata/emailer.jpg')no-repeat center; background-size:cover;\">
+    <div style='text-align:center; padding-top: 40px;'>
+        <img src='http://magicmirror.in/emaildata/email.png'>
+    </div>
+    <div style='text-align:center;   width: 50%; margin: 0 auto;'>
+        <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
+        <p style='font-size: 1em;padding-bottom: 10px;'>$link </p>
+
+    </div>
+    <div style='text-align:center;position: relative;'>
+        <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
+            Thank You
+        </p>
+        <img src='http://magicmirror.in/emaildata/magicfooter.png '>
+    </div>
+</body>
+
+</html>";
+            $this->email->message($message);
+            $this->email->send();
+            echo $this->email->print_debugger();
 //        $data["message"] = $this->email->print_debugger();
 //        $data["message"] = 'true';
- //
- //
-  $this->load->view("json", $data);
+//        $this->load->view("json", $data);
         }
     }
 
@@ -2963,23 +2961,75 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 
 
     public function payumoneysuccess()
-   {
-     $workingKey='825cors0t20vgfolcm9adon2ixpz2qll';		//Working Key should be provided here.
-     $encResponse=$_POST;	//This is the response sent by the CCAvenue Server
-     echo "hey";
-     print_r($_POST);
-     echo "dfasdaf";
-     if ($encResponse["AuthDesc"] == Y) {
-       $responsecode = 0;
-     }else {
-       $responsecode = 1;
-     }
-     $orderid = $encResponse['Order_Id'];
-     $transactionid = $encResponse['nb_order_no'];
-     $amount = $encResponse['Amount'];
-    $data['message'] = $this->restapi_model->updateorderstatusafterpayment($orderid, $transactionid, $responsecode,$amount);
+     {
+       $workingKey='825cors0t20vgfolcm9adon2ixpz2qll';		//Working Key should be provided here.
+       $encResponse=$_POST["encResponse"];	//This is the response sent by the CCAvenue Server
+       $rcvdString=$this->aes->decrypt($encResponse,$workingKey);		//AES Decryption used as per the specified working key.
+  echo $rcvdString;
+     	$AuthDesc="";
+     	$MerchantId="";
+     	$OrderId="";
+     	$Amount=0;
+     	$Checksum=0;
+     	$veriChecksum=false;
 
-   }
+     	$decryptValues=explode('&', $rcvdString);
+     	$dataSize=sizeof($decryptValues);
+     	//******************************    Messages based on Checksum & AuthDesc   **********************************//
+     	echo "<center>";
+
+
+     	for($i = 0; $i < $dataSize; $i++)
+     	{
+     		$information=explode('=',$decryptValues[$i]);
+     		if($i==0)	$MerchantId=$information[1];
+     		if($i==1)	$OrderId=$information[1];
+     		if($i==2)	$Amount=$information[1];
+     		if($i==3)	$AuthDesc=$information[1];
+     		if($i==4)	$Checksum=$information[1];
+     	}
+
+     	$rcvdString=$MerchantId.'|'.$OrderId.'|'.$Amount.'|'.$AuthDesc.'|'.$workingKey;
+     	$veriChecksum=$this->adler->verifyChecksum($this->adler->genchecksum($rcvdString), $Checksum);
+
+     	if($veriChecksum==TRUE && $AuthDesc==="Y")
+     	{
+     		echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
+
+     		//Here you need to put in the routines for a successful
+     		//transaction such as sending an email to customer,
+     		//setting database status, informing logistics etc etc
+     	}
+     	else if($veriChecksum==TRUE && $AuthDesc==="B")
+     	{
+     		echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
+
+     		//Here you need to put in the routines/e-mail for a  "Batch Processing" order
+     		//This is only if payment for this transaction has been made by an American Express Card
+     		//since American Express authorisation status is available only after 5-6 hours by mail from ccavenue and at the "View Pending Orders"
+     	}
+     	else if($veriChecksum==TRUE && $AuthDesc==="N")
+     	{
+     		echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
+
+     		//Here you need to put in the routines for a failed
+     		//transaction such as sending an email to customer
+     		//setting database status etc etc
+     	}
+     	else
+     	{
+     		echo "<br>Security Error. Illegal access detected";
+
+     		//Here you need to simply ignore this and dont need
+     		//to perform any operation in this condition
+     	}
+
+       $orderid = $encResponse['Order_Id'];
+       $transactionid = $encResponse['nb_order_no'];
+       $amount = $encResponse['Amount'];
+      //$data['message'] = $this->restapi_model->updateorderstatusafterpayment($orderid, $transactionid, $responsecode,$amount);
+
+     }
 
     public function uploadImage()
     {

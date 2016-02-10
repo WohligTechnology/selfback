@@ -12,13 +12,13 @@ class Aes {
 
 	function encrypt($plainText,$key)
 	{
-		$secretKey = hextobin(md5($key));
+		$secretKey = $this->hextobin(md5($key));
 		$initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
 
 	 	/* Open module and Create IV (Intialization Vector) */
 	  	$openMode = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '','cbc', '');
 	  	$blockSize = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, 'cbc');
-		$plainPad = pkcs5_pad($plainText, $blockSize);
+		$plainPad = $this->pkcs5_pad($plainText, $blockSize);
 
 		/* Initialize encryption handle */
 	  	 if (mcrypt_generic_init($openMode, $secretKey, $initVector) != -1)
@@ -29,15 +29,14 @@ class Aes {
 
 		}
 
-		return bin2hex($encryptedText);
+		return $this->bin2hex($encryptedText);
 	}
 
 	function decrypt($encryptedText,$key)
 	{
-		$secretKey = hextobin(md5($key));
+		$secretKey = $this->hextobin(md5($key));
 		$initVector = pack("C*", 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f);
-		$encryptedText=hextobin($encryptedText);
-
+		$encryptedText=$this->hextobin($encryptedText);
 	   	/* Open module, and create IV */
 	  	$openMode = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '','cbc', '');
 
@@ -79,7 +78,7 @@ class Aes {
 			$binString=$packedString;
 		    }
 
-		    else 
+		    else
 		    {
 			$binString.=$packedString;
 		    }
