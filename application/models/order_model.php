@@ -113,7 +113,7 @@ class order_model extends CI_Model
          foreach ($carts as $cart) {
              $querycart = $this->db->query("INSERT INTO `fynx_orderitem`(`order`, `product`, `quantity`,`status`, `price`, `finalprice`,`design`) VALUES ('$order','".$cart['id']."','".$cart['qty']."','".$cart['status']."','".$cart['price']."','".$cart['subtotal']."','".$cart['design']."')");
 
-             print_r($querycart);
+             //print_r($querycart);
              $quantity = intval($cart['qty']);
              $productid = $cart['id'];
              $this->db->query("UPDATE `fynx_product` SET `fynx_product`.`quantity`=`fynx_product`.`quantity`-$quantity WHERE `fynx_product`.`id`='$productid'");

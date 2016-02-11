@@ -1952,7 +1952,7 @@ public function getsinglesize()
     }
     public function totalitemcart()
     {
-        $data['message'] = $this->cart->total_items();
+        $data['message'] =$this->user_model->totalitemcart();
         $this->load->view('json', $data);
     }
     public function searchbyname()
@@ -2560,12 +2560,15 @@ public function getsinglesize()
         $email = $data['email'];
         $userid = $this->user_model->getidbyemail($email);
 //        echo "userid=".$userid."end";
+
         if ($userid == '') {
-            $data['message'] = 'Not A Valid Email.';
+            $data['message'] = new stdClass();
+            $data['message']->value = 'noemail';
             $this->load->view('json', $data);
         } else {
             $hashvalue = base64_encode($userid.'&access');
             $link = "<a href='http://localhost/pav-bhaji/#/resetpassword/$hashvalue'>Click here </a> To Reset Your Password.";
+
 
             $this->load->library('email');
             $this->email->from('pooja.wohlig@gmail.com', 'Access');
@@ -2594,10 +2597,10 @@ public function getsinglesize()
 </html>";
             $this->email->message($message);
             $this->email->send();
-            echo $this->email->print_debugger();
-//        $data["message"] = $this->email->print_debugger();
-//        $data["message"] = 'true';
-//        $this->load->view("json", $data);
+
+            $data['message'] = new stdClass();
+            $data['message']->value = true;
+       $this->load->view("json", $data);
         }
     }
 
@@ -2987,6 +2990,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
      		if($i==2)	$Amount=$information[1];
      		if($i==3)	$AuthDesc=$information[1];
      		if($i==4)	$Checksum=$information[1];
+        if($i==22)$nb_bid=$information[1];
+        if($i==23)$nb_order_no=$information[1];
      	}
 
      	$rcvdString=$MerchantId.'|'.$OrderId.'|'.$Amount.'|'.$AuthDesc.'|'.$workingKey;
@@ -2995,7 +3000,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
      	if($veriChecksum==TRUE && $AuthDesc==="Y")
      	{
      		echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
-
+        $responsecode=2;
      		//Here you need to put in the routines for a successful
      		//transaction such as sending an email to customer,
      		//setting database status, informing logistics etc etc
@@ -3003,7 +3008,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
      	else if($veriChecksum==TRUE && $AuthDesc==="B")
      	{
      		echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
-
+        $responsecode=2;
      		//Here you need to put in the routines/e-mail for a  "Batch Processing" order
      		//This is only if payment for this transaction has been made by an American Express Card
      		//since American Express authorisation status is available only after 5-6 hours by mail from ccavenue and at the "View Pending Orders"
@@ -3011,7 +3016,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
      	else if($veriChecksum==TRUE && $AuthDesc==="N")
      	{
      		echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
-
+        $responsecode=5;
      		//Here you need to put in the routines for a failed
      		//transaction such as sending an email to customer
      		//setting database status etc etc
@@ -3023,11 +3028,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
      		//Here you need to simply ignore this and dont need
      		//to perform any operation in this condition
      	}
-
-       $orderid = $encResponse['Order_Id'];
-       $transactionid = $encResponse['nb_order_no'];
-       $amount = $encResponse['Amount'];
-      //$data['message'] = $this->restapi_model->updateorderstatusafterpayment($orderid, $transactionid, $responsecode,$amount);
+      $data['message'] = $this->restapi_model->updateorderstatusafterpayment($OrderId,$nb_bid, $nb_order_no, $responsecode,$Amount);
 
      }
 

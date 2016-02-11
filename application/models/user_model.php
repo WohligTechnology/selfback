@@ -33,6 +33,35 @@ class User_model extends CI_Model
 	}
 
 
+public function totalitemcart()
+{
+	  $userid = $this->session->userdata('id');
+		if($userid=="")
+		{
+			  $qty= $this->cart->total_items();
+				return $qty;
+		}
+		else {
+$total = $this->db->query("SELECT SUM(`quantity`) as `qty` FROM `fynx_cart` WHERE `user` = '$userid'")->row();
+return intval($total->qty);
+		}
+}
+
+
+public function totalcart()
+{
+// 	  $userid = $this->session->userdata('id');
+// 		if($userid=="")
+// 		{
+// 			  $total= $this->cart->total();
+// 				return $total;
+// 		}
+// 		else {
+// $total = $this->db->query("SELECT SUM(`fynx_product`.`price`*`fynx_cart`.`quantity`) as 'sum' FROM `fynx_product` LEFT OUTER JOIN `fynx_cart` ON `fynx_product`.`id`=`fynx_cart`.`product` WHERE `fynx_cart`.`user`='$userid' AND `fynx_cart`.`status`=0")->row();
+// return intval($total->sum);
+		// }
+}
+
 	public function create($name,$email,$password,$accesslevel,$status,$socialid,$logintype,$image,$json,$firstname,$lastname,$phone,$billingaddress,$billingcity,$billingstate,$billingcountry,$billingpincode,$billingcontact,$shippingaddress,$shippingcity,$shippingstate,$shippingcountry,$shippingpincode,$shippingcontact,$shippingname,$currency,$credit,$companyname,$registrationno,$vatnumber,$country,$fax,$gender,$billingline1,$billingline2,$billingline3,$shippingline1,$shippingline2,$shippingline3)
 	{
 		$data  = array(
@@ -799,37 +828,37 @@ for($i=0;$i<count($query);$i++)
 
 				$userid=$returnvalue[0];
 				$password=md5($password);
-				$q="UPDATE `user` SET `password`='$password' WHERE `id`='$userid'";
-				echo $q;
-				$query=$this->db->query($q);
 
-//         $getemailbyid=$this->db->query("SELECT `email` FROM `user` WHERE `id`='$userid'")->row();
-//         $email=$getemailbyid->email;
+
+				$query=$this->db->query("UPDATE `user` SET `password`='$password' WHERE `id`='$userid'");
+
+        $getemailbyid=$this->db->query("SELECT `email` FROM `user` WHERE `id`='$userid'")->row();
+        $email=$getemailbyid->email;
 // 			  $this->load->library('email');
-//         $this->email->from('amitwohlig@gmail.com', 'Selfcare');
-//         $this->email->to($email);
-//         $this->email->subject('Access Password Changed');
-//
-//         $message = "<html>
-//
-// <body>
-//
-//   <div style='text-align:center;   width: 50%; margin: 0 auto;'>
-//         <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
-//         <p style='font-size: 1em;padding-bottom: 10px;'>Your Password Has Been Changed Successfully!!! </p>
-//
-//     </div>
-//     <div style='text-align:center;position: relative;'>
-//         <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
-//             Thank You
-//         </p>
-//
-//     </div>
-// </body>
-//
-// </html>";
-//         $this->email->message($message);
-        // $this->email->send();
+        $this->email->from('amitwohlig@gmail.com', 'Selfcare');
+        $this->email->to($email);
+        $this->email->subject('Access Password Changed');
+
+        $message = "<html>
+
+<body>
+
+  <div style='text-align:center;   width: 50%; margin: 0 auto;'>
+        <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
+        <p style='font-size: 1em;padding-bottom: 10px;'>Your Password Has Been Changed Successfully!!! </p>
+
+    </div>
+    <div style='text-align:center;position: relative;'>
+        <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
+            Thank You
+        </p>
+
+    </div>
+</body>
+
+</html>";
+        $this->email->message($message);
+        $this->email->send();
 	 if(!$query)
 		 return  0;
 	 else

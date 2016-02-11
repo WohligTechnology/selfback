@@ -121,9 +121,9 @@ class restapi_model extends CI_Model
     $query=$this->db->query("SELECT `id`, `name`, `link` as `url`, `target`, `status`, `image` as `src`, `template`, `class`, `text`, `centeralign` as `centerAlign` FROM `fynx_homeslide` WHERE `status`=1")->result();
         return $query;
     }
-    public function getorderbyorderid($id){
-    $query=$this->db->query("SELECT `transactionid` FROM `fynx_order` WHERE `id`='$id'")->row();
-    $query->amount=$this->db->query("SELECT SUM(`finalprice`) as `amount` FROM `fynx_orderitem` WHERE `order`='$id'")->row();
+    public function getorderbyorderid($orderid){
+    $query=$this->db->query("SELECT `transactionid` FROM `fynx_order` WHERE `id`='$orderid'")->row();
+    $query->amount=$this->db->query("SELECT SUM(`finalprice`) as `amount` FROM `fynx_orderitem` WHERE `order`='$orderid'")->row();
         return $query;
     }
 
@@ -351,11 +351,24 @@ else {
 								$checkcart=$this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct' and `status`=0");
 								 if ( $checkcart->num_rows() > 0 )
 								 {
-										 //already in cart
+										//  //already in cart
+										// 		 $object = new stdClass();
+										// 		 $object->value = false;
+										// 		 $object->comment = 'already in cart';
+										// 		 return $object;
+										$queryupdate=$this->db->query("UPDATE `fynx_cart` SET `quantity`='$quantity' WHERE `user`='$userid' AND `product`='$exactproduct' and `status`=0");
+										$this->cart->insert($data);
+										if($queryupdate){
+												 $object = new stdClass();
+												 $object->value = true;
+												 return $object;
+												}
+										else{
 												 $object = new stdClass();
 												 $object->value = false;
-												 $object->comment = 'already in cart';
+												 $object->comment = 'Internal Server Error';
 												 return $object;
+										}
 								 }
 								else{
 
@@ -392,7 +405,7 @@ else {
 
 								//PRODUCT DETAIL
 															//CHECK IF PRODUCT ALREADY THERE IN CART
-								$checkcart=$this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct'  and `status`=2");
+								$checkcart=$this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct'  and `status`=3");
 								 if ( $checkcart->num_rows() > 0 )
 								 {
 										 //already in cart
@@ -421,46 +434,46 @@ else {
 								}
 						}
 
-						else
-						{
-
-								$checkcartagain=$this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct'");
-									if ( $checkcartagain->num_rows() > 0 )
-								 {
-												//UPDATE DATABASE CART
-
-										$queryupdate=$this->db->query("UPDATE `fynx_cart` SET `quantity`='$quantity' WHERE `user`='$userid' AND `product`='$exactproduct' and `status`=0");
-										$this->cart->insert($data);
-										if($queryupdate){
-												 $object = new stdClass();
-												 $object->value = true;
-												 return $object;
-												}
-										else{
-												 $object = new stdClass();
-												 $object->value = false;
-												 $object->comment = 'Internal Server Error';
-												 return $object;
-										}
-								 }
-								else{
-										 // INSERT PRODUCT IN CART
-												$query=$this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`,`design`) VALUES ('$userid','$exactproduct','$quantity',NULL,'$design')");
-										$this->cart->insert($data);
-										if($query){
-												 $object = new stdClass();
-												 $object->value = true;
-												return $object;
-												}
-										else{
-												$object = new stdClass();
-												 $object->value = false;
-												 $object->comment = 'Internal Server Error';
-												return $object;
-												}
-								}
-
-						}
+						// else
+						// {
+						//
+						// 		$checkcartagain=$this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct'");
+						// 			if ( $checkcartagain->num_rows() > 0 )
+						// 		 {
+						// 						//UPDATE DATABASE CART
+						//
+						// 				$queryupdate=$this->db->query("UPDATE `fynx_cart` SET `quantity`='$quantity' WHERE `user`='$userid' AND `product`='$exactproduct' and `status`=0");
+						// 				$this->cart->insert($data);
+						// 				if($queryupdate){
+						// 						 $object = new stdClass();
+						// 						 $object->value = true;
+						// 						 return $object;
+						// 						}
+						// 				else{
+						// 						 $object = new stdClass();
+						// 						 $object->value = false;
+						// 						 $object->comment = 'Internal Server Error';
+						// 						 return $object;
+						// 				}
+						// 		 }
+						// 		else{
+						// 				 // INSERT PRODUCT IN CART
+						// 						$query=$this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`,`design`) VALUES ('$userid','$exactproduct','$quantity',NULL,'$design')");
+						// 				$this->cart->insert($data);
+						// 				if($query){
+						// 						 $object = new stdClass();
+						// 						 $object->value = true;
+						// 						return $object;
+						// 						}
+						// 				else{
+						// 						$object = new stdClass();
+						// 						 $object->value = false;
+						// 						 $object->comment = 'Internal Server Error';
+						// 						return $object;
+						// 						}
+						// 		}
+						//
+						// }
 
 				}
 
@@ -542,33 +555,26 @@ function removeFromCart($cart)
         return 0;
         }
     }
-		public function updateorderstatusafterpayment($orderid,$transactionid,$responsecode,$amount)
+		public function updateorderstatusafterpayment($OrderId,$nb_bid, $nb_order_no, $responsecode,$Amount)
         {
-            if($responsecode==0)
-            {
+
              $checkamt=$this->db->query("SELECT IFNULL(SUM(`price`),0) as `totalamount` FROM `fynx_orderitem` WHERE `order`='$orderid'")->row();
                 $totalamount=$checkamt->totalamount;
                 if($totalamount==$amount){
-                    $query1=$this->db->query("UPDATE `fynx_order` SET `orderstatus`=2,`transactionid`='$transactionid' WHERE `id`='$orderid'");
+                    $query1=$this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`nb_bid`='$nb_bid',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
              // DESTROY CART
-                    $getuser=$this->db->query("SELECT `user` FROM `fynx_order` WHERE `id`='$orderid'")->row();
+                    $getuser=$this->db->query("SELECT `user` FROM `fynx_order` WHERE `id`='$OrderId'")->row();
                     $user=$getuser->user;
                     $this->cart->destroy();
                     $deletecart=$this->db->query("DELETE FROM `fynx_cart` WHERE `user`='$user'");
-            redirect("http://wohlig.co.in/selfcare/#/thankyou/".$orderid);
+            redirect("http://wohlig.co.in/selfcare/#/thankyou/".$OrderId);
                 }
                 else{
-                      $query=$this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$transactionid' WHERE `id`='$orderid'");
-            redirect("http://wohlig.co.in/selfcare/#/wentwrong/".$orderid);
+                      $query=$this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
+            redirect("http://wohlig.co.in/selfcare/#/wentwrong/".$OrderId);
                 }
 
 
-            }
-            else
-            {
-            $query=$this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$transactionid' WHERE `id`='$orderid'");
-            redirect("http://wohlig.co.in/selfcare/#/wentwrong/".$orderid);
-            }
 }
 public function checkproductquantity($prodid)
 {
