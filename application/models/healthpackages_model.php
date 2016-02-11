@@ -44,45 +44,44 @@ else {
  // // $plan->subplans->status = true;
  //        }
 
- $userid=$this->session->userdata('id');
-      if($userid=="")
-           {
-             $cart = $this->cart->contents();
-             $newcart = array();
-             foreach ($cart as $item) {
-
-                 array_push($newcart, $item);
-             }
-             $data['message'] = $newcart;
-             $i=0;
-               foreach($data['message'] as $key=>$element)
-               {
-                    $status=$element["options"]["status"];
-                   if($status==3)
-                   {
-                     $plan->subplans[$i]->status = true;
-                   }
-
-                   $i++;
-               }
-           }
-           else {
-
-             foreach($plan->subplans  as $subplan)
-               {
-                 $chkplan=$this->db->query("select * from `fynx_cart` where `user`= '$userid' and `product`='$subplan->id'")->row();
-
-               if (!empty($chkplan))
-               {
-
-                 $return->status=true;
-               }
-               else {
-                  $return->status=false;
-               }
-                $subplan->status=$return->status;
-               }
-            }
+ // $userid=$this->session->userdata('id');
+ //      if($userid=="")
+ //           {
+ //             $cart = $this->cart->contents();
+ //             $newcart = array();
+ //             foreach ($cart as $item) {
+ //
+ //                 array_push($newcart, $item);
+ //             }
+ //             $data['message'] = $newcart;
+ //            //  $i=0;
+ //            //    foreach($data['message'] as $key=>$element)
+ //            //    {
+ //            //         $status=$element["options"]["status"];
+ //            //        if($status==3)
+ //            //        {
+ //            //          $plan->subplans[$i]->status = true;
+ //            //        }
+ //            //        $i++;
+ //            //    }
+ //           }
+ //           else {
+ //
+ //             foreach($plan->subplans  as $subplan)
+ //               {
+ //                 $chkplan=$this->db->query("SELECT * FROM `fynx_cart` where `user`= '$userid' AND `product`='$subplan->id' AND `status`=3")->row();
+ //
+ //               if (!empty($chkplan))
+ //               {
+ //
+ //                 $return->status=true;
+ //               }
+ //               else {
+ //                  $return->status=false;
+ //               }
+ //                $subplan->status=$return->status;
+ //               }
+ //            }
 
             }
 

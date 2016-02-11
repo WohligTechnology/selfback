@@ -260,22 +260,12 @@ else {
 		{
 					$getexactproduct=$this->db->query("SELECT * FROM `plans` WHERE `id`='$product'")->row();
 	$exactproduct=$getexactproduct->id;
+		$packageid=$getexactproduct->packageid;
 	$price=$getexactproduct->price_in_INR;
 		$productname=$getexactproduct->plan;
 	$price=floatval($price);
+$subtype= $this->db->query("SELECT `selftables_subtype`.`name` as 'name' FROM `selftables_healthpackages` INNER JOIN `selftables_subtype` ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `selftables_healthpackages`.`id`='$exactproduct'")->row();
 
-
-	// $data = array(
-	// 			 'id'      => $exactproduct,
-	// 			 'name'      => 1,
-	// 			 'qty'     => 1,
-	//  			'price'   => $price,
-	// 			 'image'   => 0,
-	// 				'options' =>array(
-	// 						'status' => $status,
-	// 						'realname' => $productname,
-	// 				)
-	// );
 
 	$data = array(
 	               'id'      => $exactproduct,
@@ -284,7 +274,8 @@ else {
 	               'name'    => $productname,
 								 'options' =>array(
 							 							'status' => $status,
-							 							'realname' => $productname,
+														'subtype' => $subtype->name,
+							 							'plan' => $productname,
 							 					)
 	            );
 
@@ -479,11 +470,14 @@ else {
 
 }
 
-function removeFromCart($cart)
+function removeFromCart($cart,$status)
 {
 		$user = $this->session->userdata('id');
 		if($user!=''){
-				$deletecart=$this->db->query("DELETE FROM `fynx_cart` WHERE `product`='$cart' AND `user`='$user'");
+
+	$deletecart=$this->db->query("DELETE FROM `fynx_cart` WHERE `product`='$cart' AND `user`='$user'AND `status`='$status'");
+
+
 				if($deletecart)
 				{
 						$object = new stdClass();

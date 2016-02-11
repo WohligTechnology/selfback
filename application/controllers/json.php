@@ -1935,7 +1935,8 @@ public function getsinglesize()
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $cart = $data['cart'];
-        $data['message'] = $this->restapi_model->removeFromCart($cart);
+          $status = $data['status'];
+        $data['message'] = $this->restapi_model->removeFromCart($cart,$status);
         $this->load->view('json', $data);
     }
 
@@ -2567,7 +2568,7 @@ public function getsinglesize()
             $this->load->view('json', $data);
         } else {
             $hashvalue = base64_encode($userid.'&access');
-            $link = "<a href='http://localhost/pav-bhaji/#/resetpassword/$hashvalue'>Click here </a> To Reset Your Password.";
+            $link = "<a href='http://wohlig.co.in/selfcare//#/resetpassword/$hashvalue'>Click here </a> To Reset Your Password.";
 
 
             $this->load->library('email');
@@ -2577,10 +2578,8 @@ public function getsinglesize()
 
             $message = "<html>
 
-<body style=\"background:url('http://magicmirror.in/emaildata/emailer.jpg')no-repeat center; background-size:cover;\">
-    <div style='text-align:center; padding-top: 40px;'>
-        <img src='http://magicmirror.in/emaildata/email.png'>
-    </div>
+<body>
+
     <div style='text-align:center;   width: 50%; margin: 0 auto;'>
         <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
         <p style='font-size: 1em;padding-bottom: 10px;'>$link </p>
@@ -2590,7 +2589,7 @@ public function getsinglesize()
         <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
             Thank You
         </p>
-        <img src='http://magicmirror.in/emaildata/magicfooter.png '>
+
     </div>
 </body>
 
@@ -2824,7 +2823,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
     public function showCart()
     {
         $userid = $this->session->userdata('id');
-        if ($userid != '') {
+
+            if ($userid != '') {
             $data['message'] = $this->user_model->showCart($userid);
         }
         else
@@ -2834,7 +2834,15 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
             foreach ($cart as $item) {
                 array_push($newcart, $item);
             }
+
             $data['message'] = $newcart;
+            foreach($data['message'] as $key=>$element)
+            {
+              // print_r($data['message'][$key]["options"]);
+                $proid=$element["id"];
+                $data['message'][$key]["status"] = $data['message'][$key]["options"]["status"];
+                $data['message'][$key]["subtype"] = $data['message'][$key]["options"]["subtype"];
+            }
         }
         foreach($data['message'] as $key=>$element)
         {

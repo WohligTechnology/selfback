@@ -66,7 +66,7 @@ if($myserver != "localhost")
     //  $db['default']['dbdriver'] = 'mysql';
     $db['default']['username'] = 'root';
     $db['default']['password'] = '';
-    $db['default']['database'] = 'selfcare';
+    $db['default']['database'] = 'tingwork_self';
     $db['default']['dbdriver'] = 'mysqli';
     $db['default']['dbprefix'] = '';
     $db['default']['pconnect'] = TRUE;
@@ -84,7 +84,7 @@ else
     $db['default']['hostname'] = 'localhost';
     $db['default']['username'] = 'root';
     $db['default']['password'] = '';
-    $db['default']['database'] = 'selfcare';
+    $db['default']['database'] = 'tingwork_self';
     $db['default']['dbdriver'] = 'mysqli';
     $db['default']['dbprefix'] = '';
     $db['default']['pconnect'] = TRUE;

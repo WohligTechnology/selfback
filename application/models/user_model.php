@@ -655,7 +655,7 @@ public function totalcart()
 
 				if($query->num_rows > 0)
         {
-            $user=$query->row();
+            $user=$query->row_array();
             // $userid=$user->id;
             // $firstname=$user->firstname;
             // $lastname=$user->lastname;
@@ -787,7 +787,7 @@ public function totalcart()
 public function showCart($user)
 {
 
-$query1=$this->db->query("SELECT `fynx_cart`.`user`,`fynx_cart`.`status`, `fynx_cart`.`quantity` as `qty`, `fynx_cart`.`product` as `id`, `plans`.`price_in_INR` as 'price',`plans`.`plan`,`selftables_subtype`.`name` as 'subtype',`selftables_healthpackages`.`months`,`plans`.`description` FROM
+$query1=$this->db->query("SELECT `fynx_cart`.`user`,`fynx_cart`.`product` as `id`,`fynx_cart`.`quantity` as `qty`, `plans`.`price_in_INR` as 'price',`plans`.`price_in_INR` as `subtotal`,`fynx_cart`.`status`,  `plans`.`plan`,`selftables_subtype`.`name` as `subtype`,`selftables_healthpackages`.`months` FROM
  `fynx_cart` LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_cart`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id`
 		 WHERE `fynx_cart`.`user`='$user' AND `fynx_cart`.`status`=3")->result_array();
 
