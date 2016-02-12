@@ -9,18 +9,169 @@ class restapi_model extends CI_Model
         $num=$query1->num_rows();
         if($num>0)
         {
-        $object = new stdClass();
-				$object->value = false;
-				$object->comment = 'already exists';
-			 return $object;
+            $object = new stdClass();
+            $object->value = false;
+            $object->comment = 'already exists';
+            return $object;
         }
-        else{
-        $this->db->query("INSERT INTO `subscribe`(`email`) VALUE('$email')");
-        $id=$this->db->insert_id();
+        else
+        {
+            $this->db->query("INSERT INTO `subscribe`(`email`) VALUE('$email')");
+            $id=$this->db->insert_id();
+         
 
-        $object = new stdClass();
+            require_once 'src/Mandrill.php'; 
+
+            try {
+                $mandrill = new Mandrill('T_B0nGkX1PzIzE33-1e0hA');
+                $message = array(
+                'html' => '<p>test</p>',
+                'text' => 'Example text content',
+                'subject' => 'example subject',
+                'from_email' => 'sohan@wohlig.com',
+                'from_name' => 'SelfCare',
+                'to' => array(
+                    array(
+                        'email' => $email,
+                        'name' => 'test name',
+                        'type' => 'to'
+                    )
+                ),
+                'headers' => array('Reply-To' => 'message.reply@example.com'),
+    );
+                $async = false;
+                $result = $mandrill->messages->send($message, $async);
+                print_r($result);
+    /*
+    Array
+    (
+        [0] => Array
+            (
+                [email] => recipient.email@example.com
+                [status] => sent
+                [reject_reason] => hard-bounce
+                [_id] => abc123abc123abc123abc123abc123
+            )
+    
+    )
+    */
+                } catch(Mandrill_Error $e) {
+                    // Mandrill errors are thrown as exceptions
+                    echo 'A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage();
+                    // A mandrill error occurred: Mandrill_Unknown_Subaccount - No subaccount exists with the id 'customer-123'
+                    throw $e;
+                }
+
+            // Send Email
+//<!--
+//%%%%%%%%%%%%%%%%%%%%%%%%%
+//                require_once 'Mandrill.php';
+//                $mandrill = new Mandrill('UrZPs-n-xIpapWNeHB1p1A');
+//
+//                $message = new stdClass();
+//                $message->html = "test";
+//                $message->text = "test";
+//                $message->subject = "email subject";
+//                $message->from_email = "vigwohlig@gmail.com";
+//                $message->from_name  = "Pooja";
+//                $message->to = array(array("email" => $email));
+//                $message->track_opens = true;
+//
+//                $response = $mandrill->messages->send($message);
+//            print_r($response);
+//            echo $response;
+//-->
+//            
+//<!--
+//            %%%%%%%%%%%%%%%%%%%%%%%%%%%
+//             $sender="vigwohlig@gmail.com";
+////        $this->load->library('email');
+//        $this->email->from($sender, 'Demo Alert Mail');
+//        $this->email->to($email);
+//        $this->email->subject('Please find below the credentials');
+//        $message = "<html>
+//   
+//      <p>
+//      <span style='font-size:14px;font-weight:bold;padding:10px 0;'>A simple alert: </span>
+//      <span>Your Package Is Expired...You Cannot Login Any More.</span>
+//      </p>
+//</html>";
+//        $this->email->message($message);
+//        $this->email->send();
+            
+//            %%%%%%%%%%%%%%%%%%
+//            echo "in model";
+//            // SEND EMAIL
+//            
+//            $toemail = $email;
+//            $message2 = "test";
+//
+//            $message3 = "test";
+//
+//
+//            $todaysdate=date("Y-m-d");
+//            try {
+//            $mandrill = new Mandrill('QJWLLAy_9LiJgkdeGDBMUQ');
+//            $message = array(
+//            'html' => $message2,
+//            'text' => $message3
+//                    ,
+//            'subject' => 'Your SelfCare subscription',
+//            'from_email' => 'vinodbeloshe12@gmail.com',
+//            'from_name' => 'SelfCare',
+//            'to' => array(
+//                array(
+//                    'email' => $toemail,
+//                    'name' => "SelfCare",
+//                    'type' => 'to',
+//                ),
+//            ),
+//            'headers' => array('Reply-To' => $email),
+//            'important' => false,
+//            'track_opens' => null,
+//            'track_clicks' => null,
+//            'auto_text' => null,
+//            'auto_html' => null,
+//            'inline_css' => null,
+//            'url_strip_qs' => null,
+//            'preserve_recipients' => null,
+//            'view_content_link' => null,
+//            'tracking_domain' => null,
+//            'signing_domain' => null,
+//            'return_path_domain' => null,
+//            'merge' => true,
+//            'merge_language' => 'mailchimp',
+//            'global_merge_vars' => array(
+//            array(
+//                'name' => 'merge1',
+//                'content' => 'merge1 content',
+//            ),
+//            ),
+//            'merge_vars' => array(
+//            array(
+//                'rcpt' => 'recipient.email@example.com',
+//                'vars' => array(
+//                    array(
+//                        'name' => 'merge2',
+//                        'content' => 'merge2 content',
+//                    ),
+//                ),
+//            ),
+//        ),
+//    );
+//            $async = false;
+//            $result = $mandrill->messages->send($message, $async, $ip_pool);
+//            print_r($result);
+//            }
+//            catch (Mandrill_Error $e) 
+//            {
+//                echo 'A mandrill error occurred: '.get_class($e).' - '.$e->getMessage();
+//                throw $e;
+//            }
+//-->
+                $object = new stdClass();
 				$object->value = true;
-        return $object;
+                return $object;
               }
     }
 
