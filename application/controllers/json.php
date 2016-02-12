@@ -136,7 +136,7 @@ $this->load->view('json', $data);
 public function subscribe()
 {
   $email=$this->input->get_post("email");
-echo "in email";
+
 $data['message'] = $this->restapi_model->subscribe($email);
 $this->load->view('json', $data);
 }
