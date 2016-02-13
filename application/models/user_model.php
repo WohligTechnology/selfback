@@ -810,12 +810,10 @@ for($i=0;$i<count($query);$i++)
 
  function getidbyemail($email)
  {
-	 $query = $this->db->query("SELECT `id` FROM `user`
+	 $query = $this->db->query("SELECT `id`,`firstname`,`lastname` FROM `user`
 	 WHERE `email`='$email'")->row();
 
-				$userid=$query->id;
-
-	 return $userid;
+			 return $query;
 
  }
 
@@ -834,31 +832,62 @@ for($i=0;$i<count($query);$i++)
 
         $getemailbyid=$this->db->query("SELECT `email` FROM `user` WHERE `id`='$userid'")->row();
         $email=$getemailbyid->email;
-// 			  $this->load->library('email');
-        $this->email->from('amitwohlig@gmail.com', 'Selfcare');
-        $this->email->to($email);
-        $this->email->subject('Access Password Changed');
+				$this->load->library('email');
+						 $this->email->from('vigwohlig@gmail.com', 'Selfcare');
+						 $this->email->to($email);
+						 $this->email->subject('Access Password Changed');
 
-        $message = "<html>
+						 $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
+						 <div style='margin:0'>
 
-<body>
+						 <u></u>
+						 <div style='margin:0 auto;width:90%'>
+						 <div style='margin:50px auto;width:80%'>
+						 <div style='text-align:center' align='center'>
+						  <img src='http://wohlig.co.in/selfcare/img/logo.png' alt='Selfcare' class='CToWUd'>
+						 </div>
+						 <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>Manan</span>,</p>
+						 <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for signing up on Selfcare.We are really excited to have you with us!</p>
+						 <p style='color:#000;font-family:Roboto;font-size:20px'>Your Selfcare Registered Email Id is : <a style='color:#000;font-family:Roboto;font-size:20px;text-decoration:none'>manan@ting.in</a></p>
+						 <p style='color:#000;font-family:Roboto;font-size:20px'><a href='http://wohlig.co.in/selfcare/#/home' style='color:#e96542;font-family:Roboto;font-size:20px' target='_blank'>Click Here</a> to return to the website.</p>
+						 <p style='color:#e96542;font-family:Roboto;font-size:20px'>Happy Shopping !</p>
+						 <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
+						 <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
+						 </div>
+						 </div>
+						 <u></u>
+						 <footer style='background:#e96542;padding:10px 0'>
+						 <div style='margin:0 auto;width:90%'>
+						 <div>
+						 <table>
+						 <tbody><tr>
+						 <td style='padding:0 15px'><div>
+						 <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
+						 </div></td>
+						 <td style='padding:0 15px'><div>
+						  <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
+						 </div></td>
+						 <td style='padding:0 15px;vertical-align:middle' valign='middle'>
+						  <div>
+						  <span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
+						  <a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
+						  <a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
+						  <a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
+						  <a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
+						 </div>
+						 </td>
+						 </tr>
+						 </tbody></table>
+						 </div>
+						 </div>
+						 </footer>
+						 </div>
 
-  <div style='text-align:center;   width: 50%; margin: 0 auto;'>
-        <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
-        <p style='font-size: 1em;padding-bottom: 10px;'>Your Password Has Been Changed Successfully!!! </p>
 
-    </div>
-    <div style='text-align:center;position: relative;'>
-        <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
-            Thank You
-        </p>
+						 </div></div></div></body></html>";
+						 $this->email->message($message);
+						 $this->email->send();
 
-    </div>
-</body>
-
-</html>";
-        $this->email->message($message);
-        $this->email->send();
 	 if(!$query)
 		 return  0;
 	 else
@@ -891,34 +920,62 @@ for($i=0;$i<count($query);$i++)
 
 function testmail()
 {
-	echo "mail testing";
     $this->load->library('email');
-				 $this->email->from('amitwohlig@gmail.com', 'Selfcare');
+				 $this->email->from('vigwohlig@gmail.com', 'Selfcare');
 				 $this->email->to('vinodbeloshe12@gmail.com');
 				 $this->email->subject('Access Password Changed');
 
-				 $message = "<html>
+				 $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
+				 <div style='margin:0'>
 
- <body>
+				 <u></u>
+				 <div style='margin:0 auto;width:90%'>
+				 <div style='margin:50px auto;width:80%'>
+				 <div style='text-align:center' align='center'>
+				  <img src='https://ci4.googleusercontent.com/proxy/eN4ZZjoeZRrsqg8zhVo1pzhUqsl4T36qisWUjc0dS1YFVmvqUSZyh0k1fXmUAuZW94l2yGkr_N84Q25T1tJo=s0-d-e1-ft#http://wohlig.co.in/selfcare/img/logo.png' alt='Selfcare' class='CToWUd'>
+				 </div>
+				 <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>Manan</span>,</p>
+				 <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for signing up on Selfcare.We are really excited to have you with us!</p>
+				 <p style='color:#000;font-family:Roboto;font-size:20px'>Your Selfcare Registered Email Id is : <a style='color:#000;font-family:Roboto;font-size:20px;text-decoration:none'>manan@ting.in</a></p>
+				 <p style='color:#000;font-family:Roboto;font-size:20px'><a href='http://wohlig.co.in/selfcare/#/home' style='color:#e96542;font-family:Roboto;font-size:20px' target='_blank'>Click Here</a> to return to the website.</p>
+				 <p style='color:#e96542;font-family:Roboto;font-size:20px'>Happy Shopping !</p>
+				 <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
+				 <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
+				 </div>
+				 </div>
+				 <u></u>
+				 <footer style='background:#e96542;padding:10px 0'>
+				 <div style='margin:0 auto;width:90%'>
+				 <div>
+				 <table>
+				 <tbody><tr>
+				 <td style='padding:0 15px'><div>
+				 <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
+				 </div></td>
+				 <td style='padding:0 15px'><div>
+				  <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
+				 </div></td>
+				 <td style='padding:0 15px;vertical-align:middle' valign='middle'>
+				  <div>
+				  <span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
+				  <a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='https://ci3.googleusercontent.com/proxy/js-s9ABMbuwIWpSykfc3WFqvp-kWWqQiTPF3LxwjhpDe1uoJt7aEuQhR2ZQtpEVE89Q6svLAC4eJnsS86KI4ycfIKeBVEcY5jZd-BQv0U9Q=s0-d-e1-ft#http://www.wohlig.co.in/selfcare/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
+				  <a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='https://ci5.googleusercontent.com/proxy/IPBl3QAFci5S2GSehTUIGl382H9E2Sq4mrR_tpeDJ2_aocb6OMs5SMR70wVPxwB1rCrUJfaa0ixz8efycf_2-R_YFaZk3UICNgLOFtcqug=s0-d-e1-ft#http://www.wohlig.co.in/selfcare/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
+				  <a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='https://ci3.googleusercontent.com/proxy/RFmHDhCeEET2uT5r_6N0Bi1gys0nzF2n8RSGwXmwoIbTEg28eri2cb39DX6vZL5KavLS8HxeQ7kFSMXqz97r_5CiCwZIFTiRnk2H5mc=s0-d-e1-ft#http://www.wohlig.co.in/selfcare/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
+				  <a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='https://ci3.googleusercontent.com/proxy/82WpdaP2YZL30VB9t_qXXiwcBoyY0keTCWdi3jmrGw7UwJSHb-tReZjwhtf6YyU0Kt4qxR6ct-qNTzYii_hETY-707dgkT0wDa7rixWHiw=s0-d-e1-ft#http://www.wohlig.co.in/selfcare/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
+				 </div>
+				 </td>
+				 </tr>
+				 </tbody></table>
+				 </div>
+				 </div>
+				 </footer>
+				 </div>
 
-	 <div style='text-align:center;   width: 50%; margin: 0 auto;'>
-				 <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
-				 <p style='font-size: 1em;padding-bottom: 10px;'>Your Password Has Been Changed Successfully!!! </p>
 
-		 </div>
-		 <div style='text-align:center;position: relative;'>
-				 <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
-						 Thank You
-				 </p>
-
-		 </div>
- </body>
-
- </html>";
+				 </div></div></div></body></html>";
 				 $this->email->message($message);
 				 $this->email->send();
-				 echo $this->email->print_debugger();
- //        $data["message"] = $this->email->print_debugger();
+				// echo $this->email->print_debugger();
 					 $object = new stdClass();
 				 $object->value = true;
 				 $data['message']=$object;
