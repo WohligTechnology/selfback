@@ -264,7 +264,8 @@ else {
 	$price=$getexactproduct->price_in_INR;
 		$productname=$getexactproduct->plan;
 	$price=floatval($price);
-$subtype= $this->db->query("SELECT `selftables_subtype`.`name` as 'name' FROM `selftables_healthpackages` INNER JOIN `selftables_subtype` ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `selftables_healthpackages`.`id`='$exactproduct'")->row();
+	$months= $this->db->query("SELECT `months` as 'months',`subtype` as 'subtype'  FROM `selftables_healthpackages` WHERE `id`='$packageid'")->row();
+$subtype= $this->db->query("SELECT `selftables_subtype`.`name` as 'name' FROM `selftables_healthpackages` INNER JOIN `selftables_subtype` ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `selftables_subtype`.`id`='$months->subtype'")->row();
 
 
 	$data = array(
@@ -276,6 +277,7 @@ $subtype= $this->db->query("SELECT `selftables_subtype`.`name` as 'name' FROM `s
 							 							'status' => $status,
 														'subtype' => $subtype->name,
 							 							'plan' => $productname,
+															'months' => $months->months,
 							 					)
 	            );
 
@@ -408,7 +410,7 @@ $subtype= $this->db->query("SELECT `selftables_subtype`.`name` as 'name' FROM `s
 								else{
 
 								// INSERT PRODUCT IN CART
-												$query=$this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `status`, `timestamp`,`design`) VALUES ('$userid','$exactproduct','$status',NULL,'$design')");
+												$query=$this->db->query("INSERT INTO `fynx_cart`(`user`,`quantity`, `product`, `status`, `timestamp`,`design`) VALUES ('$userid',1,'$exactproduct','$status',NULL,'$design')");
 										$this->cart->insert($data);
 										if($query){
 												 $object = new stdClass();

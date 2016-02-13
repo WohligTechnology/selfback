@@ -10,7 +10,7 @@ class User_model extends CI_Model
 		$password=md5($password);
 		$query ="SELECT `user`.`id`,`user`.`name` as `name`,`email`,`user`.`accesslevel`,`accesslevel`.`name` as `access` FROM `user`
 		INNER JOIN `accesslevel` ON `user`.`accesslevel` = `accesslevel`.`id`
-		WHERE `email` LIKE '$username' AND `password` LIKE '$password' AND `status`=1 AND `accesslevel` IN (1,2) ";
+		WHERE `email` LIKE '$username' AND `password` LIKE '$password' AND `accesslevel` IN (1,2) ";
 		$row =$this->db->query( $query );
 
 		if ( $row->num_rows() > 0 ) {
@@ -887,5 +887,43 @@ for($i=0;$i<count($query);$i++)
         return $image;
 
     }
+
+
+function testmail()
+{
+	echo "mail testing";
+    $this->load->library('email');
+				 $this->email->from('amitwohlig@gmail.com', 'Selfcare');
+				 $this->email->to('vinodbeloshe12@gmail.com');
+				 $this->email->subject('Access Password Changed');
+
+				 $message = "<html>
+
+ <body>
+
+	 <div style='text-align:center;   width: 50%; margin: 0 auto;'>
+				 <h4 style='font-size:1.5em;padding-bottom: 5px;color: #e82a96;'>Forgot Password!</h4>
+				 <p style='font-size: 1em;padding-bottom: 10px;'>Your Password Has Been Changed Successfully!!! </p>
+
+		 </div>
+		 <div style='text-align:center;position: relative;'>
+				 <p style=' position: absolute; top: 8%;left: 50%; transform: translatex(-50%); font-size: 1em;margin: 0; letter-spacing:2px; font-weight: bold;'>
+						 Thank You
+				 </p>
+
+		 </div>
+ </body>
+
+ </html>";
+				 $this->email->message($message);
+				 $this->email->send();
+				 echo $this->email->print_debugger();
+ //        $data["message"] = $this->email->print_debugger();
+					 $object = new stdClass();
+				 $object->value = true;
+				 $data['message']=$object;
+					$this->load->view('json', $data);
+}
+
 }
 ?>

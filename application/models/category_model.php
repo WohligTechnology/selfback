@@ -9,7 +9,7 @@ class category_model extends CI_Model
 
   public function getCategory()
   {
-    $query = $this->db->query("select  `id`,`name` , `image1` as 'categoryimg',`description`,`order` from `fynx_category`")->result();
+    $query = $this->db->query("SELECT  `id`,`name` , `image1` AS 'categoryimg',`description`,`order` FROM `fynx_category`")->result();
     return $query;
   }
 
@@ -22,7 +22,7 @@ class category_model extends CI_Model
 
 
     function getSubCategory($id){
-    $query=$this->db->query("SELECT `id`,`name`,`order` from `fynx_subcategory` WHERE `category` = $id")->result();
+    $query=$this->db->query("SELECT `id`,`name`,`image1` AS 'bannerimg',`order` from `fynx_subcategory` WHERE `category` = $id")->result();
     return $query;
     }
 
@@ -50,6 +50,19 @@ $this->db->where("id",$id);
 $query=$this->db->get("fynx_category")->row();
 return $query;
 }
+
+public function getimage1byid($id)
+{
+$query=$this->db->query("SELECT `image1` FROM `fynx_category` WHERE `id`='$id'")->row();
+return $query;
+}
+public function getimage2byid($id)
+{
+$query=$this->db->query("SELECT `image2` FROM `fynx_category` WHERE `id`='$id'")->row();
+return $query;
+}
+
+
 public function edit($id,$order,$name,$description,$parent,$status,$image1,$image2)
 {
 $data=array("order" => $order,"name" => $name,"description" => $description,"parent" => $parent,"status" => $status);

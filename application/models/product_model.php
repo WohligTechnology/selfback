@@ -6,17 +6,15 @@ class product_model extends CI_Model
 
 
   function getProductDetail($id){
-      $query['product']=$this->db->query("SELECT `id`,`category`,`name`,`price`,`weight`as 'netweight',  `quantity` as 'maxQuantity',`status`,`image1` as 'image', `about`,`nutritionalvalue` as 'nutritional' from `fynx_product` WHERE `id` = $id")->row();
-      $query['relatedproduct']=$this->db->query("SELECT  `fynx_product`.`id` ,  `fynx_product`.`image1` AS  `image` ,  `fynx_product`.`price` ,  `fynx_product`.`name`
+      $query['product']=$this->db->query("SELECT `fynx_product`.`id`,`fynx_product`.`category`,`fynx_product`.`name`,`fynx_product`.`price`,`fynx_product`.`weight`as 'netweight', `fynx_product`.`quantity` AS 'maxQuantity',`fynx_product`.`status`,`fynx_product`.`image1` AS 'image', `fynx_product`.`about`,`fynx_product`.`nutritionalvalue` as 'nutritional', `fynx_subcategory`.`name` AS 'subcategory',`fynx_subcategory`.`image1` as 'bannerimg' FROM `fynx_product` LEFT OUTER JOIN `productcategory` ON `fynx_product`.`id`=`productcategory`.`product` LEFT OUTER JOIN `fynx_subcategory` ON `productcategory`.`subcategory`= `fynx_subcategory`.`id` WHERE `fynx_product`.`id`=$id")->row();
+      // $query['product']=$this->db->query("SELECT `id`,`category`,`name`,`price`,`weight`as 'netweight',  `quantity` as 'maxQuantity',`status`,`image1` as 'image', `about`,`nutritionalvalue` as 'nutritional' from `fynx_product` WHERE `id` = $id")->row();
+      $query['relatedproduct']=$this->db->query("SELECT `fynx_product`.`id` ,  `fynx_product`.`image1` AS  `image` ,  `fynx_product`.`price` ,  `fynx_product`.`name`
 FROM  `fynx_product`
 INNER JOIN  `relatedproduct` ON  `relatedproduct`.`relatedproduct` =  `fynx_product`.`id`
 WHERE  `relatedproduct`.`product` ='$id'")->result();
    return $query;
 
   }
-
-
-
 
 public function create($subcategory,$quantity,$weight,$name,$type,$about,$nutritionalvalue,$visibility,$price,$relatedproduct,$category,$color,$size,$sizechart,$status,$sku,$image1,$image2,$image3,$image4,$image5,$baseproduct,$discountprice)
 {

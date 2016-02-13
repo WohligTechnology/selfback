@@ -19,6 +19,18 @@ $this->db->where("id",$id);
 $query=$this->db->get("fynx_subcategory")->row();
 return $query;
 }
+
+public function getimage1byid($id)
+{
+$query=$this->db->query("SELECT `image1` FROM `fynx_subcategory` WHERE `id`='$id'")->row();
+return $query;
+}
+public function getimage2byid($id)
+{
+$query=$this->db->query("SELECT `image2` FROM `fynx_subcategory` WHERE `id`='$id'")->row();
+return $query;
+}
+
 function getsinglesubcategory($id){
 $this->db->where("id",$id);
 $query=$this->db->get("fynx_subcategory")->row();
@@ -32,7 +44,7 @@ if($image1 != "")
 if($image2 != "")
   $data['image2']=$image2;
 $this->db->where( "id", $id );
-$this->db->where( "id", $id );
+// print_r($data);
 $query=$this->db->update( "fynx_subcategory", $data );
 return 1;
 }

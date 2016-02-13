@@ -27,10 +27,10 @@
                  <label>Status</label>
             </div>
         </div>
-<!-- <div class="row">
+ <div class="row">
 <div class="file-field input-field col s12 m6">
 <div class="btn blue darken-4">
-<span>Image1</span>
+<span>Image</span>
 <input type="file" name="image1" multiple>
 </div>
 <div class="file-path-wrapper">
@@ -38,6 +38,7 @@
 </div>
 </div>
 </div>
+<!--
 <div class="row">
 <div class="file-field input-field col s12 m6">
 <div class="btn blue darken-4">

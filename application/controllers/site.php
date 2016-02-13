@@ -2568,7 +2568,7 @@ $config['upload_path'] = './uploads/';
  }
 if($image1=="")
 			 {
-			 $image1=$this->product_model->getimage1byid($id);
+			 $image1=$this->category_model->getimage1byid($id);
 					// print_r($image);
 					 $image1=$image1->image1;
 			 }
@@ -2581,7 +2581,7 @@ if($image1=="")
  }
 if($image2=="")
 			 {
-			 $image2=$this->product_model->getimage2byid($id);
+			 $image2=$this->category_model->getimage2byid($id);
 					// print_r($image);
 					 $image2=$image2->image2;
 			 }
@@ -3204,8 +3204,8 @@ $category=$this->input->get_post("category");
 $name=$this->input->get_post("name");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
-$image1=$this->input->get_post("image1");
-$image2=$this->input->get_post("image2");
+// $image1=$this->input->get_post("image1");
+// $image2=$this->input->get_post("image2");
 $config['upload_path'] = './uploads/';
  $config['allowed_types'] = 'gif|jpg|png';
  $this->load->library('upload', $config);
@@ -3218,7 +3218,7 @@ $config['upload_path'] = './uploads/';
  }
 if($image1=="")
 			 {
-			 $image1=$this->product_model->getimage1byid($id);
+			 $image1=$this->subcategory_model->getimage1byid($id);
 					// print_r($image);
 					 $image1=$image1->image1;
 			 }
@@ -3231,7 +3231,7 @@ if($image1=="")
  }
 if($image2=="")
 			 {
-			 $image2=$this->product_model->getimage2byid($id);
+			 $image2=$this->subcategory_model->getimage2byid($id);
 					// print_r($image);
 					 $image2=$image2->image2;
 			 }
@@ -5082,6 +5082,12 @@ $elements[9]->field="`selftables_healthpackages`.`subtype`";
 $elements[9]->sort="1";
 $elements[9]->header="subtype";
 $elements[9]->alias="subtype";
+$elements[10]=new stdClass();
+$elements[10]->field="selftables_subtype.`name`";
+$elements[10]->sort="1";
+$elements[10]->header="name";
+$elements[10]->alias="name";
+
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -5096,7 +5102,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_healthpackages`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_healthpackages` INNER JOIN `selftables_subtype` ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id`");
 $this->load->view("json",$data);
 }
 

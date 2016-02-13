@@ -30,7 +30,26 @@
                  <label>Status</label>
             </div>
         </div>
+        <div class="row">
+        			<div class="file-field input-field col m6 s12">
+        				<span class="img-center big image1">
+                           			<?php if ($before->image1 == '') {
+        } else {
+            ?><img src="<?php echo base_url('uploads').'/'.$before->image1;
+            ?>">
+        						<?php
+        } ?></span>
+        				<div class="btn blue darken-4">
+        					<span>Image1</span>
+        					<input name="image1" type="file" multiple>
+        				</div>
+        				<div class="file-path-wrapper">
+        					<input class="file-path validate image11" type="text" placeholder="Upload one or more files" value="<?php echo set_value('image1', $before->image1);?>">
+        				</div>
+        <!--				<div class="md4"><a class="waves-effect waves-light btn red clearimg input-field ">Clear Image</a></div>-->
+        			</div>
 
+        		</div>
 
 <div class="row">
 <div class="col s6">

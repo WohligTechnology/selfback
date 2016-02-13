@@ -13,6 +13,13 @@ class Json extends CI_Controller
   $this->load->view('json', $data);
 }
 
+public function testmail()
+{
+
+$data['message'] = $this->user_model->testmail();
+$this->load->view('json', $data);
+}
+
 
 public function getTvVideo()
 {
@@ -2841,7 +2848,9 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
               // print_r($data['message'][$key]["options"]);
                 $proid=$element["id"];
                 $data['message'][$key]["status"] = $data['message'][$key]["options"]["status"];
+                $data['message'][$key]["plan"] = $data['message'][$key]["options"]["plan"];
                 $data['message'][$key]["subtype"] = $data['message'][$key]["options"]["subtype"];
+                $data['message'][$key]["months"] = $data['message'][$key]["options"]["months"];
             }
         }
         foreach($data['message'] as $key=>$element)
