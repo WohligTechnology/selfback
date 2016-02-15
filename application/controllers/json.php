@@ -142,25 +142,32 @@ public function careersSubmit()
 {
 
   $data = json_decode(file_get_contents('php://input'), true);
-  $name = $data['name'];
-  $email = $data['email'];
-  $mobile = $data['mobile'];
-  $message = $data['message'];
+  $name= $this->input->get_post("name");
+  $email= $this->input->get_post("email");
+  $mobile= $this->input->get_post("mobile");
+  $message= $this->input->get_post("message");
+  $url= $this->input->get_post("url");
+  // $name = $data['name'];
+  // $email = $data['email'];
+  // $mobile = $data['mobile'];
+  // $message = $data['message'];
   $config['upload_path'] = './uploads/';
   $config['allowed_types'] = 'pdf|doc|docx';
   $this->load->library('upload', $config);
-  $filename="pdf";
+  $filename="resume";
   $resume="";
 
   if (  $this->upload->do_upload($filename))
   {
   $uploaddata = $this->upload->data();
-  $pdf=$uploaddata['file_name'];
-  echo $pdf;
+  $resume=$uploaddata['file_name'];
+  //echo $resume;
   		$config_r['source_pdf']   = './uploads/' . $uploaddata['file_name'];
 
 $data['message'] = $this->restapi_model->careersSubmit($name,$email,$mobile,$message,$resume);
-$this->load->view('json', $data);
+$data['redirect'] = $url;
+$this->load->view('redirect', $data);
+//$this->load->view('json', $data);
 }
 }
 
@@ -325,11 +332,6 @@ public function signup()
     $data['message'] = $this->restapi_model->registeruser($firstname, $lastname, $email, $password);
     $this->load->view('json', $data);
 }
-
-
-
-
-
 
 
     public function getalluseraddress()
@@ -2602,7 +2604,7 @@ public function getsinglesize()
             $this->load->view('json', $data);
         } else {
             $hashvalue = base64_encode($userid.'&access');
-            $link = "<a href='http://wohlig.co.in/selfcare//#/resetpassword/$hashvalue'>Click here </a> To Reset Your Password.";
+            $link = "<a href='http://wohlig.co.in/selfcare/#/forgotpassword/$hashvalue'>Click here </a> To Reset Your Password.";
 
 
             $this->load->library('email');

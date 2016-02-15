@@ -835,7 +835,7 @@ for($i=0;$i<count($query);$i++)
 				$this->load->library('email');
 						 $this->email->from('vigwohlig@gmail.com', 'Selfcare');
 						 $this->email->to($email);
-						 $this->email->subject('Access Password Changed');
+						 $this->email->subject('Password Changed Successfully');
 
 						 $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
 						 <div style='margin:0'>
@@ -847,10 +847,10 @@ for($i=0;$i<count($query);$i++)
 						  <img src='http://wohlig.co.in/selfcare/img/logo.png' alt='Selfcare' class='CToWUd'>
 						 </div>
 						 <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>Manan</span>,</p>
-						 <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for signing up on Selfcare.We are really excited to have you with us!</p>
-						 <p style='color:#000;font-family:Roboto;font-size:20px'>Your Selfcare Registered Email Id is : <a style='color:#000;font-family:Roboto;font-size:20px;text-decoration:none'>manan@ting.in</a></p>
+						 <p style='color:#000;font-family:Roboto;font-size:20px'>Your Password Changed Successfully!</p>
+
 						 <p style='color:#000;font-family:Roboto;font-size:20px'><a href='http://wohlig.co.in/selfcare/#/home' style='color:#e96542;font-family:Roboto;font-size:20px' target='_blank'>Click Here</a> to return to the website.</p>
-						 <p style='color:#e96542;font-family:Roboto;font-size:20px'>Happy Shopping !</p>
+
 						 <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
 						 <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
 						 </div>

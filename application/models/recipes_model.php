@@ -14,12 +14,12 @@ class recipes_model extends CI_Model
       $query['recipeimage']=$this->db->query("SELECT  `recipes_image`.`sorder` AS 'order',`recipes_image`.`image`  AS  `image`
 FROM  `recipes_image`
 INNER JOIN  `recipes` ON  `recipes_image`.`recipe` =  `recipes`.`id`
-WHERE  `recipes`.`id` ='$id' AND `recipes_image`.`status`=0")->result();
+WHERE  `recipes`.`id` ='$id' AND `recipes_image`.`status`=0 ORDER BY `recipes_image`.`sorder`")->result();
   $query['otherrecipe']=$this->db->query("SELECT `id`, `name`, `image`  FROM `recipes` WHERE `id` != $id ORDER BY `id` DESC")->result();
    return $query;
     }
     else {
-      $query['recipe']=$this->db->query("SELECT `id`, `name`, `image`  FROM `recipes` ORDER BY `id` DESC LIMIT 0,6")->result();
+      $query=$this->db->query("SELECT `id`, `name`, `image`  FROM `recipes` ORDER BY `id` DESC")->result();
 return $query;
     }
 

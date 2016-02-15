@@ -148,13 +148,14 @@ class restapi_model extends CI_Model
  {
 	 $newdata=0;
 		 $password=md5($password);
+
 		//  echo 'email id  '.$email;
 		 $query=$this->db->query("SELECT `id` FROM `user` WHERE `email`='$email'");
 		 $num=$query->num_rows();
 
 		 if($num == 0)
 		 {
-					$this->db->query("INSERT INTO `user`(`firstname`, `lastname`, `email`, `password`,`accesslevel`,`status`) VALUE('$firstname','$lastname','$email','$password','3','2')");
+					$this->db->query("INSERT INTO `user`(`name`,`firstname`, `lastname`, `email`, `password`,`accesslevel`,`status`) VALUE('$firstname $lastname','$firstname','$lastname','$email','$password','3','2')");
 				 $user=$this->db->insert_id();
 
 //send email to register
@@ -173,8 +174,7 @@ class restapi_model extends CI_Model
 			<img src='http://wohlig.co.in/selfcare/img/logo.png' alt='Selfcare' class='CToWUd'>
 		 </div>
 		 <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>$firstname $lastname</span>,</p>
-		 <p style='color:#000;font-family:Roboto;font-size:20px'>Kindly click on the link below to reset your SelfCare password.
-</p>
+
 		 <p style='color:#000;font-family:Roboto;font-size:20px'>We are very excited to have you on board SelfCare. Your registered email id is: $email</p>
 		 <p style='color:#000;font-family:Roboto;font-size:20px'>Stay tuned for latest news and updates from the team at SelfCare.
 </p>
