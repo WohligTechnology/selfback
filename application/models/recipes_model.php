@@ -8,12 +8,20 @@ class recipes_model extends CI_Model
 
 
   function getRecipeDetail($id){
+    if ($id != "")
+    {
       $query['recipe']=$this->db->query("SELECT `id`, `name`, `image`, `description`, `ingredients`, `method`, `valueperserve` FROM `recipes` WHERE `id` = $id")->row();
-//       $query['relatedproduct']=$this->db->query("SELECT  `fynx_product`.`id` ,  `fynx_product`.`image1` AS  `image` ,  `fynx_product`.`price` ,  `fynx_product`.`name`
-// FROM  `fynx_product`
-// INNER JOIN  `relatedproduct` ON  `relatedproduct`.`relatedproduct` =  `fynx_product`.`id`
-// WHERE  `relatedproduct`.`product` ='$id'")->result();
+      $query['recipeimage']=$this->db->query("SELECT  `recipes_image`.`sorder` AS 'order',`recipes_image`.`image`  AS  `image`
+FROM  `recipes_image`
+INNER JOIN  `recipes` ON  `recipes_image`.`recipe` =  `recipes`.`id`
+WHERE  `recipes`.`id` ='$id' AND `recipes_image`.`status`=0")->result();
+  $query['otherrecipe']=$this->db->query("SELECT `id`, `name`, `image`  FROM `recipes` WHERE `id` != $id ORDER BY `id` DESC")->result();
    return $query;
+    }
+    else {
+      $query['recipe']=$this->db->query("SELECT `id`, `name`, `image`  FROM `recipes` ORDER BY `id` DESC LIMIT 0,6")->result();
+return $query;
+    }
 
   }
 

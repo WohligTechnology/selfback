@@ -62,7 +62,7 @@ $orderorder=$this->input->get_post("orderorder");
 $maxrow=$this->input->get_post("maxrow");
 if($maxrow=="")
 {
-$maxrow=  5;
+$maxrow=  20;
 }
 if($orderby=="")
 {
