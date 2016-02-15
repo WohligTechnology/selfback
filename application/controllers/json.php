@@ -138,6 +138,32 @@ $data['message'] = $this->restapi_model->commentSubmit($blogid,$name,$email,$web
 $this->load->view('json', $data);
 }
 
+public function careersSubmit()
+{
+
+  $data = json_decode(file_get_contents('php://input'), true);
+  $name = $data['name'];
+  $email = $data['email'];
+  $mobile = $data['mobile'];
+  $message = $data['message'];
+  $config['upload_path'] = './uploads/';
+  $config['allowed_types'] = 'pdf|doc|docx';
+  $this->load->library('upload', $config);
+  $filename="pdf";
+  $resume="";
+
+  if (  $this->upload->do_upload($filename))
+  {
+  $uploaddata = $this->upload->data();
+  $pdf=$uploaddata['file_name'];
+  echo $pdf;
+  		$config_r['source_pdf']   = './uploads/' . $uploaddata['file_name'];
+
+$data['message'] = $this->restapi_model->careersSubmit($name,$email,$mobile,$message,$resume);
+$this->load->view('json', $data);
+}
+}
+
 
 
 public function subscribe()

@@ -106,6 +106,15 @@ class restapi_model extends CI_Model
 
 		}
 
+		public function careersSubmit($name,$email,$mobile,$message,$resume){
+
+				$this->db->query("INSERT INTO `careers`(`name`,`email`,`mobile`,`message`,`resume`) VALUE('$name','$email','$mobile','$message','$resume')");
+				$object = new stdClass();
+				$object->value = true;
+				return $object;
+
+		}
+
 
 		public function contactSubmit($firstname,$lastname,$mobile,$email,$message){
 
