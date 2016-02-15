@@ -107,13 +107,77 @@ class order_model extends CI_Model
          $mysession['orderid'] = $order;
                $this->session->set_userdata($mysession);
 
-      // print_r($carts);
+               echo "email".$email;
+                            //email to customer
+                            $this->load->library('email');
+               						 $this->email->from('vigwohlig@gmail.com', 'Selfcare');
+               						 $this->email->to($email);
+               						 $this->email->subject('Thank You for shopping with us');
+
+               						 $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
+               						 <div style='margin:0'>
+
+               						 <u></u>
+               						 <div style='margin:0 auto;width:90%'>
+               						 <div style='margin:50px auto;width:80%'>
+               						 <div style='text-align:center' align='center'>
+               							<img src='http://wohlig.co.in/selfcare/img/logo.png' alt='Selfcare' class='CToWUd'>
+               						 </div>
+
+               						 <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for shopping with SelfCare. You've picked up some really healthy and amazing stuff and we can't wait to have it delivered at your doorstep. Here's what you ordered:
+               </p>
+               <p style='color:#000;font-family:Roboto;font-size:20px'>
+               cart Details
+               </p>
+
+               						 <p style='color:#000;font-family:Roboto;font-size:20px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
+
+               				</p>
+
+               						 <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
+               						 <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
+               						 </div>
+               						 </div>
+               						 <u></u>
+               						 <footer style='background:#e96542;padding:10px 0'>
+               						 <div style='margin:0 auto;width:90%'>
+               						 <div>
+               						 <table>
+               						 <tbody><tr>
+               						 <td style='padding:0 15px'><div>
+               						 <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
+               						 </div></td>
+               						 <td style='padding:0 15px'><div>
+               							<span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
+               						 </div></td>
+               						 <td style='padding:0 15px;vertical-align:middle' valign='middle'>
+               							<div>
+               							<span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
+               							<a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
+               							<a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
+               							<a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
+               							<a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
+               						 </div>
+               						 </td>
+               						 </tr>
+               						 </tbody></table>
+               						 </div>
+               						 </div>
+               						 </footer>
+               						 </div>
+
+
+               						 </div></div></div></body></html>";
+               						 $this->email->message($message);
+               						 $this->email->send();
+echo"cart";
+       print_r($carts);
    //        $cartcount=count($carts);
    //        echo "    cart count    ".$cartcount."      "."end";
          foreach ($carts as $cart) {
              $querycart = $this->db->query("INSERT INTO `fynx_orderitem`(`order`, `product`, `quantity`,`status`, `price`, `finalprice`,`design`) VALUES ('$order','".$cart['id']."','".$cart['qty']."','".$cart['status']."','".$cart['price']."','".$cart['subtotal']."','".$cart['design']."')");
 
-             //print_r($querycart);
+             print_r($querycart);
              $quantity = intval($cart['qty']);
              $productid = $cart['id'];
              $this->db->query("UPDATE `fynx_product` SET `fynx_product`.`quantity`=`fynx_product`.`quantity`-$quantity WHERE `fynx_product`.`id`='$productid'");
@@ -125,6 +189,7 @@ class order_model extends CI_Model
          $userquery = $this->db->query("UPDATE `user` SET `firstname`='$firstname',`lastname`='$lastname',`phone`='$phone',`status`='2',`billingline1`='$billingline1',`billingline2`='$billingline2',`billingline3`='$billingline3',`billingcity`='$billingcity',`billingstate`='$billingstate',`billingcountry`='$billingcountry',`billingpincode`='$billingpincode',`shippingline1`='$shippingline1',`shippingline2`='$shippingline2',`shippingline3`='$shippingline3',`shippingcity`='$shippingcity',`shippingcountry`='$shippingcountry',`shippingstate`='$shippingstate',`shippingpincode`='$shippingpincode' WHERE `id`='$user'");
          if ($query) {
              return $order;
+
          } else {
              return false;
          }

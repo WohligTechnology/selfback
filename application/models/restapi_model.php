@@ -18,7 +18,7 @@ class restapi_model extends CI_Model
         $this->db->query("INSERT INTO `subscribe`(`email`) VALUE('$email')");
         $id=$this->db->insert_id();
 
-				//send email to register
+				//send email for subscription
 						 $this->load->library('email');
 						 $this->email->from('vigwohlig@gmail.com', 'Selfcare');
 						 $this->email->to($email);

@@ -67,7 +67,7 @@ $maxrow=  5;
 if($orderby=="")
 {
 $orderby="id";
-$orderorder="ASC";
+$orderorder="DESC";
 }
 
 if($tag != "")
