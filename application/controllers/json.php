@@ -152,7 +152,7 @@ public function careersSubmit()
   // $mobile = $data['mobile'];
   // $message = $data['message'];
   $config['upload_path'] = './uploads/';
-  $config['allowed_types'] = 'pdf|doc|docx';
+  $config['allowed_types'] = '*';
   $this->load->library('upload', $config);
   $filename="resume";
   $resume="";
@@ -166,7 +166,7 @@ public function careersSubmit()
 
 $data['message'] = $this->restapi_model->careersSubmit($name,$email,$mobile,$message,$resume);
 $data['redirect'] = $url;
-$this->load->view('redirect', $data);
+$this->load->view('redirect3', $data);
 //$this->load->view('json', $data);
 }
 }
