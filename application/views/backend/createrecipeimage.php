@@ -14,8 +14,9 @@
     </div>
     <div class="file-path-wrapper">
       <input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('image');?>">
-    </div>
+</div>
   </div>
+  <span style="display:inline-block; margin-top:30px;">400 X 400</span>
 </div>
 <div class="row">
 <div class="input-field col s6">
