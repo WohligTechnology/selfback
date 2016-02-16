@@ -2940,7 +2940,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
            $element["maxQuantity"]=$this->restapi_model->checkproductquantity($proid);
            $maxQuantity = intval($element["maxQuantity"]);
            $cartQuantity = intval($element["qty"]);
-           if($cartQuantity <= $maxQuantity) {
+             if($cartQuantity <= $maxQuantity) {
                //Enjoy
            }
            else

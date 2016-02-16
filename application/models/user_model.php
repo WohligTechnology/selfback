@@ -920,9 +920,9 @@ for($i=0;$i<count($query);$i++)
 
 function testmail()
 {
-    $this->load->library('email');
+    		 $this->load->library('email');
 				 $this->email->from('vigwohlig@gmail.com', 'Selfcare');
-				 $this->email->to('vinodbeloshe12@gmail.com');
+				 $this->email->to('vinodwohlig@gmail.com');
 				 $this->email->subject('Access Password Changed');
 
 				 $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>

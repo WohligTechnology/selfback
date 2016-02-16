@@ -4,6 +4,12 @@ if ( !defined( 'BASEPATH' ) )
 class restapi_model extends CI_Model
 {
 
+public function deletecareers($id)
+{
+	$query=$this->db->query("DELETE FROM `careers` WHERE `id`=$id");
+	return $query;
+}
+
     public function subscribe($email){
 		        $query1=$this->db->query("SELECT * FROM `subscribe` WHERE `email`='$email'");
         $num=$query1->num_rows();
