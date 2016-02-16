@@ -72,7 +72,7 @@
         				<div class="file-path-wrapper">
         					<input class="file-path validate image1" type="text" placeholder="Upload one or more files" value="<?php echo set_value('image1', $before->image1);?>">
         				</div>
-      			<div class="md4"><a class="waves-effect waves-light btn red clearimg input-field ">Clear Image</a></div>
+      			<!-- <div class="md4"><a class="waves-effect waves-light btn red clearimg input-field ">Clear Image</a></div> -->
         			</div>
 
         		</div>

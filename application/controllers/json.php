@@ -140,29 +140,21 @@ $this->load->view('json', $data);
 
 public function careersSubmit()
 {
-
-  $data = json_decode(file_get_contents('php://input'), true);
   $name= $this->input->get_post("name");
   $email= $this->input->get_post("email");
   $mobile= $this->input->get_post("mobile");
   $message= $this->input->get_post("message");
   $url= $this->input->get_post("url");
-  // $name = $data['name'];
-  // $email = $data['email'];
-  // $mobile = $data['mobile'];
-  // $message = $data['message'];
   $config['upload_path'] = './uploads/';
   $config['allowed_types'] = '*';
   $this->load->library('upload', $config);
   $filename="resume";
   $resume="";
-
   if (  $this->upload->do_upload($filename))
   {
   $uploaddata = $this->upload->data();
   $resume=$uploaddata['file_name'];
-  //echo $resume;
-  		$config_r['source_pdf']   = './uploads/' . $uploaddata['file_name'];
+	$config_r['source_pdf']   = './uploads/' . $uploaddata['file_name'];
 
 $data['message'] = $this->restapi_model->careersSubmit($name,$email,$mobile,$message,$resume);
 $data['redirect'] = $url;

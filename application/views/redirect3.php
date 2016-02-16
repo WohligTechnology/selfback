@@ -1,6 +1,6 @@
 <html>
 <head>
-<META HTTP-EQUIV="refresh" CONTENT="0;URL=<?php echo $redirect;?>"); 
+<META HTTP-EQUIV="refresh" CONTENT="0;URL=<?php echo $redirect;?>");
 if(isset($alert))
 echo "&alert=$alert";
 if(isset($alertwarning))
@@ -10,6 +10,6 @@ echo "&alertsuccess=$alertsuccess";
 if(isset($other))
 echo "&$other";
 
-?>">
+?>
 </head>
 </html>
