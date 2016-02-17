@@ -26,7 +26,7 @@ public function edit($id,$order,$status,$image)
 $data=array("sorder" => $order,"status" => $status);
 if($image != "")
   $data['image']=$image;
-  
+
 $this->db->where( "id", $id );
 $query=$this->db->update( "recipes_image", $data );
 return 1;

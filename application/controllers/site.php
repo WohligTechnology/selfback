@@ -6904,7 +6904,7 @@ $config['upload_path'] = './uploads/';
  }
 if($image1=="")
 			 {
-			 $image1=$this->product_model->getimage1byid($id);
+			 $image1=$this->recipes_model->getimage1byid($id);
 					// print_r($image);
 					 $image1=$image1->image1;
 			 }
