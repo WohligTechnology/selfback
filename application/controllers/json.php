@@ -257,7 +257,7 @@ public function getProductsByCategory() {
     }
 
     $maxrow = $this->input->get_post('maxrow');
-     $data3["data"] =  $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search,"", "FROM `fynx_product` LEFT OUTER JOIN `productcategory` on `fynx_product`.id=`productcategory`.`product`","WHERE `fynx_product`.`category` = '$categoryid'", "$where", "GROUP BY `fynx_product`.`id`");
+     $data3["data"] =  $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search,"", "FROM `fynx_product` LEFT OUTER JOIN `productcategory` on `fynx_product`.id=`productcategory`.`product`","WHERE `fynx_product`.`category` = '$categoryid' AND `fynx_product`.`visibility`=1 AND `fynx_product`.`status`=2", "$where", "GROUP BY `fynx_product`.`id`");
 $data3["filter"] = $this->restapi_model->getFiltersLater($data3["data"]->querycomplete);
 
         $data["message"] = $data3;

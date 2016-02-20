@@ -67,7 +67,7 @@
 				</div>
 <!--				<div class="md4"><a class="waves-effect waves-light btn red clearimg input-field ">Clear Image</a></div>-->
 			</div>
-
+<span style="display:inline-block; margin-top:240px;">2000 X 867</span>
 		</div>
 <!-- <div class="row">
 <div class="input-field col s6">

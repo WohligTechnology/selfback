@@ -9,20 +9,20 @@ class category_model extends CI_Model
 
   public function getCategory()
   {
-    $query = $this->db->query("SELECT  `id`,`name` , `image1` AS 'categoryimg',`description`,`order` FROM `fynx_category`")->result();
+    $query = $this->db->query("SELECT  `id`,`name` , `image1` AS 'categoryimg',`description`,`order` FROM `fynx_category` WHERE `status`=2 ORDER BY `order`")->result();
     return $query;
   }
 
 
   function getCategoryById($id){
-  $query=$this->db->query("SELECT `id`,`name`,`image2` as 'bannerimg',`description` from `fynx_category` WHERE `id` = $id")->row();
+  $query=$this->db->query("SELECT `id`,`name`,`image2` as 'bannerimg',`description` from `fynx_category` WHERE `id` = $id AND `status`=2")->row();
   return $query;
   }
 
 
 
     function getSubCategory($id){
-    $query=$this->db->query("SELECT `id`,`name`,`image1` AS 'bannerimg',`order` from `fynx_subcategory` WHERE `category` = $id")->result();
+    $query=$this->db->query("SELECT `id`,`name`,`image1` AS 'bannerimg',`order` from `fynx_subcategory` WHERE `category` = $id AND `status`=2")->result();
     return $query;
     }
 
