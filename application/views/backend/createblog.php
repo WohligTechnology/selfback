@@ -33,7 +33,7 @@
 
 <div class="row">
   <?php
-$mtags = array('food','b');
+$mtags = array('Food','Bread');
 ?>
 
 <div class="row">

@@ -5908,6 +5908,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editblog";
 $data["page2"]="block/blogblock";
+$data['tag']=$this->tags_model->gettagdropdown();
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["title"]="Edit blog";

@@ -35,6 +35,9 @@
 		</div>
 
 
+
+
+
 <div class="row">
 <div class="col s12 m6">
 <label>description</label>
@@ -44,7 +47,18 @@
 </div>
 </div>
 
+<div class="row">
+	<?php
+$mtags = array('Food','Bread');
+?>
 
+<div class="row">
+	<div class="input-field col m6 s12">
+		<?php echo form_dropdown( 'tag[]',$tag,  $mtags); ?>
+			<label>Tags</label>
+	</div>
+</div>
+</div>
 
 
 <!-- <div class="row">
