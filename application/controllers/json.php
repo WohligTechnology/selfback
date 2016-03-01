@@ -2596,7 +2596,7 @@ public function getsinglesize()
             $this->load->view('json', $data);
         } else {
             $hashvalue = base64_encode($userid.'&access');
-            $link = "<a href='http://wohlig.co.in/selfcare/#/forgotpassword/$hashvalue'>Click here </a> To Reset Your Password.";
+            $link = "<a href='http://selfcareindia.com/#/forgotpassword/$hashvalue'>Click here </a> To Reset Your Password.";
 
 
             $this->load->library('email');

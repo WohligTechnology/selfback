@@ -849,7 +849,7 @@ for($i=0;$i<count($query);$i++)
 						 <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>Manan</span>,</p>
 						 <p style='color:#000;font-family:Roboto;font-size:20px'>Your Password Changed Successfully!</p>
 
-						 <p style='color:#000;font-family:Roboto;font-size:20px'><a href='http://wohlig.co.in/selfcare/#/home' style='color:#e96542;font-family:Roboto;font-size:20px' target='_blank'>Click Here</a> to return to the website.</p>
+						 <p style='color:#000;font-family:Roboto;font-size:20px'><a href='http://selfcareindia.com/#/home' style='color:#e96542;font-family:Roboto;font-size:20px' target='_blank'>Click Here</a> to return to the website.</p>
 
 						 <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
 						 <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
@@ -937,7 +937,7 @@ function testmail()
 				 <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>Manan</span>,</p>
 				 <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for signing up on Selfcare.We are really excited to have you with us!</p>
 				 <p style='color:#000;font-family:Roboto;font-size:20px'>Your Selfcare Registered Email Id is : <a style='color:#000;font-family:Roboto;font-size:20px;text-decoration:none'>manan@ting.in</a></p>
-				 <p style='color:#000;font-family:Roboto;font-size:20px'><a href='http://wohlig.co.in/selfcare/#/home' style='color:#e96542;font-family:Roboto;font-size:20px' target='_blank'>Click Here</a> to return to the website.</p>
+				 <p style='color:#000;font-family:Roboto;font-size:20px'><a href='http://selfcareindia.com/#/home' style='color:#e96542;font-family:Roboto;font-size:20px' target='_blank'>Click Here</a> to return to the website.</p>
 				 <p style='color:#e96542;font-family:Roboto;font-size:20px'>Happy Shopping !</p>
 				 <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
 				 <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
