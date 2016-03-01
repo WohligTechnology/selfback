@@ -2914,29 +2914,30 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 
     function checkoutCheck() {
        $userid=$this->session->userdata("id");
+       $returnWhat = new stdClass();
+       $returnWhat->value = true;
        $newcart=array();
-       if($userid!="")
+       if($userid != "")
        {
-           $cart = $this->cart->contents();
-           foreach ($cart as $item) {
-               array_push($newcart, $item);
-           }
+           $newcart  = $this->db->query("SELECT `quantity` as `qty`,`product` as `id`,`status`  FROM `fynx_cart` WHERE `user` = '$userid'")->result_array();
        }
        else
        {
+
            $cart = $this->cart->contents();
            foreach ($cart as $item) {
-               $quantity=$item->options->productquantity;
-               $productid=$item->id;
+                $item["status"] = $item["options"]["status"];
                array_push($newcart, $item);
            }
        }
-       $returnWhat=new stdClass();
-       $returnWhat->value=true;
        $data["message"]=array();
        foreach($newcart as $element)
        {
+
            $proid=$element["id"];
+           $status=$element["status"];
+if($status != 3)
+{
            $element["maxQuantity"]=$this->restapi_model->checkproductquantity($proid);
            $maxQuantity = intval($element["maxQuantity"]);
            $cartQuantity = intval($element["qty"]);
@@ -2947,9 +2948,10 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
            {
                 $returnWhat->value=false;
            }
+}
        }
        $data["message"]=$returnWhat;
-       $this->load->view("json", $data);
+        $this->load->view("json", $data);
    }
 
 
