@@ -161,61 +161,49 @@ $message= "test text";
      $quantity=$cart['qty'];
      $name=$cart['options']['realname'];
      $status=$cart['options']['status'];
-     $subtype=$cart['options']['subtype'];
+     $months=$cart['options']['months'];
      $plan=$cart['options']['plan'];
      if ($plan == 1)
      {
-       $plan = "Silver";
+       $plan = "Silver Plan";
      }
      if ($plan == 2)
      {
-       $plan = "Gold";
+       $plan = "Gold Plan";
      }
      if ($plan == 3)
      {
-       $plan = "Platinum";
+       $plan = "Platinum Plan";
      }
      if ($plan == 4)
      {
-       $plan = "Diamond";
+       $plan = "Diamond Plan";
      }
     //  $size=$cart['options']['sizename'];
      $price=$cart['price'];
      $subtotal=$cart['subtotal'];
 if($status==3)
-{
+ {
        $message.="
 
        <tr>
-          <td align='center' style='padding: 10px 0;'>$count</td>
-         <td style='text-align:center' align='center'>
+                 <td style='text-align:center' align='center'>
            <figure>
-            $subtype
+            $months
              <figcaption>$plan</figcaption>
            </figure>
 
          </td>
-           <td style='text-align:center' align='center'>2</td>
-           <td style='text-align:center' align='center'>$quantity</td>
+               <td style='text-align:center' align='center'>$quantity</td>
            <td style='text-align:center' align='center'>$price</td>
-       </tr>
-       <tr>
-                 <td style='text-align:center' align='center'>
-           <figure>
-             <img src='https://ci6.googleusercontent.com/proxy/7WHAgPYf--YUgtUkELo2Z2I9bW5s0JvqR_furMicUjSg6_33-1McrlWzyaH8IUzwyipy_X9olDfk6ownYQDM9G1wYu8=s0-d-e1-ft#http://admin.selfcareindia.com/uploads/$image' alt='' width='70' style='border-radius:100%' class='CToWUd'>
-             <figcaption>$name</figcaption>
-           </figure>
-
-         </td>
-           <td style='text-align:center' align='center'>2</td>
-           <td style='text-align:center' align='center'>$quantity</td>
-           <td style='text-align:center' align='center'>$price</td>
+              <td style='text-align:center' align='center'>$price * $quantity</td>
        </tr>";
 
-   }
+  }
    else {
      $message.="
 
+
      <tr>
 
        <td style='text-align:center' align='center'>
@@ -225,23 +213,12 @@ if($status==3)
          </figure>
 
        </td>
-                 <td style='text-align:center' align='center'>$quantity</td>
-         <td style='text-align:center' align='center'>$price</td>
-     </tr>
-     <tr>
-        <td align='center' style='padding: 10px 0;'>$count</td>
-       <td style='text-align:center' align='center'>
-         <figure>
-           <img src='https://ci6.googleusercontent.com/proxy/7WHAgPYf--YUgtUkELo2Z2I9bW5s0JvqR_furMicUjSg6_33-1McrlWzyaH8IUzwyipy_X9olDfk6ownYQDM9G1wYu8=s0-d-e1-ft#http://admin.selfcareindia.com/uploads/$image' alt='' width='70' style='border-radius:100%' class='CToWUd'>
-           <figcaption>$name</figcaption>
-         </figure>
 
-       </td>
-         <td style='text-align:center' align='center'>2</td>
          <td style='text-align:center' align='center'>$quantity</td>
          <td style='text-align:center' align='center'>$price</td>
+         <td style='text-align:center' align='center'>$price * $quantity</td>
      </tr>";
-   }
+  }
 
    $finalpricetotal=$finalpricetotal+$subtotal;
           $counter++;
