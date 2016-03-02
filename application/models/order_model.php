@@ -122,98 +122,6 @@ class order_model extends CI_Model
          }
 
 
-         //email to customer
-         $this->load->library('email');
-         $this->email->from('vigwohlig@gmail.com', 'Self Care');
-         $this->email->to($email);
-         $this->email->subject('Thank You for shopping with us');
-         $message= "test text";
-         $message = "<html><body style='margin: 0;'>
-           <div class='fynxmailer' style='width: 600px; max-width:600px; margin: 0 auto;'>
-             <header>
-               <img src='http://myfynx.in/img/img/emailer-fynx.png' alt='' class='img-responsive'>
-             </header>
-             <main>
-               <div class=''>
-                 <div class='section-login' style='margin: 0 20px;'>
-                   <p style='font-family: Roboto;font-size: 20px;color: #000;'>Dear <span style='font-family: Roboto;font-size: 20px;color: #000;'>Manan</span>,</p>
-                   <p style='font-family: Roboto;font-size: 20px;color: #000;'>Thank You for signing up on My Fynx. We are really excited to have you with us!</p>";
-
-         $count=1;
-         $finalpricetotal=0;
-         foreach($carts as $cart)
-         {
-         $id=$cart['id'];
-         $color=$cart['color'];
-         $size=$cart['size'];
-         $quantity=$cart['qty'];
-         $price=$cart['price'];
-         $subtotal=$cart['subtotal'];
-
-         $message.="
-         <table style='width: 100%;'>
-           <thead style=' background-color: #fc483f; color: #fff;'>
-             <th style='padding: 10px; text-transform:uppercase; font-size: 14px'>Item</th>
-             <th style='padding: 10px; text-transform:uppercase; font-size: 14px'>Color</th>
-             <th style='padding: 10px; text-transform:uppercase; font-size: 14px'>Size</th>
-             <th style='padding: 10px; text-transform:uppercase; font-size: 14px'>Quantity</th>
-             <th style='padding: 10px; text-transform:uppercase; font-size: 14px'>SubTotal</th>
-           </thead>
-           <tbody>
-             <tr>
-               <td style='text-align:center;'>
-                 <img src='http://www.myfynx.com/newfynx/uploads/WS05MAIN1.JPG' alt='' width='70' class='img-responsive'>
-               </td>
-               <td style='text-align:center;'>White</td>
-                 <td style='text-align:center;'>S</td>
-                 <td style='text-align:center;'>$quantity</td>
-                 <td style='text-align:center;'>$subtotal</td>
-             </tr>
-           </tbody>
-         </table>
-         ";
-         $finalpricetotal=$finalpricetotal+$value->finalprice;
-                $counter++;
-         }
-         $message.="
-         <p style='font-family: Roboto;font-size: 20px;color: #000;'>Your My Fynx Registered Email Id is : <a href='' style='color: #000;font-size: 20px;text-decoration: none;font-family: Roboto;'>manan@ting.in</a></p>
-         <p style='font-family: Roboto;font-size: 20px;color: #000;'><a href='http://www.myfynx.com' target='_blank' style='font-size: 20px;color: #fc483f;font-family: Roboto;'>Click Here</a> to return to the website.</p>
-         <p style='color: #fc483f;font-family: Roboto;font-size: 20px;'>Happy Shopping !</p>
-         <span style='font-family: Roboto;font-size: 20px;color: #000;'>Thank You,</span>
-         <span class='block' style='font-family: Roboto;font-size: 20px;color: #000;display: block;'>Team My Fynx!</span>
-         </div>
-         </div>
-         </main>
-         <footer style='background-color: #000; padding: 10px 0; color: #fff; margin-top: 20px;'>
-         <div class='footer-wrapper'>
-         <table style='width: 100%;'>
-         <tr>
-           <td style='padding:15px; float:left;'>
-             <div class='copy'>
-               <span style='font-family: Roboto;font-size: 14px;color: #fff;'>COPYRIGHT@MYFYNX2016</span>
-             </div>
-           </td>
-           <td style='padding: 0 15px; text-align: right;'>
-             <div class='follow' style='text-align: center; float: right;'>
-               <span class='block' style='font-family: Roboto;font-size: 14px;color: #fff;display: block;'>FOLLOW US ON</span>
-               <a href='https://www.facebook.com/MyFynx-401315743385366/?fref=ts' target='_blank' class='inline-block' style='font-family: Roboto;font-size: 18px;color: #fff;display: inline-block;margin: 3px 5px 0 0;'><img src='http://myfynx.in/img/img/fynx-fb.png' alt='Facebook' width='20'></a>
-               <a href='https://twitter.com/MyFynx' target='_blank' class='inline-block' style='font-family: Roboto;font-size: 18px;color: #fff;display: inline-block;margin: 3px 5px 0 0;'><img src='http://myfynx.in/img/img/fynx-twi.png' alt='Twitter' width='20'></a>
-               <a href='https://www.instagram.com/myfynx/' target='_blank' class='inline-block' style='font-family: Roboto;font-size: 18px;color: #fff;display: inline-block;margin: 3px 5px 0 0;'><img src='http://myfynx.in/img/img/fynx-insta.png' alt='Instagram' width='20'></a>
-               <a href='https://www.youtube.com/channel/UCIo8qm3zCU8JmDZ1UaHhf3Q' target='_blank' class='inline-block' style='font-family: Roboto;font-size: 18px;color: #fff;display: inline-block;margin: 3px 5px 0 0;'><img src='http://myfynx.in/img/img/fynx-youtube.png' alt='Youtube' width='20'></a>
-             </div>
-           </td>
-         </tr>
-         </table>
-         </div>
-         </footer>
-         </div>
-         </body></html>";
-
-         $this->email->message($message);
-         $this->email->send();
-         //echo $this->email->print_debugger();
-   //		$table =$this->order_model->getorderitem($order);
-   //		$before=$this->order_model->beforeedit($order);
 
                 //email to customer
                 $this->load->library('email');
@@ -233,32 +141,118 @@ $message= "test text";
 
                 <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for shopping with SelfCare. You've picked up some really healthy and amazing stuff and we can't wait to have it delivered at your doorstep. Here's what you ordered:
    </p>
-   <p style='color:#000;font-family:Roboto;font-size:20px'>";
+   <p style='color:#000;font-family:Roboto;font-size:20px'>
+   <table style='width:100%'>
+             <thead style='background:#c2a388;color:#3b1808'>
+               <tr><th style='font-size:14px;padding:10px;text-transform:uppercase'>Items</th>
+               <th style='font-size:14px;padding:10px;text-transform:uppercase'>Quantity</th>
+               <th style='font-size:14px;padding:10px;text-transform:uppercase'>Amount</th>
+               <th style='font-size:14px;padding:10px;text-transform:uppercase'>Total</th>
+             </tr></thead>
+             <tbody>
+   ";
 
    $count=1;
    $finalpricetotal=0;
    foreach($carts as $cart)
    {
-       $id=$cart['id'];
-       $quantity=$cart['qty'];
-       $price=$cart['price'];
-
+     $id=$cart['id'];
+     $image=$cart['image'];
+     $quantity=$cart['qty'];
+     $name=$cart['options']['realname'];
+     $status=$cart['options']['status'];
+     $subtype=$cart['options']['subtype'];
+     $plan=$cart['options']['plan'];
+     if ($plan == 1)
+     {
+       $plan = "Silver";
+     }
+     if ($plan == 2)
+     {
+       $plan = "Gold";
+     }
+     if ($plan == 3)
+     {
+       $plan = "Platinum";
+     }
+     if ($plan == 4)
+     {
+       $plan = "Diamond";
+     }
+    //  $size=$cart['options']['sizename'];
+     $price=$cart['price'];
+     $subtotal=$cart['subtotal'];
+if($status==3)
+{
        $message.="
-       <table>
-       <tr>
-           <td align='center' style='padding: 10px 0;'>$count</td>
-           <td align='center' style='padding: 10px 0;'>$id</td>
-           <td align='center' style='padding: 10px 0;'>$quantity</td>
-           <td align='center' style='padding: 10px 0;'>$price</td>
 
-         </tr>
-         </table>";
-       $finalpricetotal=$finalpricetotal+$value->finalprice;
-                       $counter++;
+       <tr>
+          <td align='center' style='padding: 10px 0;'>$count</td>
+         <td style='text-align:center' align='center'>
+           <figure>
+            $subtype
+             <figcaption>$plan</figcaption>
+           </figure>
+
+         </td>
+           <td style='text-align:center' align='center'>2</td>
+           <td style='text-align:center' align='center'>$quantity</td>
+           <td style='text-align:center' align='center'>$price</td>
+       </tr>
+       <tr>
+                 <td style='text-align:center' align='center'>
+           <figure>
+             <img src='https://ci6.googleusercontent.com/proxy/7WHAgPYf--YUgtUkELo2Z2I9bW5s0JvqR_furMicUjSg6_33-1McrlWzyaH8IUzwyipy_X9olDfk6ownYQDM9G1wYu8=s0-d-e1-ft#http://admin.selfcareindia.com/uploads/$image' alt='' width='70' style='border-radius:100%' class='CToWUd'>
+             <figcaption>$name</figcaption>
+           </figure>
+
+         </td>
+           <td style='text-align:center' align='center'>2</td>
+           <td style='text-align:center' align='center'>$quantity</td>
+           <td style='text-align:center' align='center'>$price</td>
+       </tr>";
+
    }
+   else {
      $message.="
 
-   </p>
+     <tr>
+
+       <td style='text-align:center' align='center'>
+         <figure>
+           <img src='https://ci6.googleusercontent.com/proxy/7WHAgPYf--YUgtUkELo2Z2I9bW5s0JvqR_furMicUjSg6_33-1McrlWzyaH8IUzwyipy_X9olDfk6ownYQDM9G1wYu8=s0-d-e1-ft#http://admin.selfcareindia.com/uploads/$image' alt='' width='70' style='border-radius:100%' class='CToWUd'>
+           <figcaption>$name</figcaption>
+         </figure>
+
+       </td>
+                 <td style='text-align:center' align='center'>$quantity</td>
+         <td style='text-align:center' align='center'>$price</td>
+     </tr>
+     <tr>
+        <td align='center' style='padding: 10px 0;'>$count</td>
+       <td style='text-align:center' align='center'>
+         <figure>
+           <img src='https://ci6.googleusercontent.com/proxy/7WHAgPYf--YUgtUkELo2Z2I9bW5s0JvqR_furMicUjSg6_33-1McrlWzyaH8IUzwyipy_X9olDfk6ownYQDM9G1wYu8=s0-d-e1-ft#http://admin.selfcareindia.com/uploads/$image' alt='' width='70' style='border-radius:100%' class='CToWUd'>
+           <figcaption>$name</figcaption>
+         </figure>
+
+       </td>
+         <td style='text-align:center' align='center'>2</td>
+         <td style='text-align:center' align='center'>$quantity</td>
+         <td style='text-align:center' align='center'>$price</td>
+     </tr>";
+   }
+
+   $finalpricetotal=$finalpricetotal+$subtotal;
+          $counter++;
+
+   }
+     $message.="
+     <div style='background:#c2a388;color:#3b1808;width:100%'>
+               <p style='color:#000;font-family:Roboto;font-size:20px;margin:0;padding:10px 20px;text-align:right' align='right'>Grand Total<span style='color:#000;display:inline-block;font-family:Roboto;font-size:20px;margin-left:10px'>$finalpricetotal</span></p>
+             </div>
+     </tbody>
+     </table> </p>
 
                 <p style='color:#000;font-family:Roboto;font-size:20px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
 
