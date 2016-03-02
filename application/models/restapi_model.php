@@ -37,7 +37,7 @@ public function deletecareers($id)
 						 <div style='margin:0 auto;width:90%'>
 						 <div style='margin:50px auto;width:80%'>
 						 <div style='text-align:center' align='center'>
-							<img src='http://wohlig.co.in/selfcare/img/logo.png' alt='Selfcare' class='CToWUd'>
+							<img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
 						 </div>
 
 						 <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for subscribing to SelfCare's health packages. Our nutritionists can't wait to interact with you.</p>
@@ -66,10 +66,10 @@ public function deletecareers($id)
 						 <td style='padding:0 15px;vertical-align:middle' valign='middle'>
 							<div>
 							<span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
-							<a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
-							<a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
-							<a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
-							<a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
+							<a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
+							<a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
+							<a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
+							<a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
 						 </div>
 						 </td>
 						 </tr>
@@ -177,7 +177,7 @@ public function deletecareers($id)
 		 <div style='margin:0 auto;width:90%'>
 		 <div style='margin:50px auto;width:80%'>
 		 <div style='text-align:center' align='center'>
-			<img src='http://wohlig.co.in/selfcare/img/logo.png' alt='Selfcare' class='CToWUd'>
+			<img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
 		 </div>
 		 <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>$firstname $lastname</span>,</p>
 
@@ -204,10 +204,10 @@ public function deletecareers($id)
 		 <td style='padding:0 15px;vertical-align:middle' valign='middle'>
 			<div>
 			<span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
-			<a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
-			<a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
-			<a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
-			<a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://www.wohlig.co.in/selfcare/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
+			<a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
+			<a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
+			<a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
+			<a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
 		 </div>
 		 </td>
 		 </tr>
@@ -365,9 +365,7 @@ else {
 			'firstname' => $firstname,
 			'lastname' => $lastname,
 			'email' => $email,
-
 			'phone' => $phone,
-
 			'billingcity' => $billingcity,
 			'billingstate' => $billingstate,
 			'billingcountry' => $billingcountry,
@@ -387,7 +385,7 @@ else {
 		$this->db->where( 'id', $user );
 		$query=$this->db->update( 'user', $data );
 
-        $useridquery = $this->db->query("SELECT `id`, `firstname`,`lastname`,`email`, `phone`, `billingaddress`, `billingcity`, `billingstate`, `billingcountry`, `billingcontact`, `billingpincode`, `shippingaddress`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `shippingname`, `shippingcontact`,  `billingline1`, `billingline2`, `shippingline1`, `shippingline2`, `billingline3`, `shippingline3` FROM `user` WHERE `id`='$user'")->row();
+        $useridquery = $this->db->query("SELECT `id`, `name`,`firstname`,`lastname`,`email`, `phone`, `billingaddress`, `billingcity`, `billingstate`, `billingcountry`, `billingcontact`, `billingpincode`, `shippingaddress`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `shippingname`, `shippingcontact`,  `billingline1`, `billingline2`, `shippingline1`, `shippingline2`, `billingline3`, `shippingline3` FROM `user` WHERE `id`='$user'")->row();
         return $useridquery;
     }
 
@@ -700,11 +698,11 @@ function removeFromCart($cart,$status)
                     $user=$getuser->user;
                     $this->cart->destroy();
                     $deletecart=$this->db->query("DELETE FROM `fynx_cart` WHERE `user`='$user'");
-            redirect("http://wohlig.co.in/selfcare/#/thankyou/".$OrderId);
+            redirect("http://selfcareindia.com/#/thankyou/".$OrderId);
                 }
                 else{
                       $query=$this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
-            redirect("http://wohlig.co.in/selfcare/#/wentwrong/".$OrderId);
+            redirect("http://selfcareindia.com/#/wentwrong/".$OrderId);
                 }
 
 
