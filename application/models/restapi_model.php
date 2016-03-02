@@ -272,17 +272,28 @@ if(empty($userid))
 }
 else {
 
-	  $return->plans = $this->db->query("select `id` from `fynx_order` where `user`=$userid" )->result();
-
-		foreach($return->plans  as $plan)
+	  $orders = $this->db->query("select  `fynx_order`.`id`, `fynx_orderitem`.`status` from `fynx_order` INNER JOIN `fynx_orderitem` ON `fynx_order`.`id`=`fynx_orderitem`.`order` where `user`=$userid" )->result();
+$return->plans =array();
+$return->products =array();
+		foreach($orders  as $plan)
 			{
-				$q="SELECT `fynx_orderitem`.`order`,`fynx_product`.`name`,`fynx_product`.`image1` as 'image' ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id`  WHERE `fynx_orderitem`.`order`= '$plan->id' ";
-				//echo $q;
-					$plan->products = $this->db->query($q)->result();
+
+				if($plan->status==3)
+				{
+						$q="SELECT `fynx_orderitem`.`order`,`plans`.`plan`,`selftables_subtype`.`name` as `subtype`,`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`=3";
+						//echo $q;
+							$pq = $this->db->query($q)->row();
+							array_push($return->plans, $pq);
+				}
+				else {
+					$q="SELECT `fynx_orderitem`.`order`,`fynx_product`.`name`,`fynx_product`.`image1` as 'image' ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id`  WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`!=3";
+					//echo $q;
+						$pp = $this->db->query($q)->row();
+						array_push($return->products, $pp);
 				}
 
-	// $query=$this->db->query("SELECT `fynx_orderitem`.`order`,`fynx_product`.`name`,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id` LEFT OUTER JOIN `fynx_order` ON `fynx_orderitem`.`order`=`fynx_order`.`id` WHERE `fynx_order`.`user`=$userid")->result();
-	// $query->amount=$this->db->query("SELECT SUM(`finalprice`) as `amount` FROM `fynx_orderitem`")->result();
+				}
+
 			  return $return;
 }
 

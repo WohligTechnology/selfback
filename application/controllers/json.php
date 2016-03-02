@@ -2766,7 +2766,16 @@ public function getsinglesize()
     public function getuserbyid()
     {
         $id = $this->session->userdata('id');
+        if(!empty($id))
+        {
         $data['message'] = $this->user_model->beforeedit($id);
+        }
+        else {
+          $obj = new stdClass();
+          $obj->value = false;
+            $data['message'] = $obj;
+        }
+
         $this->load->view('json', $data);
     }
 
@@ -2880,7 +2889,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
     }
     public function showCart()
     {
-        $userid = $this->session->userdata('id');
+        // $userid = $this->session->userdata('id');
+       $userid = $this->input->get_post('id');
 
             if ($userid != '') {
             $data['message'] = $this->user_model->showCart($userid);
