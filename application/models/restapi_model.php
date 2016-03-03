@@ -276,7 +276,7 @@ class restapi_model extends CI_Model
             //     }
             // }
 
-            $return->orders = $this->db->query("select DISTINCT `fynx_order`.`id` from `fynx_order` INNER JOIN `fynx_orderitem` ON `fynx_order`.`id`=`fynx_orderitem`.`order` where `fynx_order`.`user`=$userid")->result();
+            $return->orders = $this->db->query("select DISTINCT `fynx_order`.`id` from `fynx_order` INNER JOIN `fynx_orderitem` ON `fynx_order`.`id`=`fynx_orderitem`.`order` where `fynx_order`.`user`=$userid AND `fynx_order`.`transactionid`!=''")->result();
 
           foreach($return->orders  as $plan)
             {
@@ -285,7 +285,7 @@ class restapi_model extends CI_Model
 
                   $plan->plans = $this->db->query("SELECT `fynx_orderitem`.`order`,`fynx_orderitem`.`status`,`plans`.`id`,`plans`.`plan`,`selftables_subtype`.`name` as `subtype`,`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`=3")->result();
 
-                  
+
                     }
 
           return $return;
