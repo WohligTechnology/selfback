@@ -128,7 +128,7 @@ class order_model extends CI_Model
                 $this->email->from('vigwohlig@gmail.com', 'Selfcare');
                 $this->email->to($email);
                 $this->email->subject('Thank You for shopping with us');
-$message= "test text";
+
                 $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
                 <div style='margin:0'>
 
@@ -138,7 +138,7 @@ $message= "test text";
                 <div style='text-align:center' align='center'>
                  <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
                 </div>
-
+                <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>$firstname $lastname</span>,</p>
                 <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for shopping with SelfCare. You've picked up some really healthy and amazing stuff and we can't wait to have it delivered at your doorstep. Here's what you ordered:
    </p>
    <p style='color:#000;font-family:Roboto;font-size:20px'>
@@ -158,6 +158,7 @@ $message= "test text";
    {
      $id=$cart['id'];
      $image=$cart['image'];
+     echo $image;
      $quantity=$cart['qty'];
      $name=$cart['options']['realname'];
      $status=$cart['options']['status'];
@@ -182,6 +183,14 @@ $message= "test text";
     //  $size=$cart['options']['sizename'];
      $price=$cart['price'];
      $subtotal=$cart['subtotal'];
+     $tprice =intval($price) * intval($quantity);
+     if ($months==1)
+     {
+      $months = $months.' Month';
+     }
+     else {
+        $months = $months.' Months';
+     }
 if($status==3)
  {
        $message.="
@@ -196,7 +205,7 @@ if($status==3)
          </td>
                <td style='text-align:center' align='center'>$quantity</td>
            <td style='text-align:center' align='center'>$price</td>
-              <td style='text-align:center' align='center'>$price * $quantity</td>
+              <td style='text-align:center' align='center'>$tprice</td>
        </tr>";
 
   }
@@ -208,7 +217,7 @@ if($status==3)
 
        <td style='text-align:center' align='center'>
          <figure>
-           <img src='https://ci6.googleusercontent.com/proxy/7WHAgPYf--YUgtUkELo2Z2I9bW5s0JvqR_furMicUjSg6_33-1McrlWzyaH8IUzwyipy_X9olDfk6ownYQDM9G1wYu8=s0-d-e1-ft#http://admin.selfcareindia.com/uploads/$image' alt='' width='70' style='border-radius:100%' class='CToWUd'>
+           <img src='http://admin.selfcareindia.com/uploads/$image' alt='' width='70' style='border-radius:100%' class='CToWUd'>
            <figcaption>$name</figcaption>
          </figure>
 
@@ -216,7 +225,7 @@ if($status==3)
 
          <td style='text-align:center' align='center'>$quantity</td>
          <td style='text-align:center' align='center'>$price</td>
-         <td style='text-align:center' align='center'>$price * $quantity</td>
+       <td style='text-align:center' align='center'>$tprice</td>
      </tr>";
   }
 
@@ -225,11 +234,11 @@ if($status==3)
 
    }
      $message.="
-     <div style='background:#c2a388;color:#3b1808;width:100%'>
-               <p style='color:#000;font-family:Roboto;font-size:20px;margin:0;padding:10px 20px;text-align:right' align='right'>Grand Total<span style='color:#000;display:inline-block;font-family:Roboto;font-size:20px;margin-left:10px'>$finalpricetotal</span></p>
-             </div>
+
      </tbody>
-     </table> </p>
+     </table>  <div style='background:#c2a388;color:#3b1808;width:100%'>
+                <p style='color:#000;font-family:Roboto;font-size:20px;margin:0;padding:10px 20px;text-align:right' align='right'>Grand Total<span style='color:#000;display:inline-block;font-family:Roboto;font-size:20px;margin-left:10px'>$finalpricetotal</span></p>
+              </div></p>
 
                 <p style='color:#000;font-family:Roboto;font-size:20px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
 

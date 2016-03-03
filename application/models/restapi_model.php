@@ -626,7 +626,7 @@ function removeFromCart($cart,$status)
 	$deletecart=$this->db->query("DELETE FROM `fynx_cart` WHERE `product`='$cart' AND `user`='$user'AND `status`='$status'");
 
 
-				if($deletecart)
+				if(!empty($deletecart))
 				{
 						$object = new stdClass();
 						$object->value = true;
