@@ -92,20 +92,18 @@ class order_model extends CI_Model
     }
 
     public function placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode)
-     {
+    {
+        $mysession = $this->session->all_userdata();
 
-         $mysession = $this->session->all_userdata();
+        if ($shippingline1 == '') {
+            $query = $this->db->query("INSERT INTO `fynx_order`(`user`, `firstname`, `lastname`, `email`,`billingcontact`, `billingline1`,`billingline2`,`billingline3`, `billingcity`, `billingstate`, `billingcountry`, `shippingline1`,`shippingline2`,`shippingline3`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `billingpincode`,`shippingcontact`,`orderstatus`,`paymentmode`) VALUES ('$user','$firstname','$lastname','$email','$phone','$billingline1','$billingline2','$billingline3','$billingcity','$billingstate','$billingcountry','$billingline1','$billingline2','$billingline3','$billingcity','$billingcountry','$billingstate','$billingpincode','$billingpincode','$phone','1','$paymentmode')");
+        } else {
+            $query = $this->db->query("INSERT INTO `fynx_order`(`user`, `firstname`, `lastname`, `email`,`billingcontact`, `billingline1`,`billingline2`,`billingline3`, `billingcity`, `billingstate`, `billingcountry`, `shippingline1`,`shippingline2`,`shippingline3`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `billingpincode`,`shippingcontact`,`orderstatus`,`paymentmode`) VALUES ('$user','$firstname','$lastname','$email','$phone','$billingline1','$billingline2','$billingline3','$billingcity','$billingstate','$billingcountry','$shippingline1','$shippingline2','$shippingline3','$shippingcity','$shippingcountry','$shippingstate','$shippingpincode','$billingpincode','$phone','1','$paymentmode')");
+        }
 
-         if ($shippingline1 == '') {
-             $query = $this->db->query("INSERT INTO `fynx_order`(`user`, `firstname`, `lastname`, `email`,`billingcontact`, `billingline1`,`billingline2`,`billingline3`, `billingcity`, `billingstate`, `billingcountry`, `shippingline1`,`shippingline2`,`shippingline3`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `billingpincode`,`shippingcontact`,`orderstatus`,`paymentmode`) VALUES ('$user','$firstname','$lastname','$email','$phone','$billingline1','$billingline2','$billingline3','$billingcity','$billingstate','$billingcountry','$billingline1','$billingline2','$billingline3','$billingcity','$billingcountry','$billingstate','$billingpincode','$billingpincode','$phone','1','$paymentmode')");
-         } else {
-
-             $query = $this->db->query("INSERT INTO `fynx_order`(`user`, `firstname`, `lastname`, `email`,`billingcontact`, `billingline1`,`billingline2`,`billingline3`, `billingcity`, `billingstate`, `billingcountry`, `shippingline1`,`shippingline2`,`shippingline3`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `billingpincode`,`shippingcontact`,`orderstatus`,`paymentmode`) VALUES ('$user','$firstname','$lastname','$email','$phone','$billingline1','$billingline2','$billingline3','$billingcity','$billingstate','$billingcountry','$shippingline1','$shippingline2','$shippingline3','$shippingcity','$shippingcountry','$shippingstate','$shippingpincode','$billingpincode','$phone','1','$paymentmode')");
-         }
-
-         $order = $this->db->insert_id();
-         $mysession['orderid'] = $order;
-         $this->session->set_userdata($mysession);
+        $order = $this->db->insert_id();
+        $mysession['orderid'] = $order;
+        $this->session->set_userdata($mysession);
 
 // echo"cart";
 // print_r($mysession);
@@ -113,23 +111,21 @@ class order_model extends CI_Model
    //        $cartcount=count($carts);
    //        echo "    cart count    ".$cartcount."      "."end";
               foreach ($carts as $cart) {
-             $querycart = $this->db->query("INSERT INTO `fynx_orderitem`(`order`, `product`, `quantity`,`status`, `price`, `finalprice`,`design`) VALUES ('$order','".$cart['id']."','".$cart['qty']."','".$cart['status']."','".$cart['price']."','".$cart['subtotal']."','".$cart['design']."')");
+                  $querycart = $this->db->query("INSERT INTO `fynx_orderitem`(`order`, `product`, `quantity`,`status`, `price`, `finalprice`,`design`) VALUES ('$order','".$cart['id']."','".$cart['qty']."','".$cart['status']."','".$cart['price']."','".$cart['subtotal']."','".$cart['design']."')");
 
             // print_r($querycart);
              $quantity = intval($cart['qty']);
-             $productid = $cart['id'];
-             $this->db->query("UPDATE `fynx_product` SET `fynx_product`.`quantity`=`fynx_product`.`quantity`-$quantity WHERE `fynx_product`.`id`='$productid'");
-         }
-
-
+                  $productid = $cart['id'];
+                  $this->db->query("UPDATE `fynx_product` SET `fynx_product`.`quantity`=`fynx_product`.`quantity`-$quantity WHERE `fynx_product`.`id`='$productid'");
+              }
 
                 //email to customer
                 $this->load->library('email');
-                $this->email->from('vigwohlig@gmail.com', 'Selfcare');
-                $this->email->to($email);
-                $this->email->subject('Thank You for shopping with us');
+        $this->email->from('vigwohlig@gmail.com', 'Selfcare');
+        $this->email->to($email);
+        $this->email->subject('Thank You for shopping with us');
 
-                $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
+        $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
                 <div style='margin:0'>
 
                 <u></u>
@@ -152,47 +148,39 @@ class order_model extends CI_Model
              <tbody>
    ";
 
-   $count=1;
-   $finalpricetotal=0;
-   foreach($carts as $cart)
-   {
-     $id=$cart['id'];
-     $image=$cart['image'];
-     $quantity=$cart['qty'];
-     $name=$cart['options']['realname'];
-     $status=$cart['options']['status'];
-     $months=$cart['options']['months'];
-     $plan=$cart['options']['plan'];
-     if ($plan == 1)
-     {
-       $plan = "Silver Plan";
-     }
-     if ($plan == 2)
-     {
-       $plan = "Gold Plan";
-     }
-     if ($plan == 3)
-     {
-       $plan = "Platinum Plan";
-     }
-     if ($plan == 4)
-     {
-       $plan = "Diamond Plan";
-     }
+        $count = 1;
+        $finalpricetotal = 0;
+        foreach ($carts as $cart) {
+            $id = $cart['id'];
+            $image = $cart['image'];
+            $quantity = $cart['qty'];
+            $name = $cart['options']['realname'];
+            $status = $cart['options']['status'];
+            $months = $cart['options']['months'];
+            $plan = $cart['options']['plan'];
+            if ($plan == 1) {
+                $plan = 'Silver Plan';
+            }
+            if ($plan == 2) {
+                $plan = 'Gold Plan';
+            }
+            if ($plan == 3) {
+                $plan = 'Platinum Plan';
+            }
+            if ($plan == 4) {
+                $plan = 'Diamond Plan';
+            }
     //  $size=$cart['options']['sizename'];
-     $price=$cart['price'];
-     $subtotal=$cart['subtotal'];
-     $tprice =intval($price) * intval($quantity);
-     if ($months==1)
-     {
-      $months = $months.' Month';
-     }
-     else {
-        $months = $months.' Months';
-     }
-if($status==3)
- {
-       $message.="
+     $price = $cart['price'];
+            $subtotal = $cart['subtotal'];
+            $tprice = intval($price) * intval($quantity);
+            if ($months == 1) {
+                $months = $months.' Month';
+            } else {
+                $months = $months.' Months';
+            }
+            if ($status == 3) {
+                $message .= "
 
        <tr>
                  <td style='text-align:center' align='center'>
@@ -206,10 +194,8 @@ if($status==3)
            <td style='text-align:center' align='center'>$price</td>
               <td style='text-align:center' align='center'>$tprice</td>
        </tr>";
-
-  }
-   else {
-     $message.="
+            } else {
+                $message .= "
 
 
      <tr>
@@ -226,13 +212,12 @@ if($status==3)
          <td style='text-align:center' align='center'>$price</td>
        <td style='text-align:center' align='center'>$tprice</td>
      </tr>";
-  }
+            }
 
-   $finalpricetotal=$finalpricetotal+$subtotal;
-          $counter++;
-
-   }
-     $message.="
+            $finalpricetotal = $finalpricetotal + $subtotal;
+            ++$counter;
+        }
+        $message .= "
 
      </tbody>
      </table>  <div style='background:#c2a388;color:#3b1808;width:100%'>
@@ -278,20 +263,16 @@ if($status==3)
 
                 </div></div></div></body></html>";
 
-                $this->email->message($message);
-                $this->email->send();
+        $this->email->message($message);
+        $this->email->send();
                 //echo $this->email->print_debugger();
 
 
          $userquery = $this->db->query("UPDATE `user` SET `firstname`='$firstname',`lastname`='$lastname',`phone`='$phone',`status`='2',`billingline1`='$billingline1',`billingline2`='$billingline2',`billingline3`='$billingline3',`billingcity`='$billingcity',`billingstate`='$billingstate',`billingcountry`='$billingcountry',`billingpincode`='$billingpincode',`shippingline1`='$shippingline1',`shippingline2`='$shippingline2',`shippingline3`='$shippingline3',`shippingcity`='$shippingcity',`shippingcountry`='$shippingcountry',`shippingstate`='$shippingstate',`shippingpincode`='$shippingpincode' WHERE `id`='$user'");
-         if ($query) {
-             return $order;
-
-
-         } else {
-             return false;
-         }
-     }
-
-
+        if ($query) {
+            return $order;
+        } else {
+            return false;
+        }
+    }
 }

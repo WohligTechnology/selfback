@@ -662,7 +662,7 @@ class restapi_model extends CI_Model
     {
         $checkamt = $this->db->query("SELECT IFNULL(SUM(`price`),0) as `totalamount` FROM `fynx_orderitem` WHERE `order`='$orderid'")->row();
         $totalamount = $checkamt->totalamount;
-        if ($totalamount == $amount) {
+        if (intval($Amount)  > 0 ) {
             $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`nb_bid`='$nb_bid',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
              // DESTROY CART
                     $getuser = $this->db->query("SELECT `user` FROM `fynx_order` WHERE `id`='$OrderId'")->row();

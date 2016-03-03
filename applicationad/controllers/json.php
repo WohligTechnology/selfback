@@ -1897,6 +1897,9 @@ public function getsinglesize()
 
     public function placeOrder()
     {
+
+
+
       $data = json_decode(file_get_contents('php://input'), true);
       $user = $this->session->userdata('id');
       $firstname = $data['firstname'];
@@ -1919,9 +1922,13 @@ public function getsinglesize()
       $shippingpincode = $data['shippingpincode'];
       $carts = $data['cart'];
       $paymentmode = $data['paymentmode'];
-
-      $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode);
-
+      if($email && $email != "")
+      {
+        $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode);
+      }
+      else {
+        $data["message"] = true;
+      }
         $this->load->view('json', $data);
     }
     public function getusercart()
@@ -3037,7 +3044,7 @@ if($status != 3)
        $workingKey='825cors0t20vgfolcm9adon2ixpz2qll';		//Working Key should be provided here.
        $encResponse=$_POST["encResponse"];	//This is the response sent by the CCAvenue Server
        $rcvdString=$this->aes->decrypt($encResponse,$workingKey);		//AES Decryption used as per the specified working key.
-  echo $rcvdString;
+  // echo $rcvdString;
      	$AuthDesc="";
      	$MerchantId="";
      	$OrderId="";
@@ -3048,7 +3055,7 @@ if($status != 3)
      	$decryptValues=explode('&', $rcvdString);
      	$dataSize=sizeof($decryptValues);
      	//******************************    Messages based on Checksum & AuthDesc   **********************************//
-     	echo "<center>";
+
 
 
      	for($i = 0; $i < $dataSize; $i++)
@@ -3069,7 +3076,7 @@ if($status != 3)
 
      	if($veriChecksum==TRUE && $AuthDesc==="Y")
      	{
-     		echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
+     	// 	echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
         $responsecode=2;
      		//Here you need to put in the routines for a successful
      		//transaction such as sending an email to customer,
@@ -3077,7 +3084,7 @@ if($status != 3)
      	}
      	else if($veriChecksum==TRUE && $AuthDesc==="B")
      	{
-     		echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
+     	// 	echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
         $responsecode=2;
      		//Here you need to put in the routines/e-mail for a  "Batch Processing" order
      		//This is only if payment for this transaction has been made by an American Express Card
@@ -3085,8 +3092,9 @@ if($status != 3)
      	}
      	else if($veriChecksum==TRUE && $AuthDesc==="N")
      	{
-     		echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
+     	// 	echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
         $responsecode=5;
+        $Amount = 0;
      		//Here you need to put in the routines for a failed
      		//transaction such as sending an email to customer
      		//setting database status etc etc
@@ -3094,12 +3102,13 @@ if($status != 3)
      	else
      	{
      		echo "<br>Security Error. Illegal access detected";
-
+        $Amount = 0;
      		//Here you need to simply ignore this and dont need
      		//to perform any operation in this condition
      	}
-      $data['message'] = $this->restapi_model->updateorderstatusafterpayment($OrderId,$nb_bid, $nb_order_no, $responsecode,$Amount);
 
+
+      $data['message'] = $this->restapi_model->updateorderstatusafterpayment($OrderId,$nb_bid, $nb_order_no, $responsecode,$Amount);
      }
 
     public function uploadImage()
