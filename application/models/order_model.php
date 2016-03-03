@@ -158,7 +158,6 @@ class order_model extends CI_Model
    {
      $id=$cart['id'];
      $image=$cart['image'];
-     echo $image;
      $quantity=$cart['qty'];
      $name=$cart['options']['realname'];
      $status=$cart['options']['status'];
