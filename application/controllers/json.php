@@ -1878,8 +1878,11 @@ public function getsinglesize()
         $shippingpincode = $data['shippingpincode'];
         $carts = $data['cart'];
         $paymentmode = $data['paymentmode'];
+        if($email != "" && $email )
 
-        $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode);
+        {
+          $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode);
+        }
 
         $this->load->view('json', $data);
     }
@@ -2987,7 +2990,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $workingKey = '825cors0t20vgfolcm9adon2ixpz2qll';        //Working Key should be provided here.
        $encResponse = $_POST['encResponse'];    //This is the response sent by the CCAvenue Server
        $rcvdString = $this->aes->decrypt($encResponse, $workingKey);        //AES Decryption used as per the specified working key.
-  echo $rcvdString;
+
         $AuthDesc = '';
         $MerchantId = '';
         $OrderId = '';
@@ -2998,7 +3001,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $decryptValues = explode('&', $rcvdString);
         $dataSize = sizeof($decryptValues);
          //******************************    Messages based on Checksum & AuthDesc   **********************************//
-         echo '<center>';
+
 
         for ($i = 0; $i < $dataSize; ++$i) {
             $information = explode('=', $decryptValues[$i]);
@@ -3029,29 +3032,29 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $veriChecksum = $this->adler->verifyChecksum($this->adler->genchecksum($rcvdString), $Checksum);
 
         if ($veriChecksum == true && $AuthDesc === 'Y') {
-            echo '<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.';
+          //  echo '<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.';
             $responsecode = 2;
              //Here you need to put in the routines for a successful
              //transaction such as sending an email to customer,
              //setting database status, informing logistics etc etc
         } elseif ($veriChecksum == true && $AuthDesc === 'B') {
-            echo '<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail';
+            //echo '<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail';
             $responsecode = 2;
+
              //Here you need to put in the routines/e-mail for a  "Batch Processing" order
              //This is only if payment for this transaction has been made by an American Express Card
              //since American Express authorisation status is available only after 5-6 hours by mail from ccavenue and at the "View Pending Orders"
         } elseif ($veriChecksum == true && $AuthDesc === 'N') {
-            echo '<br>Thank you for shopping with us.However,the transaction has been declined.';
+          //  echo '<br>Thank you for shopping with us.However,the transaction has been declined.';
             $responsecode = 5;
+            $Amount = 0;
              //Here you need to put in the routines for a failed
              //transaction such as sending an email to customer
              //setting database status etc etc
         } else {
-            echo '<br>Security Error. Illegal access detected';
-
-             //Here you need to simply ignore this and dont need
-             //to perform any operation in this condition
+          $Amount = 0;
         }
+        
         $data['message'] = $this->restapi_model->updateorderstatusafterpayment($OrderId, $nb_bid, $nb_order_no, $responsecode, $Amount);
     }
 
