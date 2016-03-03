@@ -3259,7 +3259,7 @@ $config['upload_path'] = './uploads/';
             $orderby = 'id';
             $orderorder = 'ASC';
         }
-        $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `fynx_order` LEFT OUTER JOIN `user` ON `user`.`id`=`fynx_order`.`user` LEFT OUTER JOIN `orderstatus` ON `orderstatus`.`id`=`fynx_order`.`orderstatus`');
+        $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `fynx_order` LEFT OUTER JOIN `user` ON `user`.`id`=`fynx_order`.`user` LEFT OUTER JOIN `orderstatus` ON `orderstatus`.`id`=`fynx_order`.`orderstatus` ',"WHERE `fynx_order`.`transactionid` <> ''");
         $queryarray = $data['message']->queryresult;
 
         foreach ($queryarray as $row) {

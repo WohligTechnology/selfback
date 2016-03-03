@@ -264,12 +264,12 @@ class restapi_model extends CI_Model
             $return->products = array();
             foreach ($orders  as $plan) {
                 if ($plan->status == 3) {
-                    $q = "SELECT `fynx_orderitem`.`order`,`plans`.`plan`,`selftables_subtype`.`name` as `subtype`,`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`=3";
+                    $q = "SELECT `fynx_orderitem`.`order`,`fynx_product`.`id`,`plans`.`plan`,`selftables_subtype`.`name` as `subtype`,`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`=3";
                         //echo $q;
                             $pq = $this->db->query($q)->row();
                     array_push($return->plans, $pq);
                 } else {
-                    $q = "SELECT `fynx_orderitem`.`order`,`fynx_product`.`name`,`fynx_product`.`image1` as 'image' ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id`  WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`!=3";
+                    $q = "SELECT `fynx_orderitem`.`order`,`fynx_product`.`id`,`fynx_product`.`name`,`fynx_product`.`image1` as 'image' ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id`  WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`!=3";
                     //echo $q;
                         $pp = $this->db->query($q)->row();
                     array_push($return->products, $pp);
