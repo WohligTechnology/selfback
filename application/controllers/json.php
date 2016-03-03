@@ -1,330 +1,288 @@
 <?php
+
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 class Json extends CI_Controller
 {
+    public function getSlide()
+    {
+        $data['message'] = $this->homeslide_model->getSlide();
+        $this->load->view('json', $data);
+    }
 
+    public function testmail()
+    {
+        $data['message'] = $this->user_model->testmail();
+        $this->load->view('json', $data);
+    }
 
-  public function getSlide()
-  {
+    public function getTvVideo()
+    {
+        $data['message'] = $this->video_model->getTvVideo();
+        $this->load->view('json', $data);
+    }
 
-  $data['message'] = $this->homeslide_model->getSlide();
-  $this->load->view('json', $data);
-}
+    public function getNews()
+    {
+        $year = $this->input->get_post('year');
+        $data['message'] = $this->news_model->getNews($year);
+        $this->load->view('json', $data);
+    }
 
-public function testmail()
-{
+    public function getNewsYear()
+    {
+        $data['message'] = $this->news_model->getNewsYear();
+        $this->load->view('json', $data);
+    }
 
-$data['message'] = $this->user_model->testmail();
-$this->load->view('json', $data);
-}
+    public function getAllBlog()
+    {
+        $where = ' WHERE 1 ';
+        $tag = $this->input->get_post('tag');
 
-
-public function getTvVideo()
-{
-
-$data['message'] = $this->video_model->getTvVideo();
-$this->load->view('json', $data);
-}
-
-public function getNews()
-{
-  $year= $this->input->get_post("year");
-$data['message'] = $this->news_model->getNews($year);
-$this->load->view('json', $data);
-}
-
-
-public function getNewsYear()
-{
-
-$data['message'] = $this->news_model->getNewsYear();
-$this->load->view('json', $data);
-}
-
-
-public function getAllBlog()
-{
-  $where = " WHERE 1 ";
-$tag=$this->input->get_post("tag");
-
-$this->chintantable->createelement("`selftables_blog`.`id`", '1', "ID", "id");
-$this->chintantable->createelement("`selftables_blog`.`name`", '1', "title", "title");
-$this->chintantable->createelement("`selftables_blog`.`image`", '0', "image", "image");
+        $this->chintantable->createelement('`selftables_blog`.`id`', '1', 'ID', 'id');
+        $this->chintantable->createelement('`selftables_blog`.`name`', '1', 'title', 'title');
+        $this->chintantable->createelement('`selftables_blog`.`image`', '0', 'image', 'image');
 // $this->chintantable->createelement("`selftables_blog`.`dateofposting`", '1', "timestamp", "timestamp");
-$this->chintantable->createelement("`selftables_blog`.`description`", '0', "content", "content");
+$this->chintantable->createelement('`selftables_blog`.`description`', '0', 'content', 'content');
 //$this->chintantable->createelement("group_concat(`tags`.`name` separator ',')", '0', "tags", "tags");
-$search=$this->input->get_post("search");
-$pageno=$this->input->get_post("pageno");
-$orderby=$this->input->get_post("orderby");
-$orderorder=$this->input->get_post("orderorder");
-$maxrow=$this->input->get_post("maxrow");
-if($maxrow=="")
-{
-$maxrow=  20;
-}
-if($orderby=="")
-{
-$orderby="id";
-$orderorder="DESC";
-}
+$search = $this->input->get_post('search');
+        $pageno = $this->input->get_post('pageno');
+        $orderby = $this->input->get_post('orderby');
+        $orderorder = $this->input->get_post('orderorder');
+        $maxrow = $this->input->get_post('maxrow');
+        if ($maxrow == '') {
+            $maxrow = 20;
+        }
+        if ($orderby == '') {
+            $orderby = 'id';
+            $orderorder = 'DESC';
+        }
 
-if($tag != "")
-{
-  $where= " WHERE `tags`.`name` = '$tag' ";
-}
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `selftables_blog` LEFT OUTER JOIN `tagsblog` ON `selftables_blog`.`id` = `tagsblog`.`blog` LEFT OUTER JOIN `tags` ON `tags`.`id` = `tagsblog`.`tag`",$where,"GROUP BY `selftables_blog`.`id`");
+        if ($tag != '') {
+            $where = " WHERE `tags`.`name` = '$tag' ";
+        }
+        $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `selftables_blog` LEFT OUTER JOIN `tagsblog` ON `selftables_blog`.`id` = `tagsblog`.`blog` LEFT OUTER JOIN `tags` ON `tags`.`id` = `tagsblog`.`tag`', $where, 'GROUP BY `selftables_blog`.`id`');
 
-$this->load->view("json",$data);
-}
+        $this->load->view('json', $data);
+    }
 
+    public function getAllTags()
+    {
+        $data['message'] = $this->tags_model->getAllTags();
+        $this->load->view('json', $data);
+    }
 
+    public function popularPost()
+    {
+        $data['message'] = $this->blog_model->popularPost();
+        $this->load->view('json', $data);
+    }
+    public function getBlogById()
+    {
+        $id = $this->input->get_post('id');
+        $data['message'] = $this->blog_model->getBlogById($id);
+        $this->load->view('json', $data);
+    }
 
-function getAllTags()
-{
-  $data["message"]=$this->tags_model->getAllTags();
-  $this->load->view("json",$data);
-}
+    public function searchBlog()
+    {
+        $title = $this->input->get_post('title');
+        $data['message'] = $this->blog_model->searchBlog($title);
+        $this->load->view('json', $data);
+    }
 
+    public function getPlans()
+    {
+        $sid = $this->input->get_post('id');
+        $data['message'] = $this->healthpackages_model->getPlans($sid);
+        $this->load->View('json', $data);
+    }
 
-function popularPost()
-{
-  $data["message"]=$this->blog_model->popularPost();
-  $this->load->view("json",$data);
-}
-function getBlogById()
-{
-    $id=$this->input->get_post("id");
-  $data["message"]=$this->blog_model->getBlogById($id);
-  $this->load->view("json",$data);
-}
+    public function getSubPackages()
+    {
+        $data['message'] = $this->healthpackages_model->getSubPackages();
+        $this->load->View('json', $data);
+    }
 
-function searchBlog()
-{
+    public function commentSubmit()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $blogid = $data['blogid'];
+        $name = $data['name'];
+        $email = $data['email'];
+        $website = $data['website'];
+        $comment = $data['comment'];
 
-  $title=$this->input->get_post("title");
-  $data['message']= $this->blog_model->searchBlog($title);
-  $this->load->view('json', $data);
-}
+        $data['message'] = $this->restapi_model->commentSubmit($blogid, $name, $email, $website, $comment);
+        $this->load->view('json', $data);
+    }
 
+    public function careersSubmit()
+    {
+        $name = $this->input->get_post('name');
+        $email = $this->input->get_post('email');
+        $mobile = $this->input->get_post('mobile');
+        $message = $this->input->get_post('message');
+        $url = $this->input->get_post('url');
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = '*';
+        $this->load->library('upload', $config);
+        $filename = 'resume';
+        $resume = '';
+        if ($this->upload->do_upload($filename)) {
+            $uploaddata = $this->upload->data();
+            $resume = $uploaddata['file_name'];
+            $config_r['source_pdf'] = './uploads/'.$uploaddata['file_name'];
 
-function getPlans()
-{
-$sid= $this->input->get_post("id");
-  $data['message']= $this->healthpackages_model->getPlans($sid);
-  $this->load->View('json', $data);
-
-}
-
-function getSubPackages()
-{
-  $data['message']= $this->healthpackages_model->getSubPackages();
-  $this->load->View('json', $data);
-
-}
-
-public function commentSubmit()
-{
-
-  $data = json_decode(file_get_contents('php://input'), true);
-    $blogid = $data['blogid'];
-    $name = $data['name'];
-  $email = $data['email'];
-  $website = $data['website'];
-  $comment = $data['comment'];
-
-$data['message'] = $this->restapi_model->commentSubmit($blogid,$name,$email,$website,$comment);
-$this->load->view('json', $data);
-}
-
-public function careersSubmit()
-{
-  $name= $this->input->get_post("name");
-  $email= $this->input->get_post("email");
-  $mobile= $this->input->get_post("mobile");
-  $message= $this->input->get_post("message");
-  $url= $this->input->get_post("url");
-  $config['upload_path'] = './uploads/';
-  $config['allowed_types'] = '*';
-  $this->load->library('upload', $config);
-  $filename="resume";
-  $resume="";
-  if (  $this->upload->do_upload($filename))
-  {
-  $uploaddata = $this->upload->data();
-  $resume=$uploaddata['file_name'];
-	$config_r['source_pdf']   = './uploads/' . $uploaddata['file_name'];
-
-$data['message'] = $this->restapi_model->careersSubmit($name,$email,$mobile,$message,$resume);
-$data['redirect'] = $url;
-$this->load->view('redirect3', $data);
+            $data['message'] = $this->restapi_model->careersSubmit($name, $email, $mobile, $message, $resume);
+            $data['redirect'] = $url;
+            $this->load->view('redirect3', $data);
 //$this->load->view('json', $data);
-}
-}
-
-
-
-public function subscribe()
-{
-  $email=$this->input->get_post("email");
-
-$data['message'] = $this->restapi_model->subscribe($email);
-$this->load->view('json', $data);
-}
-
-
-public function askSumanSubmit()
-{
-
-  $data = json_decode(file_get_contents('php://input'), true);
-  $category = $data['category'];
-  $name = $data['name'];
-  $email = $data['email'];
-  $question = $data['question'];
-
-$data['message'] = $this->restapi_model->askSumanSubmit($category,$name,$email,$question);
-$this->load->view('json', $data);
-}
-
-
-
-
-
-public function contactSubmit()
-{
-
-  $data = json_decode(file_get_contents('php://input'), true);
-  $firstname = $data['firstname'];
-  $lastname = $data['lastname'];
-  $mobile = $data['mobile'];
-  $email = $data['email'];
-  $message = $data['message'];
-
-$data['message'] = $this->restapi_model->contactSubmit($firstname,$lastname,$mobile,$email,$message);
-$this->load->view('json', $data);
-}
-
-public function getTestimonial()
-{
-    $data['message'] = $this->restapi_model->getTestimonial();
-    $this->load->view('json', $data);
-}
-
-
-
-public function getCategory()
-{
-
-$data['message'] = $this->category_model->getCategory();
-$this->load->view('json', $data);
-}
-
-public function getCategoryById()
-{
-$id=$this->input->get_post("id");
-$data["message"]=$this->category_model->getCategoryById($id);
-$this->load->view("json",$data);
-}
-
-
-
-public function getProductsByCategory() {
-
-    $categoryid = $this->input->get_post('categoryid');
-
-    $subcategories  = $this->input->get_post("subcategories");
-
-    $where = " ";
-    if($subcategories != "")
-    {
-      $where .= " AND `productcategory`.`subcategory` IN ($subcategories) ";
+        }
     }
 
-    $this->chintantable->createelement('`fynx_product`.`id`','1','ID', 'id');
-    $this->chintantable->createelement('`fynx_product`.`name`','1','name', 'name');
-    $this->chintantable->createelement('`fynx_product`.`image1`','1','image', 'image');
-    $this->chintantable->createelement('`fynx_product`.`price`','1','price', 'price');
-    $this->chintantable->createelement('`fynx_product`.`quantity`','1','quantity', 'quantity');
-
-    $search = $this->input->get_post('search');
-    $pageno = $this->input->get_post('pageno');
-    $orderby = "price";
-    if($orderby=="")
+    public function subscribe()
     {
-    $orderby="id";
-    $orderorder="ASC";
+        $email = $this->input->get_post('email');
+
+        $data['message'] = $this->restapi_model->subscribe($email);
+        $this->load->view('json', $data);
     }
 
-    $maxrow = $this->input->get_post('maxrow');
-     $data3["data"] =  $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search,"", "FROM `fynx_product` LEFT OUTER JOIN `productcategory` on `fynx_product`.id=`productcategory`.`product`","WHERE `fynx_product`.`category` = '$categoryid' AND `fynx_product`.`visibility`=1 AND `fynx_product`.`status`=2", "$where", "GROUP BY `fynx_product`.`id`");
-$data3["filter"] = $this->restapi_model->getFiltersLater($data3["data"]->querycomplete);
+    public function askSumanSubmit()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $category = $data['category'];
+        $name = $data['name'];
+        $email = $data['email'];
+        $question = $data['question'];
 
-        $data["message"] = $data3;
-    $this->load->view('json', $data);
-}
+        $data['message'] = $this->restapi_model->askSumanSubmit($category, $name, $email, $question);
+        $this->load->view('json', $data);
+    }
 
+    public function contactSubmit()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $firstname = $data['firstname'];
+        $lastname = $data['lastname'];
+        $mobile = $data['mobile'];
+        $email = $data['email'];
+        $message = $data['message'];
 
-public function getProductDetail()
-{
-$id=$this->input->get_post("id");
-$data["message"]=$this->product_model->getProductDetail($id);
-$this->load->view("json",$data);
-}
+        $data['message'] = $this->restapi_model->contactSubmit($firstname, $lastname, $mobile, $email, $message);
+        $this->load->view('json', $data);
+    }
 
-public function getRecipeDetail()
-{
-$id=$this->input->get_post("id");
-$data["message"]=$this->recipes_model->getRecipeDetail($id);
-$this->load->view("json",$data);
-}
+    public function getTestimonial()
+    {
+        $data['message'] = $this->restapi_model->getTestimonial();
+        $this->load->view('json', $data);
+    }
 
-public function getRelatedProduct()
-{
-  $id=$this->input->get_post("id");
-$this->chintantable->createelement('`fynx_product`.`id`','1','ID', 'id');
-$this->chintantable->createelement('`fynx_product`.`name`','1','name', 'name');
-$this->chintantable->createelement('`fynx_product`.`image1`','1','image', 'image');
-$this->chintantable->createelement('`fynx_product`.`price`','1','price', 'price');
-$this->chintantable->createelement('`fynx_product`.`quantity`','1','quantity', 'quantity');
-$search=$this->input->get_post("search");
-$pageno=$this->input->get_post("pageno");
-$orderby=$this->input->get_post("orderby");
-$orderorder=$this->input->get_post("orderorder");
-$maxrow=$this->input->get_post("maxrow");
-if($maxrow=="")
-{
-$maxrow=20;
-}
-if($orderby=="")
-{
-$orderby="id";
-$orderorder="ASC";
-}
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `relatedproduct` LEFT OUTER JOIN `fynx_product` ON `fynx_product`.`id`=`relatedproduct`.`relatedproduct` LEFT OUTER JOIN `fynx_designs` ON `fynx_designs`.`id`=`relatedproduct`.`design`","WHERE `relatedproduct`.`product`='$id'");
-$this->load->view("json",$data);
-}
+    public function getCategory()
+    {
+        $data['message'] = $this->category_model->getCategory();
+        $this->load->view('json', $data);
+    }
 
-public function getSubCategory()
-{
-$id=$this->input->get_post("id");
-$data["message"]=$this->category_model->getSubCategory($id);
-$this->load->view("json",$data);
+    public function getCategoryById()
+    {
+        $id = $this->input->get_post('id');
+        $data['message'] = $this->category_model->getCategoryById($id);
+        $this->load->view('json', $data);
+    }
 
-}
+    public function getProductsByCategory()
+    {
+        $categoryid = $this->input->get_post('categoryid');
 
+        $subcategories = $this->input->get_post('subcategories');
 
-public function signup()
-{
-    $data = json_decode(file_get_contents('php://input'), true);
-    $firstname = $data['firstname'];
-    $lastname = $data['lastname'];
-    $email = $data['email'];
-    $password = $data['password'];
-    $data['message'] = $this->restapi_model->registeruser($firstname, $lastname, $email, $password);
-    $this->load->view('json', $data);
-}
+        $where = ' ';
+        if ($subcategories != '') {
+            $where .= " AND `productcategory`.`subcategory` IN ($subcategories) ";
+        }
 
+        $this->chintantable->createelement('`fynx_product`.`id`', '1', 'ID', 'id');
+        $this->chintantable->createelement('`fynx_product`.`name`', '1', 'name', 'name');
+        $this->chintantable->createelement('`fynx_product`.`image1`', '1', 'image', 'image');
+        $this->chintantable->createelement('`fynx_product`.`price`', '1', 'price', 'price');
+        $this->chintantable->createelement('`fynx_product`.`quantity`', '1', 'quantity', 'quantity');
+
+        $search = $this->input->get_post('search');
+        $pageno = $this->input->get_post('pageno');
+        $orderby = 'price';
+        if ($orderby == '') {
+            $orderby = 'id';
+            $orderorder = 'ASC';
+        }
+
+        $maxrow = $this->input->get_post('maxrow');
+        $data3['data'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, '', 'FROM `fynx_product` LEFT OUTER JOIN `productcategory` on `fynx_product`.id=`productcategory`.`product`', "WHERE `fynx_product`.`category` = '$categoryid' AND `fynx_product`.`visibility`=1 AND `fynx_product`.`status`=2", "$where", 'GROUP BY `fynx_product`.`id`');
+        $data3['filter'] = $this->restapi_model->getFiltersLater($data3['data']->querycomplete);
+
+        $data['message'] = $data3;
+        $this->load->view('json', $data);
+    }
+
+    public function getProductDetail()
+    {
+        $id = $this->input->get_post('id');
+        $data['message'] = $this->product_model->getProductDetail($id);
+        $this->load->view('json', $data);
+    }
+
+    public function getRecipeDetail()
+    {
+        $id = $this->input->get_post('id');
+        $data['message'] = $this->recipes_model->getRecipeDetail($id);
+        $this->load->view('json', $data);
+    }
+
+    public function getRelatedProduct()
+    {
+        $id = $this->input->get_post('id');
+        $this->chintantable->createelement('`fynx_product`.`id`', '1', 'ID', 'id');
+        $this->chintantable->createelement('`fynx_product`.`name`', '1', 'name', 'name');
+        $this->chintantable->createelement('`fynx_product`.`image1`', '1', 'image', 'image');
+        $this->chintantable->createelement('`fynx_product`.`price`', '1', 'price', 'price');
+        $this->chintantable->createelement('`fynx_product`.`quantity`', '1', 'quantity', 'quantity');
+        $search = $this->input->get_post('search');
+        $pageno = $this->input->get_post('pageno');
+        $orderby = $this->input->get_post('orderby');
+        $orderorder = $this->input->get_post('orderorder');
+        $maxrow = $this->input->get_post('maxrow');
+        if ($maxrow == '') {
+            $maxrow = 20;
+        }
+        if ($orderby == '') {
+            $orderby = 'id';
+            $orderorder = 'ASC';
+        }
+        $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `relatedproduct` LEFT OUTER JOIN `fynx_product` ON `fynx_product`.`id`=`relatedproduct`.`relatedproduct` LEFT OUTER JOIN `fynx_designs` ON `fynx_designs`.`id`=`relatedproduct`.`design`', "WHERE `relatedproduct`.`product`='$id'");
+        $this->load->view('json', $data);
+    }
+
+    public function getSubCategory()
+    {
+        $id = $this->input->get_post('id');
+        $data['message'] = $this->category_model->getSubCategory($id);
+        $this->load->view('json', $data);
+    }
+
+    public function signup()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $firstname = $data['firstname'];
+        $lastname = $data['lastname'];
+        $email = $data['email'];
+        $password = $data['password'];
+        $data['message'] = $this->restapi_model->registeruser($firstname, $lastname, $email, $password);
+        $this->load->view('json', $data);
+    }
 
     public function getalluseraddress()
     {
@@ -1897,31 +1855,31 @@ public function getsinglesize()
 
     public function placeOrder()
     {
-      $data = json_decode(file_get_contents('php://input'), true);
-      $user = $this->session->userdata('id');
-      $firstname = $data['firstname'];
-      $lastname = $data['lastname'];
-      $email = $data['email'];
+        $data = json_decode(file_get_contents('php://input'), true);
+        $user = $this->session->userdata('id');
+        $firstname = $data['firstname'];
+        $lastname = $data['lastname'];
+        $email = $data['email'];
 
-      $phone = $data['mobile'];
-      $billingline1 = $data['billingline1'];
-      $billingline2 = $data['billingline2'];
-      $billingline3 = $data['billingline3'];
-      $billingcity = $data['billingcity'];
-      $billingstate = $data['billingstate'];
-      $billingcountry = $data['billingcountry'];
-      $billingpincode = $data['billingpincode'];
-      $shippingcity = $data['shippingcity'];
-      $shippingline1 = $data['shippingline1'];
-      $shippingline2 = $data['shippingline2'];
-      $shippingline3 = $data['shippingline3'];
-      $shippingcountry = $data['shippingcountry'];
-      $shippingstate = $data['shippingstate'];
-      $shippingpincode = $data['shippingpincode'];
-      $carts = $data['cart'];
-      $paymentmode = $data['paymentmode'];
+        $phone = $data['mobile'];
+        $billingline1 = $data['billingline1'];
+        $billingline2 = $data['billingline2'];
+        $billingline3 = $data['billingline3'];
+        $billingcity = $data['billingcity'];
+        $billingstate = $data['billingstate'];
+        $billingcountry = $data['billingcountry'];
+        $billingpincode = $data['billingpincode'];
+        $shippingcity = $data['shippingcity'];
+        $shippingline1 = $data['shippingline1'];
+        $shippingline2 = $data['shippingline2'];
+        $shippingline3 = $data['shippingline3'];
+        $shippingcountry = $data['shippingcountry'];
+        $shippingstate = $data['shippingstate'];
+        $shippingpincode = $data['shippingpincode'];
+        $carts = $data['cart'];
+        $paymentmode = $data['paymentmode'];
 
-      $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode);
+        $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode);
 
         $this->load->view('json', $data);
     }
@@ -1954,7 +1912,7 @@ public function getsinglesize()
         $quantity = $data['quantity'];
         $json = $data['json'];
         $status = $data['status'];
-        $data['message'] = $this->restapi_model->addToCart($product, $quantity, $json,$status);
+        $data['message'] = $this->restapi_model->addToCart($product, $quantity, $json, $status);
         $this->load->view('json', $data);
     }
 
@@ -1962,8 +1920,8 @@ public function getsinglesize()
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $cart = $data['cart'];
-          $status = $data['status'];
-        $data['message'] = $this->restapi_model->removeFromCart($cart,$status);
+        $status = $data['status'];
+        $data['message'] = $this->restapi_model->removeFromCart($cart, $status);
         $this->load->view('json', $data);
     }
 
@@ -1980,7 +1938,7 @@ public function getsinglesize()
     }
     public function totalitemcart()
     {
-        $data['message'] =$this->user_model->totalitemcart();
+        $data['message'] = $this->user_model->totalitemcart();
         $this->load->view('json', $data);
     }
     public function searchbyname()
@@ -2184,9 +2142,8 @@ public function getsinglesize()
     {
         $id = intval($this->input->get_post('id'));
         $design = intval($this->input->get_post('design'));
-        if($design == 0)
-        {
-          $design = "";
+        if ($design == 0) {
+            $design = '';
         }
         $user = $this->session->userdata('id');
         $this->user_model->deletecartfromdb($id, $user, $design);
@@ -2588,7 +2545,7 @@ public function getsinglesize()
         $email = $data['email'];
         $userdetail = $this->user_model->getidbyemail($email);
         $userid = $userdetail->id;
-        $username = $userdetail->firstname." ".$userdetail->lastname;
+        $username = $userdetail->firstname.' '.$userdetail->lastname;
 
         if ($userid == '') {
             $data['message'] = new stdClass();
@@ -2598,13 +2555,12 @@ public function getsinglesize()
             $hashvalue = base64_encode($userid.'&access');
             $link = "<a href='http://selfcareindia.com/#/forgotpassword/$hashvalue'>Click here </a> To Reset Your Password.";
 
-
             $this->load->library('email');
-    						 $this->email->from('vigwohlig@gmail.com', 'Selfcare');
-    						 $this->email->to($email);
-    						 $this->email->subject('Access Password Changed');
+            $this->email->from('vigwohlig@gmail.com', 'Selfcare');
+            $this->email->to($email);
+            $this->email->subject('Access Password Changed');
 
-    						 $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
+            $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
     						 <div style='margin:0'>
 
     						 <u></u>
@@ -2652,12 +2608,12 @@ public function getsinglesize()
 
 
     						 </div></div></div></body></html>";
-    						 $this->email->message($message);
-    						 $this->email->send();
+            $this->email->message($message);
+            $this->email->send();
 
             $data['message'] = new stdClass();
             $data['message']->value = true;
-       $this->load->view("json", $data);
+            $this->load->view('json', $data);
         }
     }
 
@@ -2766,13 +2722,11 @@ public function getsinglesize()
     public function getuserbyid()
     {
         $id = $this->session->userdata('id');
-        if(!empty($id))
-        {
-        $data['message'] = $this->user_model->beforeedit($id);
-        }
-        else {
-          $obj = new stdClass();
-          $obj->value = false;
+        if (!empty($id)) {
+            $data['message'] = $this->user_model->beforeedit($id);
+        } else {
+            $obj = new stdClass();
+            $obj->value = false;
             $data['message'] = $obj;
         }
 
@@ -2847,8 +2801,7 @@ public function getsinglesize()
         $orderby = 'price';
         if ($price == '2') {
             $orderorder = 'DESC';
-        }
-        else if($price == '1') {
+        } elseif ($price == '1') {
             $orderorder = 'ASC';
         }
 
@@ -2884,19 +2837,17 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $color = $this->input->get_post('color');
         $design = $this->input->get_post('design');
         $user = $this->session->userdata('id');
-        $data['message'] = $this->product_model->getProductDetails($id, $user, $size, $color,$design);
+        $data['message'] = $this->product_model->getProductDetails($id, $user, $size, $color, $design);
         $this->load->view('json', $data);
     }
     public function showCart()
     {
-        // $userid = $this->session->userdata('id');
-       $userid = $this->input->get_post('id');
+        $userid = $this->session->userdata('id');
+       //$userid = $this->input->get_post('id');
 
-            if ($userid != '') {
+        if ($userid != '') {
             $data['message'] = $this->user_model->showCart($userid);
-        }
-        else
-        {
+        } else {
             $cart = $this->cart->contents();
             $newcart = array();
             foreach ($cart as $item) {
@@ -2904,66 +2855,55 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
             }
 
             $data['message'] = $newcart;
-            foreach($data['message'] as $key=>$element)
-            {
-              // print_r($data['message'][$key]["options"]);
-                $proid=$element["id"];
-                $data['message'][$key]["status"] = $data['message'][$key]["options"]["status"];
-                $data['message'][$key]["plan"] = $data['message'][$key]["options"]["plan"];
-                $data['message'][$key]["subtype"] = $data['message'][$key]["options"]["subtype"];
-                $data['message'][$key]["months"] = $data['message'][$key]["options"]["months"];
+            foreach ($data['message'] as $key => $element) {
+                // print_r($data['message'][$key]["options"]);
+                $proid = $element['id'];
+                $data['message'][$key]['status'] = $data['message'][$key]['options']['status'];
+                $data['message'][$key]['plan'] = $data['message'][$key]['options']['plan'];
+                $data['message'][$key]['subtype'] = $data['message'][$key]['options']['subtype'];
+                $data['message'][$key]['months'] = $data['message'][$key]['options']['months'];
             }
         }
-        foreach($data['message'] as $key=>$element)
-        {
-            $proid=$element["id"];
-            $data['message'][$key]["maxQuantity"]=$this->restapi_model->checkproductquantity($proid);
+        foreach ($data['message'] as $key => $element) {
+            $proid = $element['id'];
+            $data['message'][$key]['maxQuantity'] = $this->restapi_model->checkproductquantity($proid);
         }
         $this->load->view('json', $data);
     }
 
-    function checkoutCheck() {
-       $userid=$this->session->userdata("id");
-       $returnWhat = new stdClass();
-       $returnWhat->value = true;
-       $newcart=array();
-       if($userid != "")
-       {
-           $newcart  = $this->db->query("SELECT `quantity` as `qty`,`product` as `id`,`status`  FROM `fynx_cart` WHERE `user` = '$userid'")->result_array();
-       }
-       else
-       {
-
-           $cart = $this->cart->contents();
-           foreach ($cart as $item) {
-                $item["status"] = $item["options"]["status"];
-               array_push($newcart, $item);
-           }
-       }
-       $data["message"]=array();
-       foreach($newcart as $element)
-       {
-
-           $proid=$element["id"];
-           $status=$element["status"];
-if($status != 3)
-{
-           $element["maxQuantity"]=$this->restapi_model->checkproductquantity($proid);
-           $maxQuantity = intval($element["maxQuantity"]);
-           $cartQuantity = intval($element["qty"]);
-             if($cartQuantity <= $maxQuantity) {
-               //Enjoy
-           }
-           else
-           {
-                $returnWhat->value=false;
-           }
-}
-       }
-       $data["message"]=$returnWhat;
-        $this->load->view("json", $data);
-   }
-
+    public function checkoutCheck()
+    {
+        $userid = $this->session->userdata('id');
+        $returnWhat = new stdClass();
+        $returnWhat->value = true;
+        $newcart = array();
+        if ($userid != '') {
+            $newcart = $this->db->query("SELECT `quantity` as `qty`,`product` as `id`,`status`  FROM `fynx_cart` WHERE `user` = '$userid'")->result_array();
+        } else {
+            $cart = $this->cart->contents();
+            foreach ($cart as $item) {
+                $item['status'] = $item['options']['status'];
+                array_push($newcart, $item);
+            }
+        }
+        $data['message'] = array();
+        foreach ($newcart as $element) {
+            $proid = $element['id'];
+            $status = $element['status'];
+            if ($status != 3) {
+                $element['maxQuantity'] = $this->restapi_model->checkproductquantity($proid);
+                $maxQuantity = intval($element['maxQuantity']);
+                $cartQuantity = intval($element['qty']);
+                if ($cartQuantity <= $maxQuantity) {
+                    //Enjoy
+                } else {
+                    $returnWhat->value = false;
+                }
+            }
+        }
+        $data['message'] = $returnWhat;
+        $this->load->view('json', $data);
+    }
 
     public function removeFromWishlist()
     {
@@ -3036,81 +2976,84 @@ if($status != 3)
 
     public function getorders()
     {
-       $userid = $this->input->get('id');
+        $userid = $this->input->get('id');
         //$userid = $this->session->userdata('id');
         $data['message'] = $this->restapi_model->getorders($userid);
         $this->load->view('json', $data);
     }
 
-
     public function payumoneysuccess()
-     {
-       $workingKey='825cors0t20vgfolcm9adon2ixpz2qll';		//Working Key should be provided here.
-       $encResponse=$_POST["encResponse"];	//This is the response sent by the CCAvenue Server
-       $rcvdString=$this->aes->decrypt($encResponse,$workingKey);		//AES Decryption used as per the specified working key.
+    {
+        $workingKey = '825cors0t20vgfolcm9adon2ixpz2qll';        //Working Key should be provided here.
+       $encResponse = $_POST['encResponse'];    //This is the response sent by the CCAvenue Server
+       $rcvdString = $this->aes->decrypt($encResponse, $workingKey);        //AES Decryption used as per the specified working key.
   echo $rcvdString;
-     	$AuthDesc="";
-     	$MerchantId="";
-     	$OrderId="";
-     	$Amount=0;
-     	$Checksum=0;
-     	$veriChecksum=false;
+        $AuthDesc = '';
+        $MerchantId = '';
+        $OrderId = '';
+        $Amount = 0;
+        $Checksum = 0;
+        $veriChecksum = false;
 
-     	$decryptValues=explode('&', $rcvdString);
-     	$dataSize=sizeof($decryptValues);
-     	//******************************    Messages based on Checksum & AuthDesc   **********************************//
-     	echo "<center>";
+        $decryptValues = explode('&', $rcvdString);
+        $dataSize = sizeof($decryptValues);
+         //******************************    Messages based on Checksum & AuthDesc   **********************************//
+         echo '<center>';
 
+        for ($i = 0; $i < $dataSize; ++$i) {
+            $information = explode('=', $decryptValues[$i]);
+            if ($i == 0) {
+                $MerchantId = $information[1];
+            }
+            if ($i == 1) {
+                $OrderId = $information[1];
+            }
+            if ($i == 2) {
+                $Amount = $information[1];
+            }
+            if ($i == 3) {
+                $AuthDesc = $information[1];
+            }
+            if ($i == 4) {
+                $Checksum = $information[1];
+            }
+            if ($i == 22) {
+                $nb_bid = $information[1];
+            }
+            if ($i == 23) {
+                $nb_order_no = $information[1];
+            }
+        }
 
-     	for($i = 0; $i < $dataSize; $i++)
-     	{
-     		$information=explode('=',$decryptValues[$i]);
-     		if($i==0)	$MerchantId=$information[1];
-     		if($i==1)	$OrderId=$information[1];
-     		if($i==2)	$Amount=$information[1];
-     		if($i==3)	$AuthDesc=$information[1];
-     		if($i==4)	$Checksum=$information[1];
-        if($i==22)$nb_bid=$information[1];
-        if($i==23)$nb_order_no=$information[1];
-     	}
+        $rcvdString = $MerchantId.'|'.$OrderId.'|'.$Amount.'|'.$AuthDesc.'|'.$workingKey;
+        $veriChecksum = $this->adler->verifyChecksum($this->adler->genchecksum($rcvdString), $Checksum);
 
-     	$rcvdString=$MerchantId.'|'.$OrderId.'|'.$Amount.'|'.$AuthDesc.'|'.$workingKey;
-     	$veriChecksum=$this->adler->verifyChecksum($this->adler->genchecksum($rcvdString), $Checksum);
+        if ($veriChecksum == true && $AuthDesc === 'Y') {
+            echo '<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.';
+            $responsecode = 2;
+             //Here you need to put in the routines for a successful
+             //transaction such as sending an email to customer,
+             //setting database status, informing logistics etc etc
+        } elseif ($veriChecksum == true && $AuthDesc === 'B') {
+            echo '<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail';
+            $responsecode = 2;
+             //Here you need to put in the routines/e-mail for a  "Batch Processing" order
+             //This is only if payment for this transaction has been made by an American Express Card
+             //since American Express authorisation status is available only after 5-6 hours by mail from ccavenue and at the "View Pending Orders"
+        } elseif ($veriChecksum == true && $AuthDesc === 'N') {
+            echo '<br>Thank you for shopping with us.However,the transaction has been declined.';
+            $responsecode = 5;
+             //Here you need to put in the routines for a failed
+             //transaction such as sending an email to customer
+             //setting database status etc etc
+        } else {
+            echo '<br>Security Error. Illegal access detected';
 
-     	if($veriChecksum==TRUE && $AuthDesc==="Y")
-     	{
-     		echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
-        $responsecode=2;
-     		//Here you need to put in the routines for a successful
-     		//transaction such as sending an email to customer,
-     		//setting database status, informing logistics etc etc
-     	}
-     	else if($veriChecksum==TRUE && $AuthDesc==="B")
-     	{
-     		echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
-        $responsecode=2;
-     		//Here you need to put in the routines/e-mail for a  "Batch Processing" order
-     		//This is only if payment for this transaction has been made by an American Express Card
-     		//since American Express authorisation status is available only after 5-6 hours by mail from ccavenue and at the "View Pending Orders"
-     	}
-     	else if($veriChecksum==TRUE && $AuthDesc==="N")
-     	{
-     		echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
-        $responsecode=5;
-     		//Here you need to put in the routines for a failed
-     		//transaction such as sending an email to customer
-     		//setting database status etc etc
-     	}
-     	else
-     	{
-     		echo "<br>Security Error. Illegal access detected";
-
-     		//Here you need to simply ignore this and dont need
-     		//to perform any operation in this condition
-     	}
-      $data['message'] = $this->restapi_model->updateorderstatusafterpayment($OrderId,$nb_bid, $nb_order_no, $responsecode,$Amount);
-
-     }
+             //Here you need to simply ignore this and dont need
+             //to perform any operation in this condition
+        }
+        $data['message'] = $this->restapi_model->updateorderstatusafterpayment($OrderId, $nb_bid, $nb_order_no, $responsecode, $Amount);
+    }
 
     public function uploadImage()
     {

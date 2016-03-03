@@ -621,7 +621,7 @@ $subtype= $this->db->query("SELECT `selftables_subtype`.`name` as 'name' FROM `s
 function removeFromCart($cart,$status)
 {
 		$user = $this->session->userdata('id');
-		if($user!=''){
+		if($user != ''){
 
 	$deletecart=$this->db->query("DELETE FROM `fynx_cart` WHERE `product`='$cart' AND `user`='$user'AND `status`='$status'");
 
