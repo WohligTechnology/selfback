@@ -21,7 +21,7 @@
   padding: 20px;
 }
 .back-gray {
-  background-color: #EBEBEB;
+  backgnumber_format-color: #EBEBEB;
 }
 .bottom-line {  border-bottom: 2px solid #434343; }
 </style>
@@ -86,13 +86,16 @@
               <div class="">
               <address>
                 <?php
-                    echo $before->firstname." ".$before->lastname;
+
+
+                      echo $before->firstname." ".$before->lastname;
                      echo "<br>";
                       echo $before->billingaddress;
                      echo "<br>";
                       echo $before->billingcity.", ".$before->billingstate." - ".$before->billingpincode;
                       echo "<br>";
                        echo $before->billingcontact;
+
 
                  ?>
                 </address>
@@ -141,24 +144,46 @@
                         $finalpricetotal=0;
                         foreach($table as $value)
                         {
-                          $oprice = $value->price / 1.05;
+                          $plan = $value->plan;
+                          if ($plan == 1) {
+                              $plan = 'Silver Plan';
+                          }
+                          if ($plan == 2) {
+                              $plan = 'Gold Plan';
+                          }
+                          if ($plan == 3) {
+                              $plan = 'Platinum Plan';
+                          }
+                          if ($plan == 4) {
+                              $plan = 'Diamond Plan';
+                          }
+                          if($value->months == 1)
+                          {
+                            $months = $value->months." Month";
+                          }
+                          else
+                          {
+                            $months = $value->months." Months";
+                          }
+
+                          $name = $months." ".$plan;
+                          $oprice = $value->price / 1.145;
                           $ovat = $value->price - $oprice;
-                          $tvat = $ovat * $value->quantity;
 
                     ?>
 
                         <tr>
                             <!-- <td><?php echo $counter;?></td> -->
-                            <td><?php echo $value->name;?></td>
-                              <td><?php echo $value->sku;?></td>
+                            <td><?php echo $name;?></td>
+                            <td><?php echo $value->sku;?></td>
                             <td><?php echo $value->quantity;?></td>
                             <td><?php echo number_format($oprice,2);?></td>
-                            <td><?php echo number_format($tvat,2);?></td>
+                            <td><?php echo number_format($ovat,2);?></td>
                             <td><?php echo number_format($value->finalprice,2);?></td>
                         </tr>
                         <?php
                             $finalpricetotal=$finalpricetotal+$value->finalprice;
-                              $totalvat = $totalvat+$tvat;
+                            $totalvat = $totalvat+$ovat;
                             $counter++;
                         }
                         ?>
@@ -180,8 +205,8 @@
                     <tr>
                         <td><b>Total:</b></td>
                         <td><?php
-                        echo number_format(($finalpricetotal / 1.05),2)
-                        ?></td>
+
+                          echo number_format(($finalpricetotal / 1.145),2);?></td>
                     </tr>
                     <tr>
                         <td><b>Total Vat:</b></td>
@@ -210,9 +235,9 @@
     <!-- compiled and minified Bootstrap JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script>
-        // $(window).load(function () {
-        //     window.print();
-        // });
+        $(window).load(function () {
+            window.print();
+        });
     </script>
 </body>
 

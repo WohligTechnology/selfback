@@ -4347,12 +4347,21 @@ $search = $this->input->get_post('search');
     {
     $access = array("1");
     $this->checkaccess($access);
-    $data[ 'category' ] =$this->category_model->getcategorydropdown();
-    $data[ 'table' ] =$this->order_model->getorderitem($this->input->get('id'));
+    $data[ 'table' ] =$this->order_model->printorderinvoice($this->input->get('id'));
+    $data['before']=$this->order_model->beforeedit($this->input->get('id'));
+    $data['id']=$this->input->get('id');
+    $data['page']='templateinvoice';
+    $this->load->view('templateinvoice',$data);
+    }
+    function printorderinvoiceplan()
+    {
+    $access = array("1");
+    $this->checkaccess($access);
+    $data[ 'table' ] =$this->order_model->printorderinvoiceplan($this->input->get('id'));
     $data['before']=$this->order_model->beforeedit($this->input->get('id'));
         $data['id']=$this->input->get('id');
-    $data['page']='orderinvoice';
-    $this->load->view('templateinvoice',$data);
+    $data['page']='templateinvoiceplan';
+    $this->load->view('templateinvoiceplan',$data);
     }
     public function printorderlabel()
     {
