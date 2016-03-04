@@ -58,9 +58,13 @@ $myserver=$_SERVER['SERVER_NAME'];
 $ip = substr($myserver,0,7);
 if($myserver != "localhost"  && $ip != "192.168")
 {
-    $db['default']['username'] = 'wwwselfc_website';
-    $db['default']['password'] = 'chintan123';
-    $db['default']['database'] = 'wwwselfc_website';
+    $db['default']['hostname'] = 'localhost';
+    $db['default']['username'] = 'root';
+    $db['default']['password'] = '';
+    $db['default']['database'] = 'tingwork_self';
+    // $db['default']['username'] = 'wwwselfc_website';
+    // $db['default']['password'] = 'chintan123';
+    // $db['default']['database'] = 'wwwselfc_website';
     $db['default']['dbdriver'] = 'mysqli';
     $db['default']['dbprefix'] = '';
     $db['default']['pconnect'] = TRUE;
