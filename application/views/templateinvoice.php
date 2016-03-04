@@ -33,12 +33,12 @@
 </head>
 
 <body>
-  
+
     <div class="container">
         <div class="row">
             <div class="col-xs-2">
                 <div class="logo">
-                    <img src="<?php echo base_url('uploads/logo.png'); ?>">
+                  <img src="<?php echo base_url('uploads/logo.png'); ?>">
                 </div>
             </div>
             <div class="col-xs-5"></div>
@@ -46,7 +46,7 @@
                 <table class="table table-bordered">
                     <tr>
                         <td><b>Date:</b></td>
-                        <td><?php echo date("Y-m-d");?></td>
+                        <td><?php  echo date("Y-m-d");?></td>
                     </tr>
                     <tr>
                         <td><b>Invoice No.:</b></td>
@@ -61,69 +61,52 @@
             <div style="border:1px solid #ccc; padding:10px;"><b>Billing Address</b>
                     <div>
                        <?php
-                        if($before['order']->billingaddress=="")
+                        if($before->billingaddress=="")
                         {
-                             echo $before['order']->firstname." ".$before['order']->lastname;
+                             echo $before->firstname." ".$before->lastname;
                             echo "<br>";
-                             echo $before['order']->shippingaddress;
+                             echo $before->shippingaddress;
                             echo "<br>";
-                             echo $before['order']->shippingcity;
-                            echo "<br>";
-                             echo $before['order']->shippingstate;
-                            echo "<br>";
-                             echo $before['order']->shippingpincode;
-                        
+                             echo $before->shippingcity.", ".$before->shippingstate." - ".$before->shippingpincode;
+
                         }
                         else
                         {
-                             echo $before['order']->firstname." ".$before['order']->lastname;
+                             echo $before->firstname." ".$before->lastname;
                             echo "<br>";
-                             echo $before['order']->billingaddress;
+                             echo $before->billingaddress;
                             echo "<br>";
-                             echo $before['order']->billingcity;
-                            echo "<br>";
-                             echo $before['order']->billingstate;
-                            echo "<br>";
-                             echo $before['order']->billingpincode;
+                             echo $before->billingcity.", ".$before->billingstate." - ".$before->billingpincode;
+
                         }
                         ?>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-xs-2"></div>
-            
+
             <div class="col-xs-5">
                 <div style="border:1px solid #ccc; padding:10px;"><b>Shipping Address</b>
                     <div>
                        <?php
-                        if($before['order']->shippingaddress=="")
+                        if($before->shippingaddress=="")
                         {
-                             echo $before['order']->firstname." ".$before['order']->lastname;
+
+                             echo $before->firstname." ".$before->lastname;
                             echo "<br>";
-                            echo $before['order']->billingaddress;
+                            echo $before->billingaddress;
                             echo "<br>";
-                             echo $before['order']->billingcity;
-                            echo "<br>";
-                             echo $before['order']->billingstate;
-                            echo "<br>";
-                             echo $before['order']->billingpincode;
-                            
-                             
-                        
+                             echo $before->billingcity.", ".$before->billingstate." - ".$before->billingpincode;
                         }
                         else
                         {
-                             echo $before['order']->firstname." ".$before['order']->lastname;
+                             echo $before->firstname." ".$before->lastname;
                             echo "<br>";
-                             echo $before['order']->shippingaddress;
+                             echo $before->shippingaddress;
                             echo "<br>";
-                             echo $before['order']->shippingcity;
-                            echo "<br>";
-                             echo $before['order']->shippingstate;
-                            echo "<br>";
-                             echo $before['order']->shippingpincode;
-                            echo "<br>";
+                            $before->billingcity.", ".$before->billingstate." - ".$before->billingpincode;
+
                         }
                         ?>
                     </div>
@@ -132,11 +115,7 @@
             </div>
         </div>
         <br>
-<!--
-        <div class="row">
-           &nbsp;
-        </div>
--->
+
         <div class="row">
             <div class="col-xs-12">
                 <table class="table table-bordered">
@@ -146,21 +125,28 @@
                             <th>Product</th>
                             <th>Quantity</th>
                             <th>Price</th>
+                            <th>Vat(5%)</th>
                             <th>Total Amount</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php
+
                         $counter=1;
                         $finalpricetotal=0;
                         foreach($table as $value)
                         {
+                          $ovat = $value->price * 0.05;
+                          $oprice = $value->price - $ovat;
+
                     ?>
+
                         <tr>
                             <td><?php echo $counter;?></td>
-                            <td><?php echo $value->name."-".$value->sku;?></td>
+                            <td><?php echo $value->name;?></td>
                             <td><?php echo $value->quantity;?></td>
-                            <td><?php echo $value->price;?></td>
+                            <td><?php echo $oprice;?></td>
+                            <td><?php echo $ovat;?></td>
                             <td><?php echo $value->finalprice;?></td>
                         </tr>
                         <?php
@@ -185,54 +171,29 @@
                 <table class="table table-bordered">
                     <tr>
                         <td><b>Total:</b></td>
-                        <td><?php echo $finalpricetotal;?></td>
+                        <td><?php
+                          $vat = $finalpricetotal * 0.05;
+                          echo $finalpricetotal - $vat ;?></td>
                     </tr>
                     <tr>
-                        <td><b>Invoice No.:</b></td>
+                        <td><b>Total Vat:</b></td>
                         <td>
                             <?php
-                                if($before['order']->shippingmethod==1)
-                                {
-                                    $finallasttotal=$finalpricetotal+0;
-                                    echo "&pound; 0.00";
-                                }
-                                else if($before['order']->shippingmethod==2)
-                                {
-                                    $finallasttotal=$finalpricetotal+3;
-                                    echo "&pound; 3.00";
-                                }
-                                else if($before['order']->shippingmethod==3)
-                                {
-                                    $finallasttotal=$finalpricetotal+5;
-                                    echo "&pound; 5.00";
-                                }
-                                else if($before['order']->shippingmethod==4)
-                                {
-                                    $finallasttotal=$finalpricetotal+0;
-                                    echo "&pound; 0.00";
-                                }
-                                else if($before['order']->shippingmethod==5)
-                                {
-                                    $finallasttotal=$finalpricetotal+5;
-                                    echo "&pound; 5.00";
-                                }
-                                else if($before['order']->shippingmethod==6)
-                                {
-                                    $finallasttotal=$finalpricetotal+0;
-                                    echo "&pound; 0.00";
-                                }
+                              echo $vat;
                             ?>
                         </td>
                     </tr>
                     <tr>
                         <td><b>Final Total:</b></td>
-                        <td><?php echo $finallasttotal;?></td>
+                        <td><?php
+
+                          echo $finalpricetotal;?></td>
                     </tr>
                 </table>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 text-center">Thank you for shopping with myFynx.</div>
+            <div class="col-xs-12 text-center">Thank you for shopping with Selfcare.</div>
         </div>
     </div>
 

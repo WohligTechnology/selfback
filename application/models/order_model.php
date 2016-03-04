@@ -91,6 +91,16 @@ class order_model extends CI_Model
         return $query;
     }
 
+    public function printorderinvoice($id)
+    {
+      $query=$this->db->query("SELECT `fynx_product`.`name`, `fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`,`fynx_orderitem`.`discount`,`fynx_orderitem`.`finalprice` FROM `fynx_orderitem`
+    INNER JOIN `fynx_order` ON `fynx_order`.`id`=`fynx_orderitem`.`order`
+    INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_orderitem`.`product` AND `fynx_orderitem`.`order`='$id'
+      " )->result();
+
+    return $query;
+    }
+
     public function placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode)
     {
         $mysession = $this->session->all_userdata();
@@ -175,19 +185,19 @@ class order_model extends CI_Model
             $subtotal = $cart['subtotal'];
             $tprice = intval($price) * intval($quantity);
             if ($months == 1) {
-                $months = $months.' Month';
+                $month = $months.' Month';
             } else {
-                $months = $months.' Months';
+                $month = $months.' Months';
             }
-            if ($status == 3) {
+            if ($status == "3") {
                 $message .= "
 
        <tr>
                  <td style='text-align:center' align='center'>
-           <figure>
-            $months
+
+            $month <br>
              <figcaption>$plan</figcaption>
-           </figure>
+
 
          </td>
                <td style='text-align:center' align='center'>$quantity</td>

@@ -259,22 +259,6 @@ class restapi_model extends CI_Model
         if (empty($userid)) {
             //echo "NO users found";
         } else {
-            // $orders = $this->db->query("select  `fynx_order`.`id`, `fynx_orderitem`.`status` from `fynx_order` INNER JOIN `fynx_orderitem` ON `fynx_order`.`id`=`fynx_orderitem`.`order` where `user`=$userid")->result();
-            // $return->plans = array();
-            // $return->products = array();
-            // foreach ($orders  as $plan) {
-            //     if ($plan->status == 3) {
-            //         $q = "SELECT `fynx_orderitem`.`order`,`fynx_product`.`id`,`plans`.`plan`,`selftables_subtype`.`name` as `subtype`,`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`=3";
-            //             //echo $q;
-            //                 $pq = $this->db->query($q)->row();
-            //         array_push($return->plans, $pq);
-            //     } else {
-            //         $q = "SELECT `fynx_orderitem`.`order`,`fynx_product`.`id`,`fynx_product`.`name`,`fynx_product`.`image1` as 'image' ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id`  WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`!=3";
-            //         //echo $q;
-            //             $pp = $this->db->query($q)->row();
-            //         array_push($return->products, $pp);
-            //     }
-            // }
 
             $return->orders = $this->db->query("select DISTINCT `fynx_order`.`id` from `fynx_order` INNER JOIN `fynx_orderitem` ON `fynx_order`.`id`=`fynx_orderitem`.`order` where `fynx_order`.`user`=$userid AND `fynx_order`.`transactionid`!=''")->result();
 

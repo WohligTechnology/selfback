@@ -4343,16 +4343,16 @@ $search = $this->input->get_post('search');
         $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `contact`');
         $this->load->view('json', $data);
     }
-    public function printorderinvoice()
+    function printorderinvoice()
     {
-        $access = array('1');
-        $this->checkaccess($access);
-        $data[ 'category' ] = $this->category_model->getcategorydropdown();
-        $data[ 'table' ] = $this->order_model->getorderitem($this->input->get('id'));
-        $data['before'] = $this->order_model->beforeedit($this->input->get('id'));
-        $data['id'] = $this->input->get('id');
-        $data['page'] = 'orderinvoice';
-        $this->load->view('templateinvoice', $data);
+    $access = array("1");
+    $this->checkaccess($access);
+    $data[ 'category' ] =$this->category_model->getcategorydropdown();
+    $data[ 'table' ] =$this->order_model->getorderitem($this->input->get('id'));
+    $data['before']=$this->order_model->beforeedit($this->input->get('id'));
+        $data['id']=$this->input->get('id');
+    $data['page']='orderinvoice';
+    $this->load->view('templateinvoice',$data);
     }
     public function printorderlabel()
     {
