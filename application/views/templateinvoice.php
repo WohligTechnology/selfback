@@ -210,9 +210,9 @@
     <!-- compiled and minified Bootstrap JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script>
-        // $(window).load(function () {
-        //     window.print();
-        // });
+        $(window).load(function () {
+            window.print();
+        });
     </script>
 </body>
 
