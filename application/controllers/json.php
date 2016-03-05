@@ -3054,7 +3054,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         } else {
           $Amount = 0;
         }
-        
+
         $data['message'] = $this->restapi_model->updateorderstatusafterpayment($OrderId, $nb_bid, $nb_order_no, $responsecode, $Amount);
     }
 

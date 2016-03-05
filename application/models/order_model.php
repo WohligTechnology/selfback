@@ -95,7 +95,7 @@ class order_model extends CI_Model
     {
       $query=$this->db->query("SELECT `fynx_product`.`name`,`fynx_product`.`sku`, `fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`,`fynx_orderitem`.`discount`,`fynx_orderitem`.`finalprice` FROM `fynx_orderitem`
     INNER JOIN `fynx_order` ON `fynx_order`.`id`=`fynx_orderitem`.`order`
-    INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_orderitem`.`product` AND `fynx_orderitem`.`order`='$id' AND `fynx_orderitem`.`status`=1
+    INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_orderitem`.`product` WHERE `fynx_orderitem`.`order`='$id' AND `fynx_orderitem`.`status`!=3
       " )->result();
 
     return $query;
