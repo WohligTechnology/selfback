@@ -32,12 +32,12 @@ $config =
 			"Google" => array (
 				"enabled" => true,
 				"keys"    => array ( "id" => "456065952559-b04o93jhovvesqk4fr3tsnhq7mmbk9ns.apps.googleusercontent.com", "secret" => "6E_IMBn71cvuBygrK_jcp-VQ" )
-				
+
 			),
 
 			"Facebook" => array (
 				"enabled" => true,
-				"keys"    => array ( "id" => "1522954334701840", "secret" => "c284849635921ca00b695cc9997159b5" ),
+				"keys"    => array ( "id" => "1031235036919813", "secret" => "c84eaf0311bc764fe9865fbd872d53c8Reset" ),
                 "scope"   => "email, user_about_me, user_birthday, user_hometown, user_website,publish_actions"
 			),
 
