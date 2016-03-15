@@ -2865,6 +2865,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
                 $data['message'][$key]['plan'] = $data['message'][$key]['options']['plan'];
                 $data['message'][$key]['subtype'] = $data['message'][$key]['options']['subtype'];
                 $data['message'][$key]['months'] = $data['message'][$key]['options']['months'];
+                $data['message'][$key]['dollarprice'] = $data['message'][$key]['options']['dollarprice'];
+                $data['message'][$key]['dollarsubtotal'] = $data['message'][$key]['options']['dollarprice'];
             }
         }
         foreach ($data['message'] as $key => $element) {

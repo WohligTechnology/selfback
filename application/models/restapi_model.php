@@ -388,8 +388,10 @@ class restapi_model extends CI_Model
             $exactproduct = $getexactproduct->id;
             $packageid = $getexactproduct->packageid;
             $price = $getexactproduct->price_in_INR;
+            $dollarprice = $getexactproduct->price_in_dollars;
             $productname = $getexactproduct->plan;
             $price = floatval($price);
+            $dollarprice = floatval($dollarprice);
             $months = $this->db->query("SELECT `months` as 'months',`subtype` as 'subtype'  FROM `selftables_healthpackages` WHERE `id`='$packageid'")->row();
             $subtype = $this->db->query("SELECT `selftables_subtype`.`name` as 'name' FROM `selftables_healthpackages` INNER JOIN `selftables_subtype` ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `selftables_subtype`.`id`='$months->subtype'")->row();
 
@@ -403,6 +405,7 @@ class restapi_model extends CI_Model
                                                         'subtype' => $subtype->name,
                                                         'plan' => $productname,
                                                             'months' => $months->months,
+                                                            'dollarprice' => $dollarprice,
                                                 ),
                 );
         } else {
