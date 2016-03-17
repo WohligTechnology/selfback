@@ -260,7 +260,7 @@ class restapi_model extends CI_Model
             //echo "NO users found";
         } else {
 
-            $return->orders = $this->db->query("select DISTINCT `fynx_order`.`id` from `fynx_order` INNER JOIN `fynx_orderitem` ON `fynx_order`.`id`=`fynx_orderitem`.`order` where `fynx_order`.`user`=$userid AND `fynx_order`.`transactionid`!=''")->result();
+            $return->orders = $this->db->query("select DISTINCT `fynx_order`.`id`,`fynx_order`.`trackingcode` from `fynx_order` INNER JOIN `fynx_orderitem` ON `fynx_order`.`id`=`fynx_orderitem`.`order` where `fynx_order`.`user`=$userid AND `fynx_order`.`transactionid`!=''")->result();
 
           foreach($return->orders  as $plan)
             {
