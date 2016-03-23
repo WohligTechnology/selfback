@@ -151,8 +151,9 @@
                             <!-- <td><?php echo $counter;?></td> -->
                             <td><?php echo $value->name;?></td>
                               <td><?php echo $value->sku;?></td>
-                            <td><?php echo $value->quantity;?></td>
+                            
                             <td><?php echo number_format($oprice,2);?></td>
+                            <td><?php echo $value->quantity;?></td>
                             <td><?php echo number_format($tvat,2);?></td>
                             <td><?php echo number_format($value->finalprice,2);?></td>
                         </tr>
