@@ -659,9 +659,14 @@ class restapi_model extends CI_Model
     }
     public function updateorderstatusafterpayment($OrderId, $nb_bid, $nb_order_no, $responsecode, $Amount)
     {
-        $checkamt = $this->db->query("SELECT IFNULL(SUM(`price`),0) as `totalamount` FROM `fynx_orderitem` WHERE `order`='$orderid'")->row();
-        $totalamount = $checkamt->totalamount;
-        if (intval($Amount)  > 0 ) {
+//        $checkamt = $this->db->query("SELECT IFNULL(SUM(`price`),0) as `totalamount` FROM `fynx_orderitem` WHERE `order`='$orderid'")->row();
+//        $totalamount = $checkamt->totalamount;
+        
+        $getorderdetails=$this->db->query("SELECT * FROM `fynx_order` WHERE `id`='$OrderId'")->row();
+        $totalamount=$getorderdetails->finalamount;
+        
+//        if (intval($Amount)  > 0 ) 
+        if (intval($Amount) == intval($totalamount) ) {
             $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`nb_bid`='$nb_bid',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
 
 
