@@ -1878,10 +1878,13 @@ public function getsinglesize()
         $shippingpincode = $data['shippingpincode'];
         $carts = $data['cart'];
         $paymentmode = $data['paymentmode'];
+        $shippingamount = $data['shippingamount'];
+        $finalamount = $data['finalamount'];
+        $totalamount = $data['totalamount'];
         if($email != "" && $email )
 
         {
-          $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode);
+          $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode,$shippingamount,$finalamount,$totalamount);
         }
 
         $this->load->view('json', $data);
@@ -3028,7 +3031,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $this->load->view('json', $data);
     }
 
-    public function payumoneysuccess()
+    public function payumoneysuccessold()
     {
         $workingKey = '825cors0t20vgfolcm9adon2ixpz2qll';        //Working Key should be provided here.
        $encResponse = $_POST['encResponse'];    //This is the response sent by the CCAvenue Server
@@ -3099,6 +3102,49 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         }
 
         $data['message'] = $this->restapi_model->updateorderstatusafterpayment($OrderId, $nb_bid, $nb_order_no, $responsecode, $Amount);
+    } 
+    
+    public function payumoneysuccess()
+    {
+      $workingKey='98BEEB11CA4A66BA9BDDB188418C231A';		//Working Key should be provided here.
+	$encResponse=$_POST["encResp"];			//This is the response sent by the CCAvenue Server
+	$rcvdString=$this->crypto->decrypt($encResponse,$workingKey);		//Crypto Decryption used as per the specified working key.
+	$order_status="";
+	$decryptValues=explode('&', $rcvdString);
+	$dataSize=sizeof($decryptValues);
+
+	for($i = 0; $i < $dataSize; $i++)
+	{
+		$information=explode('=',$decryptValues[$i]);
+		if($i==3)	$order_status=$information[1];
+                if($i==10)      $Amount=$information[1];
+                if($i==1)       $nb_order_no=$information[1];
+                if($i==0)       $order_id=$information[1];
+	}
+
+	if($order_status==="Success")
+	{
+		//echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
+                $responsecode = 2; 
+	}
+	else if($order_status==="Aborted")
+	{
+		//echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
+                $responsecode = 6;
+
+	}
+	else if($order_status==="Failure")
+	{
+		//echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
+                $responsecode = 5;
+	}
+	else
+	{
+		//echo "<br>Security Error. Illegal access detected";
+                $responsecode = 5;
+
+	}
+        $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount);
     }
 
     public function uploadImage()

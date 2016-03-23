@@ -151,8 +151,9 @@
                             <!-- <td><?php echo $counter;?></td> -->
                             <td><?php echo $value->name;?></td>
                               <td><?php echo $value->sku;?></td>
-                            <td><?php echo $value->quantity;?></td>
+                            
                             <td><?php echo number_format($oprice,2);?></td>
+                            <td><?php echo $value->quantity;?></td>
                             <td><?php echo number_format($tvat,2);?></td>
                             <td><?php echo number_format($value->finalprice,2);?></td>
                         </tr>
@@ -191,11 +192,19 @@
                             ?>
                         </td>
                     </tr>
+                       <tr>
+                        <td><b>Shipping Charges:</b></td>
+                        <td>
+                            <?php
+                              echo number_format($before->shippingamount,2);
+                            ?>
+                        </td>
+                    </tr>
                     <tr>
                         <td><b>Final Total:</b></td>
                         <td><?php
 
-                          echo number_format($finalpricetotal,2);?></td>
+                          echo number_format($before->finalamount,2);?></td>
                     </tr>
                 </table>
             </div>

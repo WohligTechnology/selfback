@@ -3247,6 +3247,13 @@ $config['upload_path'] = './uploads/';
         $elements[24]->sort = '1';
         $elements[24]->header = 'orderstatusname';
         $elements[24]->alias = 'orderstatusname';
+        
+        $elements[25] = new stdClass();
+        $elements[25]->field = '`fynx_order`.`finalamount`';
+        $elements[25]->sort = '1';
+        $elements[25]->header = 'Final Amount';
+        $elements[25]->alias = 'finalamount';
+
         $search = $this->input->get_post('search');
         $pageno = $this->input->get_post('pageno');
         $orderby = $this->input->get_post('orderby');

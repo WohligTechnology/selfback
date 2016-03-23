@@ -264,7 +264,7 @@ class restapi_model extends CI_Model
 
           foreach($return->orders  as $plan)
             {
-                $plan->product = $this->db->query("SELECT `fynx_orderitem`.`order`,`fynx_orderitem`.`status`,`fynx_product`.`id`,`fynx_product`.`name`,`fynx_product`.`image1` as 'image' ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id`  WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`!=3")->result();
+                $plan->product = $this->db->query("SELECT `fynx_orderitem`.`order`,`fynx_orderitem`.`status`,`fynx_product`.`id`,`fynx_product`.`name`,`fynx_product`.`image1` as 'image' ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`*`fynx_orderitem`.`quantity` as `price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id`  WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`!=3")->result();
 
 
                   $plan->plans = $this->db->query("SELECT `fynx_orderitem`.`order`,`fynx_orderitem`.`status`,`plans`.`id`,`plans`.`plan`,`selftables_subtype`.`name` as `subtype`,`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`=3")->result();
@@ -657,12 +657,17 @@ class restapi_model extends CI_Model
             return 0;
         }
     }
-    public function updateorderstatusafterpayment($OrderId, $nb_bid, $nb_order_no, $responsecode, $Amount)
+    public function updateorderstatusafterpayment($OrderId, $nb_order_no, $responsecode, $Amount)
     {
-        $checkamt = $this->db->query("SELECT IFNULL(SUM(`price`),0) as `totalamount` FROM `fynx_orderitem` WHERE `order`='$orderid'")->row();
-        $totalamount = $checkamt->totalamount;
-        if (intval($Amount)  > 0 ) {
-            $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`nb_bid`='$nb_bid',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
+//        $checkamt = $this->db->query("SELECT IFNULL(SUM(`price`),0) as `totalamount` FROM `fynx_orderitem` WHERE `order`='$orderid'")->row();
+//        $totalamount = $checkamt->totalamount;
+        
+        $getorderdetails=$this->db->query("SELECT * FROM `fynx_order` WHERE `id`='$OrderId'")->row();
+        $totalamount=$getorderdetails->finalamount;
+        
+//        if (intval($Amount)  > 0 ) 
+        if (intval($Amount) == intval($totalamount) ) {
+            $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
 
 
             //email to customer
@@ -852,7 +857,7 @@ class restapi_model extends CI_Model
             $user = $getuser->user;
             $this->cart->destroy();
             $deletecart = $this->db->query("DELETE FROM `fynx_cart` WHERE `user`='$user'");
-            redirect('http://selfcareindia.com/#/thankyou/'.$OrderId/$totalamount);
+            redirect('http://selfcareindia.com/#/thankyou/'.$OrderId."/".$totalamount);
         } else {
             $query = $this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
             redirect('http://selfcareindia.com/#/wentwrong/'.$OrderId);
