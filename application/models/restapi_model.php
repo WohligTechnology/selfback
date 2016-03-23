@@ -260,11 +260,11 @@ class restapi_model extends CI_Model
             //echo "NO users found";
         } else {
 
-            $return->orders = $this->db->query("select DISTINCT `fynx_order`.`id`,`fynx_order`.`trackingcode`,`fynx_order`.`finalamount` from `fynx_order` INNER JOIN `fynx_orderitem` ON `fynx_order`.`id`=`fynx_orderitem`.`order` where `fynx_order`.`user`=$userid AND `fynx_order`.`transactionid`!=''")->result();
+            $return->orders = $this->db->query("select DISTINCT `fynx_order`.`id`,`fynx_order`.`trackingcode` from `fynx_order` INNER JOIN `fynx_orderitem` ON `fynx_order`.`id`=`fynx_orderitem`.`order` where `fynx_order`.`user`=$userid AND `fynx_order`.`transactionid`!=''")->result();
 
           foreach($return->orders  as $plan)
             {
-                $plan->product = $this->db->query("SELECT `fynx_orderitem`.`order`,`fynx_orderitem`.`status`,`fynx_product`.`id`,`fynx_product`.`name`,`fynx_product`.`image1` as 'image' ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id`  WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`!=3")->result();
+                $plan->product = $this->db->query("SELECT `fynx_orderitem`.`order`,`fynx_orderitem`.`status`,`fynx_product`.`id`,`fynx_product`.`name`,`fynx_product`.`image1` as 'image' ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`*`fynx_orderitem`.`quantity` as `price` FROM `fynx_orderitem` LEFT OUTER JOIN `fynx_product` ON `fynx_orderitem`.`product`=`fynx_product`.`id`  WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`!=3")->result();
 
 
                   $plan->plans = $this->db->query("SELECT `fynx_orderitem`.`order`,`fynx_orderitem`.`status`,`plans`.`id`,`plans`.`plan`,`selftables_subtype`.`name` as `subtype`,`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= '$plan->id' AND `fynx_orderitem`.`status`=3")->result();
