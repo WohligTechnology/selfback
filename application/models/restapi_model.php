@@ -857,7 +857,7 @@ class restapi_model extends CI_Model
             $user = $getuser->user;
             $this->cart->destroy();
             $deletecart = $this->db->query("DELETE FROM `fynx_cart` WHERE `user`='$user'");
-            redirect('http://selfcareindia.com/#/thankyou/'.$OrderId/$totalamount);
+            redirect('http://selfcareindia.com/#/thankyou/'.$OrderId."/".$totalamount);
         } else {
             $query = $this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
             redirect('http://selfcareindia.com/#/wentwrong/'.$OrderId);

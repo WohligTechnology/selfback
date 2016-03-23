@@ -191,11 +191,19 @@
                             ?>
                         </td>
                     </tr>
+                       <tr>
+                        <td><b>Shipping Charges:</b></td>
+                        <td>
+                            <?php
+                              echo number_format($before->shippingamount,2);
+                            ?>
+                        </td>
+                    </tr>
                     <tr>
                         <td><b>Final Total:</b></td>
                         <td><?php
 
-                          echo number_format($finalpricetotal,2);?></td>
+                          echo number_format($before->finalamount,2);?></td>
                     </tr>
                 </table>
             </div>
