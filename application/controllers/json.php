@@ -2655,7 +2655,7 @@ public function getsinglesize()
              		curl_close($session);
 
              		// print everything out
-             		print_r($response);
+             	// 	print_r($response);
 
 
             $data['message'] = new stdClass();
@@ -3102,8 +3102,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         }
 
         $data['message'] = $this->restapi_model->updateorderstatusafterpayment($OrderId, $nb_bid, $nb_order_no, $responsecode, $Amount);
-    } 
-    
+    }
+
     public function payumoneysuccess()
     {
       $workingKey='98BEEB11CA4A66BA9BDDB188418C231A';		//Working Key should be provided here.
@@ -3125,7 +3125,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 	if($order_status==="Success")
 	{
 		//echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
-                $responsecode = 2; 
+                $responsecode = 2;
 	}
 	else if($order_status==="Aborted")
 	{
