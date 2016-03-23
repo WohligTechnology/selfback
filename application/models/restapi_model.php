@@ -260,7 +260,7 @@ class restapi_model extends CI_Model
             //echo "NO users found";
         } else {
 
-            $return->orders = $this->db->query("select DISTINCT `fynx_order`.`id`,`fynx_order`.`trackingcode` from `fynx_order` INNER JOIN `fynx_orderitem` ON `fynx_order`.`id`=`fynx_orderitem`.`order` where `fynx_order`.`user`=$userid AND `fynx_order`.`transactionid`!=''")->result();
+            $return->orders = $this->db->query("select DISTINCT `fynx_order`.`id`,`fynx_order`.`trackingcode`,`fynx_order`.`finalamount` from `fynx_order` INNER JOIN `fynx_orderitem` ON `fynx_order`.`id`=`fynx_orderitem`.`order` where `fynx_order`.`user`=$userid AND `fynx_order`.`transactionid`!=''")->result();
 
           foreach($return->orders  as $plan)
             {
@@ -657,7 +657,7 @@ class restapi_model extends CI_Model
             return 0;
         }
     }
-    public function updateorderstatusafterpayment($OrderId, $nb_bid, $nb_order_no, $responsecode, $Amount)
+    public function updateorderstatusafterpayment($OrderId, $nb_order_no, $responsecode, $Amount)
     {
 //        $checkamt = $this->db->query("SELECT IFNULL(SUM(`price`),0) as `totalamount` FROM `fynx_orderitem` WHERE `order`='$orderid'")->row();
 //        $totalamount = $checkamt->totalamount;
@@ -667,7 +667,7 @@ class restapi_model extends CI_Model
         
 //        if (intval($Amount)  > 0 ) 
         if (intval($Amount) == intval($totalamount) ) {
-            $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`nb_bid`='$nb_bid',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
+            $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
 
 
             //email to customer
