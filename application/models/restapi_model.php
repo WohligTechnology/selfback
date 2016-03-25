@@ -27,10 +27,10 @@ class restapi_model extends CI_Model
             $id = $this->db->insert_id();
 
                 //send email for subscription
-                         $this->load->library('email');
-            $this->email->from('vigwohlig@gmail.com', 'Selfcare');
-            $this->email->to($email);
-            $this->email->subject('Your SelfCare subscription');
+            //              $this->load->library('email');
+            // $this->email->from('vigwohlig@gmail.com', 'Selfcare');
+            // $this->email->to($email);
+            // $this->email->subject('Your SelfCare subscription');
 
             $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
 						 <div style='margin:0'>
@@ -83,8 +83,47 @@ class restapi_model extends CI_Model
 
 
 						 </div></div></div></body></html>";
-            $this->email->message($message);
-            $this->email->send();
+            // $this->email->message($message);
+            // $this->email->send();
+            $url = 'https://api.sendgrid.com/';
+            $user = 'poojathakare';
+            $pass = 'wohlig123';
+           $json_string = array(
+
+             'to' => array(
+               $email , 'care@selfcareindia.com'
+             ),
+             'category' => 'test_category'
+           );
+
+           $params = array(
+              'api_user'  => $user,
+              'api_key'   => $pass,
+              'x-smtpapi' => json_encode($json_string),
+              'to'        => $email,
+              'subject'   => 'Your SelfCare Subscription',
+              'html'      => $message,
+              'text'      => 'Selfcare',
+              'from'      => 'info@selfcareindia.com',
+            );
+
+           $request =  $url.'api/mail.send.json';
+
+           // Generate curl request
+           $session = curl_init($request);
+           // Tell curl to use HTTP POST
+           curl_setopt ($session, CURLOPT_POST, true);
+           // Tell curl that this is the body of the POST
+           curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+           // Tell curl not to return headers, but do return the response
+           curl_setopt($session, CURLOPT_HEADER, false);
+           // Tell PHP not to use SSLv3 (instead opting for TLS)
+           curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+           curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+
+           // obtain response
+           $response = curl_exec($session);
+           curl_close($session);
 
             $object = new stdClass();
             $object->value = true;
@@ -96,6 +135,106 @@ class restapi_model extends CI_Model
     public function askSumanSubmit($category, $name, $email, $question)
     {
         $this->db->query("INSERT INTO `asksuman`(`category`,`name`,`email`,`question`) VALUE('$category','$name','$email','$question')");
+
+        $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
+         <div style='margin:0'>
+
+         <u></u>
+         <div style='margin:0 auto;width:90%'>
+         <div style='margin:50px auto;width:80%'>
+         <div style='text-align:center' align='center'>
+          <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
+         </div>
+
+         <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for Contacting Us. Our nutritionists can't wait to interact with you.</p>
+
+         <p style='color:#000;font-family:Roboto;font-size:20px'>
+         Name : $name <br/>
+         Category : $category<br/>
+         Email : $email <br/>
+         Question : $question
+
+      </p>
+
+         <p style='color:#000;font-family:Roboto;font-size:20px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
+
+    </p>
+
+         <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
+         <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
+         </div>
+         </div>
+         <u></u>
+         <footer style='background:#e96542;padding:10px 0'>
+         <div style='margin:0 auto;width:90%'>
+         <div>
+         <table>
+         <tbody><tr>
+         <td style='padding:0 15px'><div>
+         <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
+         </div></td>
+         <td style='padding:0 15px'><div>
+          <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
+         </div></td>
+         <td style='padding:0 15px;vertical-align:middle' valign='middle'>
+          <div>
+          <span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
+          <a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
+          <a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
+          <a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
+          <a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
+         </div>
+         </td>
+         </tr>
+         </tbody></table>
+         </div>
+         </div>
+         </footer>
+         </div>
+
+
+         </div></div></div></body></html>";
+        // $this->email->message($message);
+        // $this->email->send();
+        $url = 'https://api.sendgrid.com/';
+        $user = 'poojathakare';
+        $pass = 'wohlig123';
+       $json_string = array(
+
+         'to' => array(
+           $email , 'care@selfcareindia.com'
+         ),
+         'category' => 'test_category'
+       );
+
+       $params = array(
+          'api_user'  => $user,
+          'api_key'   => $pass,
+          'x-smtpapi' => json_encode($json_string),
+          'to'        => $email,
+          'subject'   => 'Your SelfCare Ask Suman Form Submission',
+          'html'      => $message,
+          'text'      => 'Selfcare',
+          'from'      => 'info@selfcareindia.com',
+        );
+
+       $request =  $url.'api/mail.send.json';
+
+       // Generate curl request
+       $session = curl_init($request);
+       // Tell curl to use HTTP POST
+       curl_setopt ($session, CURLOPT_POST, true);
+       // Tell curl that this is the body of the POST
+       curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+       // Tell curl not to return headers, but do return the response
+       curl_setopt($session, CURLOPT_HEADER, false);
+       // Tell PHP not to use SSLv3 (instead opting for TLS)
+       curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+       curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+
+       // obtain response
+       $response = curl_exec($session);
+       curl_close($session);
         $object = new stdClass();
         $object->value = true;
 
@@ -114,6 +253,107 @@ class restapi_model extends CI_Model
     public function careersSubmit($name, $email, $mobile, $message, $resume)
     {
         $this->db->query("INSERT INTO `careers`(`name`,`email`,`mobile`,`message`,`resume`) VALUE('$name','$email','$mobile','$message','$resume')");
+
+        $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
+         <div style='margin:0'>
+
+         <u></u>
+         <div style='margin:0 auto;width:90%'>
+         <div style='margin:50px auto;width:80%'>
+         <div style='text-align:center' align='center'>
+          <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
+         </div>
+
+         <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for Contacting Us. Our nutritionists can't wait to interact with you.</p>
+
+         <p style='color:#000;font-family:Roboto;font-size:20px'>
+         Name : $name <br/>
+         Mobile : $mobile<br/>
+         Email : $email <br/>
+         Message : $message
+
+      </p>
+
+         <p style='color:#000;font-family:Roboto;font-size:20px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
+
+    </p>
+
+         <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
+         <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
+         </div>
+         </div>
+         <u></u>
+         <footer style='background:#e96542;padding:10px 0'>
+         <div style='margin:0 auto;width:90%'>
+         <div>
+         <table>
+         <tbody><tr>
+         <td style='padding:0 15px'><div>
+         <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
+         </div></td>
+         <td style='padding:0 15px'><div>
+          <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
+         </div></td>
+         <td style='padding:0 15px;vertical-align:middle' valign='middle'>
+          <div>
+          <span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
+          <a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
+          <a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
+          <a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
+          <a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
+         </div>
+         </td>
+         </tr>
+         </tbody></table>
+         </div>
+         </div>
+         </footer>
+         </div>
+
+
+         </div></div></div></body></html>";
+        // $this->email->message($message);
+        // $this->email->send();
+        $url = 'https://api.sendgrid.com/';
+        $user = 'poojathakare';
+        $pass = 'wohlig123';
+       $json_string = array(
+
+         'to' => array(
+           $email , 'care@selfcareindia.com'
+         ),
+         'category' => 'test_category'
+       );
+
+       $params = array(
+          'api_user'  => $user,
+          'api_key'   => $pass,
+          'x-smtpapi' => json_encode($json_string),
+          'to'        => $email,
+          'subject'   => 'Your SelfCare Carrer Form Submission',
+          'html'      => $message,
+          'text'      => 'Selfcare',
+          'from'      => 'info@selfcareindia.com',
+        );
+
+       $request =  $url.'api/mail.send.json';
+
+       // Generate curl request
+       $session = curl_init($request);
+       // Tell curl to use HTTP POST
+       curl_setopt ($session, CURLOPT_POST, true);
+       // Tell curl that this is the body of the POST
+       curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+       // Tell curl not to return headers, but do return the response
+       curl_setopt($session, CURLOPT_HEADER, false);
+       // Tell PHP not to use SSLv3 (instead opting for TLS)
+       curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+       curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+
+       // obtain response
+       $response = curl_exec($session);
+       curl_close($session);
+
         $object = new stdClass();
         $object->value = true;
 
@@ -153,10 +393,8 @@ class restapi_model extends CI_Model
 
         if ($num == 0) {
             $this->db->query("INSERT INTO `user`(`name`,`firstname`, `lastname`, `email`, `password`,`accesslevel`,`status`) VALUE('$firstname $lastname','$firstname','$lastname','$email','$password','3','2')");
-            $user = $this->db->insert_id();
-
-
-                $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
+            $userid = $this->db->insert_id();
+            $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
 		 <div style='margin:0'>
 
 		 <u></u>
@@ -206,12 +444,12 @@ class restapi_model extends CI_Model
 
 		 </div></div></div></body></html>";
      $url = 'https://api.sendgrid.com/';
-     $user = 'vinodwohlig';
+     $user = 'poojathakare';
      $pass = 'wohlig123';
     $json_string = array(
 
       'to' => array(
-        $email
+        $email, 'care@selfcareindia.com'
       ),
       'category' => 'test_category'
     );
@@ -253,8 +491,8 @@ class restapi_model extends CI_Model
                  );
 
             $this->session->set_userdata($newdata);
-            $getuser = $this->db->query("SELECT `id`, `name`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json`, `firstname`, `lastname`, `phone`, `billingaddress`, `billingcity`, `billingstate`, `billingcountry`, `billingcontact`, `billingpincode`, `shippingaddress`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `shippingname`, `shippingcontact`, `currency`, `credit`, `companyname`, `registrationno`, `vatnumber`, `country`, `fax`, `gender`, `facebook`, `google`, `twitter`, `street`, `address`, `pincode`, `state`, `dob`, `city` FROM `user` WHERE `id`='$user'")->row();
-
+            $q="SELECT `id`, `name`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json`, `firstname`, `lastname`, `phone`, `billingaddress`, `billingcity`, `billingstate`, `billingcountry`, `billingcontact`, `billingpincode`, `shippingaddress`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `shippingname`, `shippingcontact`, `currency`, `credit`, `companyname`, `registrationno`, `vatnumber`, `country`, `fax`, `gender`, `facebook`, `google`, `twitter`, `street`, `address`, `pincode`, `state`, `dob`, `city` FROM `user` WHERE `id`='$userid'";
+            $getuser = $this->db->query($q)->row();
             $object = $getuser;
         } else {
             $object = new stdClass();

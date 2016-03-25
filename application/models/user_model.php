@@ -883,7 +883,7 @@ for($i=0;$i<count($query);$i++)
 						 </div></div></div></body></html>";
 
 						 $url = 'https://api.sendgrid.com/';
-						 $user = 'vinodwohlig';
+						 $user = 'poojathakare';
 						 $pass = 'wohlig123';
 						$json_string = array(
 
@@ -898,7 +898,7 @@ for($i=0;$i<count($query);$i++)
 							 'api_key'   => $pass,
 							 'x-smtpapi' => json_encode($json_string),
 							 'to'        => $email,
-							 'subject'   => 'Password Changed Successfully',
+							 'subject'   => 'Password Changed Successfully - Selfcare',
 							 'html'      => $message,
 							 'text'      => 'Selfcare',
 							 'from'      => 'info@selfcareindia.com',

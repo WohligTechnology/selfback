@@ -2106,7 +2106,7 @@ public function getsinglesize()
 //        $lastname = $this->input->get_post('lastname');
 //        $email = $this->input->get_post('email');
 //        $password = $this->input->get_post('password');
-        $data['message'] = $this->user_model->registeruser($firstname, $lastname, $email, $password);
+        $data['message'] = $this->restapi_model->registeruser($firstname, $lastname, $email, $password);
         $this->load->view('json', $data);
     }
     public function registewholesaler()
@@ -2615,7 +2615,7 @@ public function getsinglesize()
 
     						 </div></div></div></body></html>";
                  $url = 'https://api.sendgrid.com/';
-                 $user = 'vinodwohlig';
+                 $user = 'poojathakare';
                  $pass = 'wohlig123';
                 $json_string = array(
 
@@ -2630,7 +2630,7 @@ public function getsinglesize()
                    'api_key'   => $pass,
                    'x-smtpapi' => json_encode($json_string),
                    'to'        => $email,
-                   'subject'   => 'Access password Changed',
+                   'subject'   => 'Access password Changed - Selfcare',
                    'html'      => $message,
                    'text'      => 'Selfcare',
                    'from'      => 'info@selfcareindia.com',
