@@ -130,6 +130,30 @@
 </div>
 <div class="row">
 <div class="input-field col s6">
+<label for="Total Amount">Total Amount</label>
+<input type="text" id="Total Amount" name="totalamount" value='<?php echo set_value('totalamount',$before->totalamount);?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
+<label for="shipping Amount">Shipping Amount</label>
+<input type="text" id="shipping Amount" name="shippingamount" value='<?php echo set_value('shippingamount',$before->shippingamount);?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
+<label for="discount Amount">Discount Amount</label>
+<input type="text" id="discount Amount" name="discountamount" value='<?php echo set_value('discountamount',$before->discountamount);?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
+<label for="Final Amount">Final Amount</label>
+<input type="text" id="final Amount" name="finalamount" value='<?php echo set_value('finalamount',$before->finalamount);?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
 <label for="Tracking Code">Tracking Code</label>
 <input type="text" id="Tracking Code" name="trackingcode" value='<?php echo set_value('trackingcode',$before->trackingcode);?>'>
 </div>
