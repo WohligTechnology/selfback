@@ -3443,7 +3443,11 @@ $data['before1'] = $this->input->get('id');
             $shippingline3 = $this->input->post('shippingline3');
             $transactionid = $this->input->post('transactionid');
             $paymentmode = $this->input->post('paymentmode');
-            if ($this->order_model->edit($id, $user, $firstname, $lastname, $email, $billingaddress, $billingcontact, $billingcity, $billingstate, $billingpincode, $billingcountry, $shippingcity, $shippingaddress, $shippingname, $shippingcountry, $shippingcontact, $shippingstate, $shippingpincode, $trackingcode, $defaultcurrency, $shippingmethod, $orderstatus, $billingline1, $billingline2, $billingline3, $shippingline1, $shippingline2, $shippingline3, $transactionid, $paymentmode) == 0) {
+            $totalamount = $this->input->post('totalamount');
+            $discountamount = $this->input->post('discountamount');
+            $finalamount = $this->input->post('finalamount');
+            $shippingamount = $this->input->post('shippingamount');
+            if ($this->order_model->edit($id, $user, $firstname, $lastname, $email, $billingaddress, $billingcontact, $billingcity, $billingstate, $billingpincode, $billingcountry, $shippingcity, $shippingaddress, $shippingname, $shippingcountry, $shippingcontact, $shippingstate, $shippingpincode, $trackingcode, $defaultcurrency, $shippingmethod, $orderstatus, $billingline1, $billingline2, $billingline3, $shippingline1, $shippingline2, $shippingline3, $transactionid, $paymentmode,$totalamount,$discountamount,$finalamount,$shippingamount) == 0) {
                 $data['alerterror'] = 'New order could not be Updated.';
             } else {
                 $data['alertsuccess'] = 'order Updated Successfully.';
