@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Aes {
+class Crypto {
 /*
 	This is an AES Encryption and Decryption Code (128 Bit) in PHP which is compatible with PHP 4 & PHP 5.
 	In order to use the encrypt and decrypt methods a string and same key is required.
