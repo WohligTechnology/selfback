@@ -25,105 +25,10 @@ class restapi_model extends CI_Model
         } else {
             $this->db->query("INSERT INTO `subscribe`(`email`) VALUE('$email')");
             $id = $this->db->insert_id();
-
-                //send email for subscription
-            //              $this->load->library('email');
-            // $this->email->from('vigwohlig@gmail.com', 'Selfcare');
-            // $this->email->to($email);
-            // $this->email->subject('Your SelfCare subscription');
-
-            $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
-						 <div style='margin:0'>
-
-						 <u></u>
-						 <div style='margin:0 auto;width:90%'>
-						 <div style='margin:50px auto;width:80%'>
-						 <div style='text-align:center' align='center'>
-							<img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
-						 </div>
-
-						 <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for subscribing to SelfCare's health packages. Our nutritionists can't wait to interact with you.</p>
-
-
-						 <p style='color:#000;font-family:Roboto;font-size:20px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
-
-				</p>
-
-						 <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
-						 <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
-						 </div>
-						 </div>
-						 <u></u>
-						 <footer style='background:#e96542;padding:10px 0'>
-						 <div style='margin:0 auto;width:90%'>
-						 <div>
-						 <table>
-						 <tbody><tr>
-						 <td style='padding:0 15px'><div>
-						 <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
-						 </div></td>
-						 <td style='padding:0 15px'><div>
-							<span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
-						 </div></td>
-						 <td style='padding:0 15px;vertical-align:middle' valign='middle'>
-							<div>
-							<span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
-							<a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
-							<a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
-							<a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
-							<a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
-						 </div>
-						 </td>
-						 </tr>
-						 </tbody></table>
-						 </div>
-						 </div>
-						 </footer>
-						 </div>
-
-
-						 </div></div></div></body></html>";
-            // $this->email->message($message);
-            // $this->email->send();
-            $url = 'https://api.sendgrid.com/';
-            // $user = 'poojathakare';
-            // $pass = 'wohlig123';
-           $json_string = array(
-
-             'to' => array(
-               $email , 'care@selfcareindia.com'
-             ),
-             'category' => 'test_category'
-           );
-
-           $params = array(
-              'api_user'  => $user,
-              'api_key'   => $pass,
-              'x-smtpapi' => json_encode($json_string),
-              'to'        => $email,
-              'subject'   => 'Your SelfCare Subscription',
-              'html'      => $message,
-              'text'      => 'Selfcare',
-              'from'      => 'info@selfcareindia.com',
-            );
-
-           $request =  $url.'api/mail.send.json';
-
-           // Generate curl request
-           $session = curl_init($request);
-           // Tell curl to use HTTP POST
-           curl_setopt ($session, CURLOPT_POST, true);
-           // Tell curl that this is the body of the POST
-           curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-           // Tell curl not to return headers, but do return the response
-           curl_setopt($session, CURLOPT_HEADER, false);
-           // Tell PHP not to use SSLv3 (instead opting for TLS)
-           curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
-           curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-
-           // obtain response
-           $response = curl_exec($session);
-           curl_close($session);
+            $viewcontent = $this->load->view('emailers/subscribe', $data, true);
+              $this->email_model->emailer($viewcontent,'Thank You For Subscribing With Selfcare',$email,$username);
+            // $viewcontent = $this->load->view('emailers/subscriberesponse', $data, true);
+            //   $this->email_model->emailer($viewcontent,'Thank You For Subscribing With Selfcare','care@selfcareindia.com',$username);
 
             $object = new stdClass();
             $object->value = true;
@@ -135,106 +40,14 @@ class restapi_model extends CI_Model
     public function askSumanSubmit($category, $name, $email, $question)
     {
         $this->db->query("INSERT INTO `asksuman`(`category`,`name`,`email`,`question`) VALUE('$category','$name','$email','$question')");
-
-        $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
-         <div style='margin:0'>
-
-         <u></u>
-         <div style='margin:0 auto;width:90%'>
-         <div style='margin:50px auto;width:80%'>
-         <div style='text-align:center' align='center'>
-          <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
-         </div>
-
-         <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for Contacting Us. Our nutritionists can't wait to interact with you.</p>
-
-         <p style='color:#000;font-family:Roboto;font-size:20px'>
-         Name : $name <br/>
-         Category : $category<br/>
-         Email : $email <br/>
-         Question : $question
-
-      </p>
-
-         <p style='color:#000;font-family:Roboto;font-size:20px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
-
-    </p>
-
-         <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
-         <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
-         </div>
-         </div>
-         <u></u>
-         <footer style='background:#e96542;padding:10px 0'>
-         <div style='margin:0 auto;width:90%'>
-         <div>
-         <table>
-         <tbody><tr>
-         <td style='padding:0 15px'><div>
-         <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
-         </div></td>
-         <td style='padding:0 15px'><div>
-          <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
-         </div></td>
-         <td style='padding:0 15px;vertical-align:middle' valign='middle'>
-          <div>
-          <span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
-          <a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
-          <a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
-          <a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
-          <a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
-         </div>
-         </td>
-         </tr>
-         </tbody></table>
-         </div>
-         </div>
-         </footer>
-         </div>
-
-
-         </div></div></div></body></html>";
-        // $this->email->message($message);
-        // $this->email->send();
-        $url = 'https://api.sendgrid.com/';
-        $user = 'poojathakare';
-        $pass = 'wohlig123';
-       $json_string = array(
-
-         'to' => array(
-           $email , 'care@selfcareindia.com'
-         ),
-         'category' => 'test_category'
-       );
-
-       $params = array(
-          'api_user'  => $user,
-          'api_key'   => $pass,
-          'x-smtpapi' => json_encode($json_string),
-          'to'        => $email,
-          'subject'   => 'Your SelfCare Ask Suman Form Submission',
-          'html'      => $message,
-          'text'      => 'Selfcare',
-          'from'      => 'info@selfcareindia.com',
-        );
-
-       $request =  $url.'api/mail.send.json';
-
-       // Generate curl request
-       $session = curl_init($request);
-       // Tell curl to use HTTP POST
-       curl_setopt ($session, CURLOPT_POST, true);
-       // Tell curl that this is the body of the POST
-       curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-       // Tell curl not to return headers, but do return the response
-       curl_setopt($session, CURLOPT_HEADER, false);
-       // Tell PHP not to use SSLv3 (instead opting for TLS)
-       curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
-       curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-
-       // obtain response
-       $response = curl_exec($session);
-       curl_close($session);
+        $data['name']=$name;
+        $data['category']=$category;
+        $data['email']=$email;
+        $data['question']=$question;
+        $viewcontent = $this->load->view('emailers/asksuman', $data, true);
+        $this->email_model->emailer($viewcontent,'Ask Suman Form Submission','care@selfcareindia.com',$username);
+        $viewcontent = $this->load->view('emailers/asksumanresponse', $data, true);
+        $this->email_model->emailer($viewcontent,'Ask Suman Form Submission',$email,$username);
         $object = new stdClass();
         $object->value = true;
 
@@ -244,115 +57,23 @@ class restapi_model extends CI_Model
     public function commentSubmit($blogid, $name, $email, $website, $comment)
     {
         $this->db->query("INSERT INTO `selftables_comment`(`blog`,`name`,`email`,`website`,`comment`) VALUE('$blogid','$name','$email','$website','$comment')");
-        $object = new stdClass();
+            $object = new stdClass();
         $object->value = true;
-
         return $object;
     }
 
     public function careersSubmit($name, $email, $mobile, $message, $resume)
     {
         $this->db->query("INSERT INTO `careers`(`name`,`email`,`mobile`,`message`,`resume`) VALUE('$name','$email','$mobile','$message','$resume')");
+        $data['name']=$name;
+        $data['mobile']=$mobile;
+        $data['email']=$email;
+        $data['message']=$message;
 
-        $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
-         <div style='margin:0'>
-
-         <u></u>
-         <div style='margin:0 auto;width:90%'>
-         <div style='margin:50px auto;width:80%'>
-         <div style='text-align:center' align='center'>
-          <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
-         </div>
-
-         <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for Contacting Us. Our nutritionists can't wait to interact with you.</p>
-
-         <p style='color:#000;font-family:Roboto;font-size:20px'>
-         Name : $name <br/>
-         Mobile : $mobile<br/>
-         Email : $email <br/>
-         Message : $message
-
-      </p>
-
-         <p style='color:#000;font-family:Roboto;font-size:20px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
-
-    </p>
-
-         <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
-         <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
-         </div>
-         </div>
-         <u></u>
-         <footer style='background:#e96542;padding:10px 0'>
-         <div style='margin:0 auto;width:90%'>
-         <div>
-         <table>
-         <tbody><tr>
-         <td style='padding:0 15px'><div>
-         <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
-         </div></td>
-         <td style='padding:0 15px'><div>
-          <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
-         </div></td>
-         <td style='padding:0 15px;vertical-align:middle' valign='middle'>
-          <div>
-          <span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
-          <a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
-          <a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
-          <a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
-          <a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
-         </div>
-         </td>
-         </tr>
-         </tbody></table>
-         </div>
-         </div>
-         </footer>
-         </div>
-
-
-         </div></div></div></body></html>";
-        // $this->email->message($message);
-        // $this->email->send();
-        $url = 'https://api.sendgrid.com/';
-        // $user = 'poojathakare';
-        // $pass = 'wohlig123';
-       $json_string = array(
-
-         'to' => array(
-           $email , 'care@selfcareindia.com'
-         ),
-         'category' => 'test_category'
-       );
-
-       $params = array(
-          'api_user'  => $user,
-          'api_key'   => $pass,
-          'x-smtpapi' => json_encode($json_string),
-          'to'        => $email,
-          'subject'   => 'Your SelfCare Carrer Form Submission',
-          'html'      => $message,
-          'text'      => 'Selfcare',
-          'from'      => 'info@selfcareindia.com',
-        );
-
-       $request =  $url.'api/mail.send.json';
-
-       // Generate curl request
-       $session = curl_init($request);
-       // Tell curl to use HTTP POST
-       curl_setopt ($session, CURLOPT_POST, true);
-       // Tell curl that this is the body of the POST
-       curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-       // Tell curl not to return headers, but do return the response
-       curl_setopt($session, CURLOPT_HEADER, false);
-       // Tell PHP not to use SSLv3 (instead opting for TLS)
-       curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
-       curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-
-       // obtain response
-       $response = curl_exec($session);
-       curl_close($session);
+        $viewcontent = $this->load->view('emailers/careersubmit', $data, true);
+        $this->email_model->emailer($viewcontent,'Career Form Submission','care@selfcareindia.com',$username);
+        $viewcontent = $this->load->view('emailers/careersubmitresponse', $data, true);
+        $this->email_model->emailer($viewcontent,'Career Form Submission',$email,$username);
 
         $object = new stdClass();
         $object->value = true;
@@ -394,94 +115,10 @@ class restapi_model extends CI_Model
         if ($num == 0) {
             $this->db->query("INSERT INTO `user`(`name`,`firstname`, `lastname`, `email`, `password`,`accesslevel`,`status`) VALUE('$firstname $lastname','$firstname','$lastname','$email','$password','3','2')");
             $userid = $this->db->insert_id();
-            $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
-		 <div style='margin:0'>
-
-		 <u></u>
-		 <div style='margin:0 auto;width:90%'>
-		 <div style='margin:50px auto;width:80%'>
-		 <div style='text-align:center' align='center'>
-			<img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
-		 </div>
-		 <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>$firstname $lastname</span>,</p>
-
-		 <p style='color:#000;font-family:Roboto;font-size:20px'>We are very excited to have you on board SelfCare. Your registered email id is: $email</p>
-		 <p style='color:#000;font-family:Roboto;font-size:20px'>Stay tuned for latest news and updates from the team at SelfCare.
-</p>
-
-		 <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
-		 <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
-		 </div>
-		 </div>
-		 <u></u>
-		 <footer style='background:#e96542;padding:10px 0'>
-		 <div style='margin:0 auto;width:90%'>
-		 <div>
-		 <table>
-		 <tbody><tr>
-		 <td style='padding:0 15px'><div>
-		 <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
-		 </div></td>
-		 <td style='padding:0 15px'><div>
-			<span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
-		 </div></td>
-		 <td style='padding:0 15px;vertical-align:middle' valign='middle'>
-			<div>
-			<span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
-			<a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
-			<a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
-			<a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
-			<a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
-		 </div>
-		 </td>
-		 </tr>
-		 </tbody></table>
-		 </div>
-		 </div>
-		 </footer>
-		 </div>
-
-
-		 </div></div></div></body></html>";
-     $url = 'https://api.sendgrid.com/';
-    //  $user = 'poojathakare';
-    //  $pass = 'wohlig123';
-    $json_string = array(
-
-      'to' => array(
-        $email, 'care@selfcareindia.com'
-      ),
-      'category' => 'test_category'
-    );
-
-    $params = array(
-       'api_user'  => $user,
-       'api_key'   => $pass,
-       'x-smtpapi' => json_encode($json_string),
-       'to'        => $email,
-       'subject'   => 'Welcome  to Selfcare',
-       'html'      => $message,
-       'text'      => 'Selfcare',
-       'from'      => 'info@selfcareindia.com',
-     );
-
-    $request =  $url.'api/mail.send.json';
-
-    // Generate curl request
-    $session = curl_init($request);
-    // Tell curl to use HTTP POST
-    curl_setopt ($session, CURLOPT_POST, true);
-    // Tell curl that this is the body of the POST
-    curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-    // Tell curl not to return headers, but do return the response
-    curl_setopt($session, CURLOPT_HEADER, false);
-    // Tell PHP not to use SSLv3 (instead opting for TLS)
-    curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
-    curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-
-    // obtain response
-    $response = curl_exec($session);
-    curl_close($session);
+            $data['name']=$firstname.' '.$lastname;
+            $data['email']=$email;
+            $viewcontent = $this->load->view('emailers/registeruser', $data, true);
+            $this->email_model->emailer($viewcontent,'Welcome to SelfCare',$email,$username);
             $newdata = array(
                                  'id' => $user,
                                  'email' => $email,

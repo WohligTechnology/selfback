@@ -158,7 +158,6 @@ $search = $this->input->get_post('search');
         $name = $data['name'];
         $email = $data['email'];
         $question = $data['question'];
-
         $data['message'] = $this->restapi_model->askSumanSubmit($category, $name, $email, $question);
         $this->load->view('json', $data);
     }
