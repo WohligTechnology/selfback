@@ -576,12 +576,6 @@ class restapi_model extends CI_Model
             $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
 
 
-            //email to customer
-            // $this->load->library('email');
-            // $this->email->from('vigwohlig@gmail.com', 'Selfcare');
-            // $this->email->to($email);
-            // $this->email->subject('Thank You for shopping with us');
-
             $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
             <div style='margin:0'>
 
@@ -660,8 +654,8 @@ class restapi_model extends CI_Model
             $name
             </td>
             <td style='text-align:center' align='center'>$sku</td>
-            <td style='text-align:center' align='center'>$qty</td>
             <td style='text-align:center' align='center'>$price</td>
+            <td style='text-align:center' align='center'>$qty</td>
             <td style='text-align:center' align='center'>$vat</td>
             <td style='text-align:center' align='center'>$total</td>
             </tr>";
@@ -693,8 +687,8 @@ class restapi_model extends CI_Model
 
             </td>
             <td style='text-align:center' align='center'>$sku</td>
-            <td style='text-align:center' align='center'>$qty</td>
             <td style='text-align:center' align='center'>$price</td>
+            <td style='text-align:center' align='center'>$qty</td>
             <td style='text-align:center' align='center'>$vat</td>
             <td style='text-align:center' align='center'>$total</td>
             </tr>";
@@ -705,12 +699,12 @@ class restapi_model extends CI_Model
 
 
             $finalpricetotal= $finalpricetotal1 + $finalpricetotal2;
-
+            $finalt= number_format($finalpricetotal,2);
             $message .= "
 
             </tbody>
             </table>  <div style='background:#c2a388;color:#3b1808;width:100%'>
-            <p style='color:#000;font-family:Roboto;font-size:20px;margin:0;padding:10px 20px;text-align:right' align='right'>Grand Total<span style='color:#000;display:inline-block;font-family:Roboto;font-size:20px;margin-left:10px'>$finalpricetotal</span></p>
+            <p style='color:#000;font-family:Roboto;font-size:20px;margin:0;padding:10px 20px;text-align:right' align='right'>Grand Total<span style='color:#000;display:inline-block;font-family:Roboto;font-size:20px;margin-left:10px'>$finalt </span></p>
             </div></p>
 
             <p style='color:#000;font-family:Roboto;font-size:20px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
@@ -748,50 +742,10 @@ class restapi_model extends CI_Model
             </div>
             </footer>
             </div>
+          </div></div></div></body></html>";
 
 
-            </div></div></div></body></html>";
-
-            $url = 'https://api.sendgrid.com/';
-            $user = 'vinodwohlig';
-            $pass = 'wohlig123';
-           $json_string = array(
-
-             'to' => array(
-               $email , 'vinodwohlig@gmail.com'
-             ),
-             'category' => 'test_category'
-           );
-
-           $params = array(
-              'api_user'  => $user,
-              'api_key'   => $pass,
-              'x-smtpapi' => json_encode($json_string),
-              'to'        => $email,
-              'subject'   => 'Thank You For Shopping With US',
-              'html'      => $message,
-              'text'      => 'Selfcare',
-              'from'      => 'info@selfcareindia.com',
-            );
-
-           $request =  $url.'api/mail.send.json';
-
-           // Generate curl request
-           $session = curl_init($request);
-           // Tell curl to use HTTP POST
-           curl_setopt ($session, CURLOPT_POST, true);
-           // Tell curl that this is the body of the POST
-           curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-           // Tell curl not to return headers, but do return the response
-           curl_setopt($session, CURLOPT_HEADER, false);
-           // Tell PHP not to use SSLv3 (instead opting for TLS)
-           curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
-           curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-
-           // obtain response
-           $response = curl_exec($session);
-           curl_close($session);
-
+            $this->email_model->emailer($message,'Your Order Confirmation',$email,$username);
 
 
              // DESTROY CART
@@ -812,4 +766,6 @@ class restapi_model extends CI_Model
 
         return $quantity;
     }
+
+
 }

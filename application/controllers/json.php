@@ -1859,7 +1859,6 @@ public function getsinglesize()
         $firstname = $data['firstname'];
         $lastname = $data['lastname'];
         $email = $data['email'];
-
         $phone = $data['mobile'];
         $billingline1 = $data['billingline1'];
         $billingline2 = $data['billingline2'];
@@ -1881,7 +1880,6 @@ public function getsinglesize()
         $finalamount = $data['finalamount'];
         $totalamount = $data['totalamount'];
         if($email != "" && $email )
-
         {
           $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode,$shippingamount,$finalamount,$totalamount);
         }
@@ -3089,4 +3087,9 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $data['message'] = $query;
         $this->load->view('json', $data);
     }
+
+
+
+
+
 }

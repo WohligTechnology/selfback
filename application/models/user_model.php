@@ -870,66 +870,180 @@ for($i=0;$i<count($query);$i++)
 
 function testmail()
 {
-    		 $this->load->library('email');
-				 $this->email->from('vigwohlig@gmail.com', 'Selfcare');
-				 $this->email->to('vinodwohlig@gmail.com');
-				 $this->email->subject('Access Password Changed');
+$firstname ="vinod";
+$lastname ="beloshe";
+		$message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
+		<div style='margin:0'>
 
-				 $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
-				 <div style='margin:0'>
-
-				 <u></u>
-				 <div style='margin:0 auto;width:90%'>
-				 <div style='margin:50px auto;width:80%'>
-				 <div style='text-align:center' align='center'>
-				  <img src='https://ci4.googleusercontent.com/proxy/eN4ZZjoeZRrsqg8zhVo1pzhUqsl4T36qisWUjc0dS1YFVmvqUSZyh0k1fXmUAuZW94l2yGkr_N84Q25T1tJo=s0-d-e1-ft#http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
-				 </div>
-				 <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>Manan</span>,</p>
-				 <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for signing up on Selfcare.We are really excited to have you with us!</p>
-				 <p style='color:#000;font-family:Roboto;font-size:20px'>Your Selfcare Registered Email Id is : <a style='color:#000;font-family:Roboto;font-size:20px;text-decoration:none'>manan@ting.in</a></p>
-				 <p style='color:#000;font-family:Roboto;font-size:20px'><a href='http://selfcareindia.com/#/home' style='color:#e96542;font-family:Roboto;font-size:20px' target='_blank'>Click Here</a> to return to the website.</p>
-				 <p style='color:#e96542;font-family:Roboto;font-size:20px'>Happy Shopping !</p>
-				 <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
-				 <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
-				 </div>
-				 </div>
-				 <u></u>
-				 <footer style='background:#e96542;padding:10px 0'>
-				 <div style='margin:0 auto;width:90%'>
-				 <div>
-				 <table>
-				 <tbody><tr>
-				 <td style='padding:0 15px'><div>
-				 <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
-				 </div></td>
-				 <td style='padding:0 15px'><div>
-				  <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
-				 </div></td>
-				 <td style='padding:0 15px;vertical-align:middle' valign='middle'>
-				  <div>
-				  <span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
-				  <a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='https://ci3.googleusercontent.com/proxy/js-s9ABMbuwIWpSykfc3WFqvp-kWWqQiTPF3LxwjhpDe1uoJt7aEuQhR2ZQtpEVE89Q6svLAC4eJnsS86KI4ycfIKeBVEcY5jZd-BQv0U9Q=s0-d-e1-ft#http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
-				  <a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='https://ci5.googleusercontent.com/proxy/IPBl3QAFci5S2GSehTUIGl382H9E2Sq4mrR_tpeDJ2_aocb6OMs5SMR70wVPxwB1rCrUJfaa0ixz8efycf_2-R_YFaZk3UICNgLOFtcqug=s0-d-e1-ft#http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
-				  <a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='https://ci3.googleusercontent.com/proxy/RFmHDhCeEET2uT5r_6N0Bi1gys0nzF2n8RSGwXmwoIbTEg28eri2cb39DX6vZL5KavLS8HxeQ7kFSMXqz97r_5CiCwZIFTiRnk2H5mc=s0-d-e1-ft#http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
-				  <a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='https://ci3.googleusercontent.com/proxy/82WpdaP2YZL30VB9t_qXXiwcBoyY0keTCWdi3jmrGw7UwJSHb-tReZjwhtf6YyU0Kt4qxR6ct-qNTzYii_hETY-707dgkT0wDa7rixWHiw=s0-d-e1-ft#http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
-				 </div>
-				 </td>
-				 </tr>
-				 </tbody></table>
-				 </div>
-				 </div>
-				 </footer>
-				 </div>
+		<u></u>
+		<div style='margin:0 auto;width:90%'>
+		<div style='margin:50px auto;width:80%'>
+		<div style='text-align:center' align='center'>
+		 <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
+		</div>
+		<p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>$firstname $lastname</span>,</p>
+		<p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for shopping with SelfCare. You've picked up some really healthy and amazing stuff and we can't wait to have it delivered at your doorstep. Here's what you ordered:
+		</p>
+		<p style='color:#000;font-family:Roboto;font-size:20px'>
+		<table style='width:100%'>
+		<thead style='background:#c2a388;color:#3b1808'>
+		<tr>
+		<th style='font-size:14px;padding:10px;text-transform:uppercase'>Products</th>
+		<th style='font-size:14px;padding:10px;text-transform:uppercase'>SKU</th>
+		<th style='font-size:14px;padding:10px;text-transform:uppercase'>Price</th>
+		<th style='font-size:14px;padding:10px;text-transform:uppercase'>Qty</th>
+		<th style='font-size:14px;padding:10px;text-transform:uppercase'>Tax</th>
+		<th style='font-size:14px;padding:10px;text-transform:uppercase'>Subtotal</th>
+		</tr></thead>
+		<tbody>
+		";
+		$newcart =  array();
+		$q="SELECT `fynx_orderitem`.`order`,`fynx_orderitem`.`product`,`fynx_product`.`name`,`fynx_product`.`image1`,`fynx_product`.`sku`, `fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`,`fynx_orderitem`.`status`,`fynx_orderitem`.`discount`,`fynx_orderitem`.`finalprice` FROM `fynx_orderitem`
+		INNER JOIN `fynx_order` ON `fynx_order`.`id`=`fynx_orderitem`.`order`
+		INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_orderitem`.`product` WHERE `fynx_orderitem`.`order`='28' AND `fynx_orderitem`.`status`!=3";
+		$productquery = $this->db->query($q)->result();
 
 
-				 </div></div></div></body></html>";
-				 $this->email->message($message);
-				 $this->email->send();
-				// echo $this->email->print_debugger();
-					 $object = new stdClass();
-				 $object->value = true;
-				 $data['message']=$object;
-					$this->load->view('json', $data);
+		$planquery=$this->db->query("SELECT `plans`.`id`,`plans`.`plan`,`selftables_subtype`.`name` AS 'subtype',`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`,`fynx_orderitem`.`finalprice` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= '28' AND `fynx_orderitem`.`status`=3
+		" )->result();
+
+
+		$counter=1;
+		$finalpricetotal=0;
+		foreach($planquery as $value)
+		{
+		$plan = $value->plan;
+		if ($plan == 1) {
+		$plan = 'Silver Plan';
+		}
+		if ($plan == 2) {
+		$plan = 'Gold Plan';
+		}
+		if ($plan == 3) {
+		$plan = 'Platinum Plan';
+		}
+		if ($plan == 4) {
+		$plan = 'Diamond Plan';
+		}
+		if($value->months == 1)
+		{
+		$months = $value->months." Month";
+		}
+		else
+		{
+		$months = $value->months." Months";
+		}
+
+		$name = $months." ".$plan;
+		$oprice = $value->price / 1.145;
+		$ovat = $value->price - $oprice;
+		$sku =$value->sku;
+		$qty =$value->quantity;
+		$price = number_format($oprice,2);
+		$vat =number_format($ovat,2);
+		$total = number_format($value->finalprice,2);
+
+		$message .= "
+
+		<tr>
+		 <td style='text-align:center' align='center'>
+		$name
+		</td>
+		<td style='text-align:center' align='center'>$sku</td>
+		<td style='text-align:center' align='center'>$price</td>
+		<td style='text-align:center' align='center'>$qty</td>
+		<td style='text-align:center' align='center'>$vat</td>
+		<td style='text-align:center' align='center'>$total</td>
+		</tr>";
+		$finalpricetotal1=$finalpricetotal1+$value->finalprice;
+		$totalvat1 = $totalvat1+$ovat;
+		}
+
+		foreach($productquery as $value)
+		{
+		$name = $value->name;
+		$image = $value->image1;
+		$oprice = $value->price / 1.05;
+		$ovat = $value->price - $oprice;
+		$sku =$value->sku;
+		$qty =$value->quantity;
+		$price = number_format($oprice,2);
+		$vat =number_format($ovat,2);
+		$total = number_format($value->finalprice,2);
+
+		$message .= "
+
+		<tr>
+		<td style='text-align:center' align='center'>
+
+		<img src='http://admin.selfcareindia.com/uploads/$image' alt='' width='70' style='border-radius:100%'>
+		<figcaption>$name</figcaption>
+		</figure>
+
+
+		</td>
+		<td style='text-align:center' align='center'>$sku</td>
+		<td style='text-align:center' align='center'>$price</td>
+		<td style='text-align:center' align='center'>$qty</td>
+		<td style='text-align:center' align='center'>$vat</td>
+		<td style='text-align:center' align='center'>$total</td>
+		</tr>";
+		$finalpricetotal2=$finalpricetotal2+$value->finalprice;
+		$totalvat2 = $totalvat2+$ovat;
+
+		}
+
+
+		$finalpricetotal= $finalpricetotal1 + $finalpricetotal2;
+		$finalt= number_format($finalpricetotal,2);
+		$message .= "
+
+		</tbody>
+		</table>  <div style='background:#c2a388;color:#3b1808;width:100%'>
+		<p style='color:#000;font-family:Roboto;font-size:20px;margin:0;padding:10px 20px;text-align:right' align='right'>Grand Total<span style='color:#000;display:inline-block;font-family:Roboto;font-size:20px;margin-left:10px'>$finalt </span></p>
+		</div></p>
+
+		<p style='color:#000;font-family:Roboto;font-size:20px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
+
+		</p>
+
+		<span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
+		<span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
+		</div>
+		</div>
+		<u></u>
+		<footer style='background:#e96542;padding:10px 0'>
+		<div style='margin:0 auto;width:90%'>
+		<div>
+		<table>
+		<tbody><tr>
+		<td style='padding:0 15px'><div>
+		<span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
+		</div></td>
+		<td style='padding:0 15px'><div>
+		 <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
+		</div></td>
+		<td style='padding:0 15px;vertical-align:middle' valign='middle'>
+		 <div>
+		 <span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
+		 <a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
+		 <a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
+		 <a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
+		 <a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
+		</div>
+		</td>
+		</tr>
+		</tbody></table>
+		</div>
+		</div>
+		</footer>
+		</div>
+	</div></div></div></body></html>";
+
+
+		$this->email_model->emailer($message,'Your Order Confirmation',$email,$username);
+
+
 }
 
 }
