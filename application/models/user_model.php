@@ -883,8 +883,8 @@ for($i=0;$i<count($query);$i++)
 						 </div></div></div></body></html>";
 
 						 $url = 'https://api.sendgrid.com/';
-						 $user = 'poojathakare';
-						 $pass = 'wohlig123';
+						//  $user = 'poojathakare';
+						//  $pass = 'wohlig123';
 						$json_string = array(
 
 							'to' => array(
