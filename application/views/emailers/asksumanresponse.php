@@ -9,7 +9,11 @@
  </div>
 
  <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'><?php echo $name ?></span>,</p>
- <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for Contacting Us. We will get back to you shortly.</p>
+ <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for Contacting Us. Our nutritionists can't wait to interact with you.</p>
+
+ <p style='color:#000;font-family:Roboto;font-size:20px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
+
+ </p>
 
 
  <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
