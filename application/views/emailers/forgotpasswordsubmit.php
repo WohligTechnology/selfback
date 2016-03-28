@@ -7,7 +7,7 @@
 <div style='text-align:center' align='center'>
  <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
 </div>
-<p style='color:#000;font-family:Roboto;font-size:20px'><span style='color:#000;font-family:Roboto;font-size:20px'><?php echo $name; ?></span>,</p>
+<p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'><?php echo $name; ?></span>,</p>
 <p style='color:#000;font-family:Roboto;font-size:20px'>Your Password Changed Successfully!</p>
 
 <p style='color:#000;font-family:Roboto;font-size:20px'><a href='http://selfcareindia.com/#/home' style='color:#e96542;font-family:Roboto;font-size:20px' target='_blank'>Click Here</a> to return to the website.</p>

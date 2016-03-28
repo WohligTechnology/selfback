@@ -830,11 +830,10 @@ for($i=0;$i<count($query);$i++)
 
 				$query=$this->db->query("UPDATE `user` SET `password`='$password' WHERE `id`='$userid'");
 
-        $getemailbyid=$this->db->query("SELECT `email`,`firstname`,`lastname` FROM `user` WHERE `id`='$userid'")->row();
+        $getemailbyid=$this->db->query("SELECT `email`,`name` FROM `user` WHERE `id`='$userid'")->row();
         $email=$getemailbyid->email;
-        $name=$getemailbyid->firstname $getemailbyid->lastname;
+        $name=$getemailbyid->name;
 
-echo $name;
 				$data['name']=$name;
 				$viewcontent = $this->load->view('emailers/forgotpasswordsubmit', $data, true);
 				$this->email_model->emailer($viewcontent,'Password changed Successfully',$email,$username);
