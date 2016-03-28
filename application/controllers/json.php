@@ -2562,8 +2562,12 @@ public function getsinglesize()
             $link = "<a href='http://selfcareindia.com/#/forgotpassword/$hashvalue'>Click here </a> To Reset Your Password.";
             $data['link']=$link;
             $data['username']=$username;
-            $viewcontent = $this->load->view('emailers/forgotpassword', $data, true);
-            $this->email_model->emailer($viewcontent,'Forgot Password',$email,$username);
+            if(!empty($username))
+            {
+              $viewcontent = $this->load->view('emailers/forgotpassword', $data, true);
+              $this->email_model->emailer($viewcontent,'Forgot Password',$email,$username);
+            }
+
             $data['message'] = new stdClass();
             $data['message']->value = true;
             $this->load->view('json', $data);

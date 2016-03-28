@@ -830,97 +830,14 @@ for($i=0;$i<count($query);$i++)
 
 				$query=$this->db->query("UPDATE `user` SET `password`='$password' WHERE `id`='$userid'");
 
-        $getemailbyid=$this->db->query("SELECT `email` FROM `user` WHERE `id`='$userid'")->row();
+        $getemailbyid=$this->db->query("SELECT `email`,`firstname`,`lastname` FROM `user` WHERE `id`='$userid'")->row();
         $email=$getemailbyid->email;
+        $name=$getemailbyid->firstname $getemailbyid->lastname;
 
-						 $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
-						 <div style='margin:0'>
-
-						 <u></u>
-						 <div style='margin:0 auto;width:90%'>
-						 <div style='margin:50px auto;width:80%'>
-						 <div style='text-align:center' align='center'>
-						  <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
-						 </div>
-						 <p style='color:#000;font-family:Roboto;font-size:20px'><span style='color:#000;font-family:Roboto;font-size:20px'>$email</span>,</p>
-						 <p style='color:#000;font-family:Roboto;font-size:20px'>Your Password Changed Successfully!</p>
-
-						 <p style='color:#000;font-family:Roboto;font-size:20px'><a href='http://selfcareindia.com/#/home' style='color:#e96542;font-family:Roboto;font-size:20px' target='_blank'>Click Here</a> to return to the website.</p>
-
-						 <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
-						 <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
-						 </div>
-						 </div>
-						 <u></u>
-						 <footer style='background:#e96542;padding:10px 0'>
-						 <div style='margin:0 auto;width:90%'>
-						 <div>
-						 <table>
-						 <tbody><tr>
-						 <td style='padding:0 15px'><div>
-						 <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
-						 </div></td>
-						 <td style='padding:0 15px'><div>
-						  <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
-						 </div></td>
-						 <td style='padding:0 15px;vertical-align:middle' valign='middle'>
-						  <div>
-						  <span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
-						  <a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
-						  <a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
-						  <a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
-						  <a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
-						 </div>
-						 </td>
-						 </tr>
-						 </tbody></table>
-						 </div>
-						 </div>
-						 </footer>
-						 </div>
-
-
-						 </div></div></div></body></html>";
-
-						 $url = 'https://api.sendgrid.com/';
-						//  $user = 'poojathakare';
-						//  $pass = 'wohlig123';
-						$json_string = array(
-
-							'to' => array(
-								$email
-							),
-							'category' => 'test_category'
-						);
-
-						$params = array(
-							 'api_user'  => $user,
-							 'api_key'   => $pass,
-							 'x-smtpapi' => json_encode($json_string),
-							 'to'        => $email,
-							 'subject'   => 'Password Changed Successfully - Selfcare',
-							 'html'      => $message,
-							 'text'      => 'Selfcare',
-							 'from'      => 'info@selfcareindia.com',
-						 );
-
-						$request =  $url.'api/mail.send.json';
-
-						// Generate curl request
-						$session = curl_init($request);
-						// Tell curl to use HTTP POST
-						curl_setopt ($session, CURLOPT_POST, true);
-						// Tell curl that this is the body of the POST
-						curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
-						// Tell curl not to return headers, but do return the response
-						curl_setopt($session, CURLOPT_HEADER, false);
-						// Tell PHP not to use SSLv3 (instead opting for TLS)
-						curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
-						curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
-
-						// obtain response
-						$response = curl_exec($session);
-						curl_close($session);
+echo $name;
+				$data['name']=$name;
+				$viewcontent = $this->load->view('emailers/forgotpasswordsubmit', $data, true);
+				$this->email_model->emailer($viewcontent,'Password changed Successfully',$email,$username);
 
 	 if(!$query)
 		 return  0;
