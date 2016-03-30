@@ -572,7 +572,7 @@ class restapi_model extends CI_Model
         $totalamount=$getorderdetails->finalamount;
 
 //        if (intval($Amount)  > 0 )
-        if (intval($Amount) == intval($totalamount) ) {
+        if (intval($Amount) == intval($totalamount) && $responsecode==2) {
             $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
 
 
@@ -754,7 +754,16 @@ class restapi_model extends CI_Model
             $this->cart->destroy();
             $deletecart = $this->db->query("DELETE FROM `fynx_cart` WHERE `user`='$user'");
             redirect('http://selfcareindia.com/#/thankyou/'.$OrderId."/".$totalamount);
-        } else {
+        } 
+        else if ($responsecode==5) {
+            $query = $this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
+            redirect('http://selfcareindia.com/#/wentwrong/'.$OrderId);
+        }
+        else if ($responsecode==6) {
+            $query = $this->db->query("UPDATE `fynx_order` SET `orderstatus`=6,`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
+            redirect('http://selfcareindia.com/#/wentwrong/'.$OrderId);
+        }
+        else{
             $query = $this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
             redirect('http://selfcareindia.com/#/wentwrong/'.$OrderId);
         }
