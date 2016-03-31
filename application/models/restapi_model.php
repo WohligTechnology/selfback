@@ -256,10 +256,11 @@ class restapi_model extends CI_Model
 
         return $query3;
     }
-    public function updateProfile($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $billingpincode, $shippingline1, $shippingline2, $shippingline3, $shippingcity, $shippingstate, $shippingpincode, $shippingcountry)
+    public function updateProfile($user,$name, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $billingpincode, $shippingline1, $shippingline2, $shippingline3, $shippingcity, $shippingstate, $shippingpincode, $shippingcountry)
     {
         $data = array(
             'firstname' => $firstname,
+            'name' => $name,
             'lastname' => $lastname,
             'email' => $email,
             'phone' => $phone,
@@ -746,6 +747,7 @@ class restapi_model extends CI_Model
 
 
             $this->email_model->emailer($message,'Your Order Confirmation',$email,$username);
+            $this->email_model->emailer($message,'Your Order Confirmation','orders@selfcareindia.com',$username);
 
 
              // DESTROY CART
