@@ -146,7 +146,10 @@ $search = $this->input->get_post('search');
     public function subscribe()
     {
         $email = $this->input->get_post('email');
-
+        $data['email']=$email;
+        $viewcontent = $this->load->view('emailers/subscribetoself', $data, true);
+        $this->email_model->emailer($viewcontent,'Subscription detail','pooja.wohlig@gmail.com','Team SelfCare');
+//        $this->email_model->emailer($viewcontent,'Subscription detail','care@selfcareindia.com','Team SelfCare');
         $data['message'] = $this->restapi_model->subscribe($email);
         $this->load->view('json', $data);
     }
