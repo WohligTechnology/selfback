@@ -83,6 +83,13 @@ class restapi_model extends CI_Model
 
     public function contactSubmit($firstname, $lastname, $mobile, $email, $message)
     {
+        $data['firstname']=$firstname;
+        $data['lastname']=$lastname;
+        $data['mobile']=$mobile;
+        $data['email']=$email;
+        $data['message']=$message;
+        $viewcontent = $this->load->view('emailers/contactustoself', $data, true);
+        $this->email_model->emailer($viewcontent,'Contact Us details','care@selfcareindia.com','Team SelfCare');
         $this->db->query("INSERT INTO `contact`(`firstname`,`lastname`,`telephone`,`email`,`comment`) VALUE('$firstname','$lastname','$mobile','$email','$message')");
         $object = new stdClass();
         $object->value = true;
