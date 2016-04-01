@@ -7,7 +7,7 @@
  <div style='text-align:center' align='center'>
   <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
  </div>
-
+ <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'><?php echo $username ?></span>,</p>
  <p style='color:#000;font-family:Roboto;font-size:20px'>
  Email : <?php echo $email ?><br/>
 

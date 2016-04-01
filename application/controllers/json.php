@@ -147,6 +147,7 @@ $search = $this->input->get_post('search');
     {
         $email = $this->input->get_post('email');
         $data['email']=$email;
+        $data['username']='Team SelfCare';
         $viewcontent = $this->load->view('emailers/subscribetoself', $data, true);
         $this->email_model->emailer($viewcontent,'Subscription detail','pooja.wohlig@gmail.com','Team SelfCare');
 //        $this->email_model->emailer($viewcontent,'Subscription detail','care@selfcareindia.com','Team SelfCare');
@@ -3090,6 +3091,13 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $query->color = $this->db->query("SELECT DISTINCT `fynx_color`.*,`fynx_product`.`id` as `product`,`fynx_product`.`price` as `price` FROM `fynx_product` INNER JOIN `fynx_color` ON `fynx_color`.`id` = `fynx_product`.`color`  WHERE `type`='$type' GROUP BY `fynx_color`.`id`")->result();
         $data['message'] = $query;
         $this->load->view('json', $data);
+    }
+    public function test(){
+        $email='chaitaleelp10@gmail.com';
+         $data['email']=$email;
+         $data['username']='Team SelfCare';
+        $viewcontent = $this->load->view('emailers/subscribetoself', $data, true);
+        $this->email_model->emailer($viewcontent,'Subscription detail','pooja.wohlig@gmail.com','Team SelfCare');
     }
 
 
