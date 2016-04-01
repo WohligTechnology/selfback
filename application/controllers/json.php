@@ -149,8 +149,8 @@ $search = $this->input->get_post('search');
         $data['email']=$email;
         $data['username']='Team SelfCare';
         $viewcontent = $this->load->view('emailers/subscribetoself', $data, true);
-        $this->email_model->emailer($viewcontent,'Subscription detail','pooja.wohlig@gmail.com','Team SelfCare');
-//        $this->email_model->emailer($viewcontent,'Subscription detail','care@selfcareindia.com','Team SelfCare');
+//        $this->email_model->emailer($viewcontent,'Subscription detail','pooja.wohlig@gmail.com','Team SelfCare');
+        $this->email_model->emailer($viewcontent,'Subscription detail','care@selfcareindia.com','Team SelfCare');
         $data['message'] = $this->restapi_model->subscribe($email);
         $this->load->view('json', $data);
     }
