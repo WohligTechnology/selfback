@@ -17,8 +17,8 @@ class Json extends CI_Controller
     }
     
     public function getTime() {
-        $data["message"] = $this->restapi_model->getTime();
-        $this->load->view('json', $data);
+        $data = $this->restapi_model->getTime();
+        echo $data;
     }
 
     public function testmail()

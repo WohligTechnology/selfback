@@ -788,7 +788,8 @@ class restapi_model extends CI_Model
         $this->db->query("SET @@session.time_zone = '+05:30'");
     }
      public function getTime() {
-        return $this->db->query("SELECT NOW()")->row();
+        $query=$this->db->query("SELECT NOW() as `currenttime`")->row();
+        return $query->currenttime;
     }
 
 }
