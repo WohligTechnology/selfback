@@ -156,11 +156,11 @@ $search = $this->input->get_post('search');
     public function subscribe()
     {
         $email = $this->input->get_post('email');
-//        $data['email']=$email;
-//        $data['username']='Team SelfCare';
-//        $viewcontent = $this->load->view('emailers/subscribetoself', $data, true);
+        $data['email']=$email;
+        $data['username']='Team SelfCare';
+        $viewcontent = $this->load->view('emailers/subscribetoself', $data, true);
 //        $this->email_model->emailer($viewcontent,'Subscription detail','pooja.wohlig@gmail.com','Team SelfCare');
-//        $this->email_model->emailer($viewcontent,'Subscription detail','care@selfcareindia.com','Team SelfCare');
+        $this->email_model->emailer($viewcontent,'Subscription detail','care@selfcareindia.com','Team SelfCare');
         $data['message'] = $this->restapi_model->subscribe($email);
         $this->load->view('json', $data);
     }
@@ -3106,6 +3106,14 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $currenttime = $this->restapi_model->getTime();
         $this->db->query("INSERT INTO `userlog`( `onuser`, `status`, `timestamp`)
         VALUES ('3','2','$currenttime')");
+    } 
+    public function test(){
+            $data['name']="Pooja".' '."Thakare";
+            $username="Pooja".' '."Thakare";
+            $data['email']='pooja.wohlig@gmail.com';
+            $email='pooja.wohlig@gmail.com';
+            $viewcontent = $this->load->view('emailers/registeruser', $data, true);
+            $this->email_model->emailer($viewcontent,'Welcome to SelfCare',$email,$username);
     }
    
 

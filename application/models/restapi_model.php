@@ -123,7 +123,9 @@ class restapi_model extends CI_Model
             $this->db->query("INSERT INTO `user`(`name`,`firstname`, `lastname`, `email`, `password`,`accesslevel`,`status`) VALUE('$firstname $lastname','$firstname','$lastname','$email','$password','3','2')");
             $userid = $this->db->insert_id();
             $data['name']=$firstname.' '.$lastname;
+            $username=$firstname.' '.$lastname;
             $data['email']=$email;
+            $email=$email;
             $viewcontent = $this->load->view('emailers/registeruser', $data, true);
             $this->email_model->emailer($viewcontent,'Welcome to SelfCare',$email,$username);
             $newdata = array(
