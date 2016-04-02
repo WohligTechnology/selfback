@@ -3102,6 +3102,11 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $data['message'] = $query;
         $this->load->view('json', $data);
     }
+    public function testit(){
+        $currenttime = $this->restapi_model->getTime();
+        $this->db->query("INSERT INTO `userlog`( `onuser`, `status`, `timestamp`)
+        VALUES ('3','2','$currenttime')");
+    }
    
 
 
