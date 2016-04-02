@@ -8,8 +8,8 @@ class Site extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
         $this->is_logged_in();
+        $this->db->query("SET @@session.time_zone = '+05:30'");
     }
     public function is_logged_in()
     {

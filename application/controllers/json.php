@@ -5,9 +5,19 @@ if (!defined('BASEPATH')) {
 }
 class Json extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->db->query("SET @@session.time_zone = '+05:30'");
+    }
     public function getSlide()
     {
         $data['message'] = $this->homeslide_model->getSlide();
+        $this->load->view('json', $data);
+    }
+    
+    public function getTime() {
+        $data["message"] = $this->restapi_model->getTime();
         $this->load->view('json', $data);
     }
 
@@ -3092,13 +3102,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $data['message'] = $query;
         $this->load->view('json', $data);
     }
-    public function test(){
-        $email='chaitaleelp10@gmail.com';
-         $data['email']=$email;
-         $data['username']='Team SelfCare';
-        $viewcontent = $this->load->view('emailers/subscribetoself', $data, true);
-        $this->email_model->emailer($viewcontent,'Subscription detail','pooja.wohlig@gmail.com','Team SelfCare');
-    }
+   
 
 
 
