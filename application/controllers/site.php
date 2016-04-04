@@ -6973,6 +6973,12 @@ if ($this->recipes_model->edit($id, $name, $description, $ingredients, $method, 
         $elements[3]->sort = '1';
         $elements[3]->header = 'mobile';
         $elements[3]->alias = 'mobile';
+        
+        $elements[4] = new stdClass();
+        $elements[4]->field = '`careers`.`resume`';
+        $elements[4]->sort = '1';
+        $elements[4]->header = 'resume';
+        $elements[4]->alias = 'resume';
         $search = $this->input->get_post('search');
         $pageno = $this->input->get_post('pageno');
         $orderby = $this->input->get_post('orderby');
