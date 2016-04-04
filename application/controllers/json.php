@@ -3103,9 +3103,11 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $this->load->view('json', $data);
     }
     public function testit(){
-        $currenttime = $this->restapi_model->getTime();
-        $this->db->query("INSERT INTO `userlog`( `onuser`, `status`, `timestamp`)
-        VALUES ('3','2','$currenttime')");
+        $username='wohlig123';
+       $encoded=base64_encode($username);
+        echo $encoded;
+         $decoded=base64_decode($encoded);
+        echo $decoded;
     } 
     public function test(){
             $data['name']="Pooja".' '."Thakare";
