@@ -15,7 +15,7 @@
  Message :<?php echo $message ?><br/>
  Resume :   <td style='text-align:center;'>
                 <figure>
-            <a href="http://selfcareindia.com/admin/uploads/<?php echo $image; ?>" download="<?php echo $image; ?>"><img src='http://selfcareindia.com/admin/uploads/<?php echo $image; ?>' alt='' width='70' class='img-responsive'></a>
+            <a href="http://admin.selfcareindia.com/uploads/<?php echo $resume; ?>" download="<?php echo $resume; ?>">Download Resume</a>
                 </figure>
 
               </td>

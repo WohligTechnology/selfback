@@ -69,6 +69,7 @@ class restapi_model extends CI_Model
         $data['mobile']=$mobile;
         $data['email']=$email;
         $data['message']=$message;
+        $data['resume']=$resume;
 
         $viewcontent = $this->load->view('emailers/careersubmit', $data, true);
 //        $this->email_model->emailer($viewcontent,'Career Form Submission','care@selfcareindia.com',$username);
