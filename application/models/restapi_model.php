@@ -72,8 +72,8 @@ class restapi_model extends CI_Model
         $data['resume']=$resume;
 
         $viewcontent = $this->load->view('emailers/careersubmit', $data, true);
-//        $this->email_model->emailer($viewcontent,'Career Form Submission','care@selfcareindia.com',$username);
-        $this->email_model->emailer($viewcontent,'Career Form Submission','pooja.wohlig@gmail.com',$username);
+        $this->email_model->emailer($viewcontent,'Career Form Submission','care@selfcareindia.com',$username);
+//        $this->email_model->emailer($viewcontent,'Career Form Submission','pooja.wohlig@gmail.com',$username);
         $viewcontent = $this->load->view('emailers/careersubmitresponse', $data, true);
         $this->email_model->emailer($viewcontent,'Career Form Submission',$email,$username);
 
