@@ -151,6 +151,7 @@ $search = $this->input->get_post('search');
             $this->load->view('redirect3', $data);
 //$this->load->view('json', $data);
         }
+        
     }
 
     public function subscribe()
