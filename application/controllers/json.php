@@ -3110,12 +3110,70 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         echo $decoded;
     } 
     public function test(){
-            $data['name']="Pooja".' '."Thakare";
-            $username="Pooja".' '."Thakare";
-            $data['email']='pooja.wohlig@gmail.com';
-            $email='pooja.wohlig@gmail.com';
-            $viewcontent = $this->load->view('emailers/registeruser', $data, true);
-            $this->email_model->emailer($viewcontent,'Welcome to SelfCare',$email,$username);
+        echo base_url();
+//            $data['name']="Pooja".' '."Thakare";
+//            $username="Pooja".' '."Thakare";
+//            $data['email']='pooja.wohlig@gmail.com';
+//            $email='pooja.wohlig@gmail.com';
+//            $viewcontent = $this->load->view('emailers/registeruser', $data, true);
+//            $this->email_model->emailer($viewcontent,'Welcome to SelfCare',$email,$username);
+    }
+    public function sendattachment(){
+        
+        $url = 'https://api.sendgrid.com/';
+        $user = 'jaywohlig';
+        $pass = 'wohlig123';
+
+        $fileName = '2016-01-0142_SMAAASH_Big_fat_treats_Menu_Card-01.jpg';
+        $properpath=base_url()."uploads/".$fileName;
+        $filePath = "http://admin.selfcareindia.com/uploads/2016-01-0142_SMAAASH_Big_fat_treats_Menu_Card-01.jpg";
+     
+        
+        $params = array(
+            'api_user'  => $user,
+            'api_key'   => $pass,
+            'to'        => 'pooja.wohlig@gmail.com',
+            'subject'   => 'test of file Sedning',
+            'html'      => '<p> the HTML </p>',
+            'text'      => 'the plain text',
+            'from'      => 'info@selfcareindia.com'
+          );
+        
+        $params['files'] = CURLFile('/image.png','image/jpeg','image.png'); 
+        echo filesize ("/image.png" );
+// Create a CURLFile object
+
+         $request =  $url.'api/mail.send.json';
+
+        // Generate curl request
+        $headers = array("Content-Type:multipart/form-data");
+        $session = curl_init($request);
+        $options = array(
+            CURLOPT_URL => $request,
+            CURLOPT_HEADER => true,
+            CURLOPT_POST => 1,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_POSTFIELDS => $params,
+            CURLOPT_INFILESIZE => filesize ("/image.png" ),
+            CURLOPT_RETURNTRANSFER => true
+        ); // cURL options
+        curl_setopt_array($session, $options);
+        // Tell PHP not to use SSLv3 (instead opting for TLS)
+        //curl_setopt($session, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);1
+
+        //Turn off SSL
+        curl_setopt($session, CURLOPT_SSL_VERIFYPEER, false);//New line
+        curl_setopt($session, CURLOPT_SSL_VERIFYHOST, false);//New line
+
+
+        // obtain response
+        $response = curl_exec($session);
+
+        // print everything out
+        var_dump($response,curl_error($session),curl_getinfo($session));
+        print_r($response);
+        curl_close($session);
+        
     }
    
 
