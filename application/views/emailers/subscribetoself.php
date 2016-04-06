@@ -7,18 +7,9 @@
  <div style='text-align:center' align='center'>
   <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
  </div>
-
+ <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'><?php echo $username ?></span>,</p>
  <p style='color:#000;font-family:Roboto;font-size:20px'>
- Name : <?php echo $name ?><br/>
  Email : <?php echo $email ?><br/>
- Mobile :<?php echo $mobile ?><br/>
- Message :<?php echo $message ?><br/>
- Resume :   <td style='text-align:center;'>
-                <figure>
-            <a href="http://admin.selfcareindia.com/uploads/<?php echo $resume; ?>" download="<?php echo $resume; ?>">Download Resume</a>
-                </figure>
-
-              </td>
 
 </p>
 </div>

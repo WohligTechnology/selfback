@@ -59,12 +59,12 @@ $ip = substr($myserver,0,7);
 if($myserver != "localhost"  && $ip != "192.168")
 {
     $db['default']['hostname'] = 'localhost';
-    // $db['default']['username'] = 'root';
-    // $db['default']['password'] = '';
-    // $db['default']['database'] = 'tingwork_self';
-    $db['default']['username'] = 'wwwselfc_website';
-    $db['default']['password'] = 'chintan123';
-    $db['default']['database'] = 'wwwselfc_website';
+     $db['default']['username'] = 'root';
+     $db['default']['password'] = 'ZbcHeUXWymgh5+';
+     $db['default']['database'] = 'wwwselfc_website';
+//    $db['default']['username'] = 'wwwselfc_website';
+//    $db['default']['password'] = 'chintan123';
+//    $db['default']['database'] = 'wwwselfc_website';
     $db['default']['dbdriver'] = 'mysql';
     $db['default']['dbprefix'] = '';
     $db['default']['pconnect'] = TRUE;
@@ -82,8 +82,8 @@ else
     $db['default']['hostname'] = 'localhost';
     $db['default']['username'] = 'root';
     $db['default']['password'] = '';
-    $db['default']['database'] = 'tingwork_self';
-    $db['default']['dbdriver'] = 'mysqli';
+    $db['default']['database'] = 'selfcare';
+    $db['default']['dbdriver'] = 'mysql';
     $db['default']['dbprefix'] = '';
     $db['default']['pconnect'] = TRUE;
     $db['default']['db_debug'] = TRUE;

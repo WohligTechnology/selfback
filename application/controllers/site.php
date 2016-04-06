@@ -8,8 +8,8 @@ class Site extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
         $this->is_logged_in();
+        $this->db->query("SET @@session.time_zone = '+05:30'");
     }
     public function is_logged_in()
     {
@@ -3264,7 +3264,7 @@ $config['upload_path'] = './uploads/';
         }
         if ($orderby == '') {
             $orderby = 'id';
-            $orderorder = 'ASC';
+            $orderorder = 'DESC';
         }
         $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `fynx_order` LEFT OUTER JOIN `user` ON `user`.`id`=`fynx_order`.`user` LEFT OUTER JOIN `orderstatus` ON `orderstatus`.`id`=`fynx_order`.`orderstatus` ',"WHERE `fynx_order`.`transactionid` <> ''");
         $queryarray = $data['message']->queryresult;
@@ -6973,6 +6973,12 @@ if ($this->recipes_model->edit($id, $name, $description, $ingredients, $method, 
         $elements[3]->sort = '1';
         $elements[3]->header = 'mobile';
         $elements[3]->alias = 'mobile';
+        
+        $elements[4] = new stdClass();
+        $elements[4]->field = '`careers`.`resume`';
+        $elements[4]->sort = '1';
+        $elements[4]->header = 'resume';
+        $elements[4]->alias = 'resume';
         $search = $this->input->get_post('search');
         $pageno = $this->input->get_post('pageno');
         $orderby = $this->input->get_post('orderby');

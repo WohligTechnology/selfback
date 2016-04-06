@@ -7,21 +7,14 @@
  <div style='text-align:center' align='center'>
   <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
  </div>
-
  <p style='color:#000;font-family:Roboto;font-size:20px'>
- Name : <?php echo $name ?><br/>
- Email : <?php echo $email ?><br/>
- Mobile :<?php echo $mobile ?><br/>
- Message :<?php echo $message ?><br/>
- Resume :   <td style='text-align:center;'>
-                <figure>
-            <a href="http://admin.selfcareindia.com/uploads/<?php echo $resume; ?>" download="<?php echo $resume; ?>">Download Resume</a>
-                </figure>
-
-              </td>
-
+ First Name : <?php echo $firstname; ?> <br/>
+ Last Name : <?php echo $lastname; ?><br/>
+ Mobile : <?php echo $mobile; ?> <br/>
+ Email : <?php echo $email; ?><br/>
+ Message : <?php echo $message; ?>
 </p>
-</div>
+ </div>
  </div>
  <u></u>
  <footer style='background:#e96542;padding:10px 0'>
