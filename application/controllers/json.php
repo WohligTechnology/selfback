@@ -2662,6 +2662,7 @@ public function getsinglesize()
         $data = json_decode(file_get_contents('php://input'), true);
         $id = $data['id'];
         $firstname = $data['firstname'];
+        $name = $data['tname'];
         $lastname = $data['lastname'];
         $billingaddress = $data['billingaddress'];
         $email = $data['email'];
@@ -2670,7 +2671,7 @@ public function getsinglesize()
         $billingpincode = $data['billingpincode'];
         $billingcountry = $data['billingcountry'];
         $billingstate = $data['billingstate'];
-        $data['message'] = $this->user_model->updateuserfront($id, $firstname, $lastname, $billingaddress, $email, $phone, $billingcity, $billingpincode, $billingcountry, $billingstate);
+        $data['message'] = $this->user_model->updateuserfront($id,$name, $firstname, $lastname, $billingaddress, $email, $phone, $billingcity, $billingpincode, $billingcountry, $billingstate);
         $this->load->view('json', $data);
     }
     public function getuserbyid()
@@ -2885,6 +2886,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
     {
         $data = json_decode(file_get_contents('php://input'), true);
         $user = $data['id'];
+        $name = $data['name'];
         $firstname = $data['firstname'];
         $lastname = $data['lastname'];
         $email = $data['email'];
@@ -2904,7 +2906,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $shippingpincode = $data['shippingpincode'];
         $shippingcountry = $data['shippingcountry'];
 
-        $data['message'] = $this->restapi_model->updateProfile($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $billingpincode, $shippingline1, $shippingline2, $shippingline3, $shippingcity, $shippingstate, $shippingpincode, $shippingcountry);
+        $data['message'] = $this->restapi_model->updateProfile($user,$name, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $billingpincode, $shippingline1, $shippingline2, $shippingline3, $shippingcity, $shippingstate, $shippingpincode, $shippingcountry);
         $this->load->view('json', $data);
     }
     public function changepassword()
