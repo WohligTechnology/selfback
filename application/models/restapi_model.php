@@ -12,6 +12,22 @@ class restapi_model extends CI_Model
         return $query;
     }
 
+    public function getFoodGroup()
+    {
+        $query = $this->db->query("SELECT DISTINCT `category` AS 'name' FROM `caloriemeter`")->result();
+        return $query;
+    }
+    public function getFoodProducts($name)
+    {
+        $query = $this->db->query("SELECT DISTINCT `product` AS 'name' FROM `caloriemeter` WHERE `category`='$name'")->result();
+        return $query;
+    }
+    public function getFoodProductdetail($name,$catname)
+    {
+        $query = $this->db->query("SELECT DISTINCT * FROM `caloriemeter` WHERE `product`='$name' AND `category`='$catname'")->row();
+        return $query;
+    }
+
     public function subscribe($email)
     {
         $query1 = $this->db->query("SELECT * FROM `subscribe` WHERE `email`='$email'");

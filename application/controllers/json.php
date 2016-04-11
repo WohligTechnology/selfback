@@ -11,6 +11,25 @@ class Json extends CI_Controller
         $this->load->view('json', $data);
     }
 
+    public function getFoodGroup()
+    {
+        $data['message'] = $this->restapi_model->getFoodGroup();
+        $this->load->view('json', $data);
+    }
+    public function getFoodProducts()
+    {
+        $name = $this->input->get_post('name');
+        $data['message'] = $this->restapi_model->getFoodProducts($name);
+        $this->load->view('json', $data);
+    }
+    public function getFoodProductdetail()
+    {
+        $name = $this->input->get_post('product');
+        $catname = $this->input->get_post('category');
+        $data['message'] = $this->restapi_model->getFoodProductdetail($name,$catname);
+        $this->load->view('json', $data);
+    }
+
     public function testmail()
     {
         $data['message'] = $this->user_model->testmail();
