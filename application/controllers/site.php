@@ -3247,7 +3247,7 @@ $config['upload_path'] = './uploads/';
         $elements[24]->sort = '1';
         $elements[24]->header = 'orderstatusname';
         $elements[24]->alias = 'orderstatusname';
-        
+
         $elements[25] = new stdClass();
         $elements[25]->field = '`fynx_order`.`finalamount`';
         $elements[25]->sort = '1';
@@ -4423,6 +4423,45 @@ $search = $this->input->get_post('search');
         $data['redirect'] = 'site/viewproduct';
         $this->load->view('redirect', $data);
     }
+
+    public function uploadcaloriemetercsv()
+    {
+        $access = array('1');
+        $this->checkaccess($access);
+        $data[ 'page' ] = 'uploadcaloriemeter';
+        $data[ 'title' ] = 'Upload Calorie Meter';
+        $this->load->view('template', $data);
+    }
+
+    public function uploadcaloriemetercsvsubmit()
+    {
+        $access = array('1');
+        $this->checkaccess($access);
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = '*';
+        $this->load->library('upload', $config);
+        $filename = 'file';
+        $file = '';
+        if ($this->upload->do_upload($filename)) {
+            $uploaddata = $this->upload->data();
+            $file = $uploaddata['file_name'];
+            $filepath = $uploaddata['file_path'];
+        }
+        $fullfilepath = $filepath.''.$file;
+        $file = $this->csvreader->parse_file($fullfilepath);
+        $id1 = $this->caloriemeter_model->createbycsv($file);
+//        echo $id1;
+
+        if ($id1 == 0) {
+            $data['alerterror'] = 'New Calorie Meter could not be Uploaded.';
+        } else {
+            $data['alertsuccess'] = 'Calorie Meter Uploaded Successfully.';
+        }
+
+        $data['redirect'] = 'site/uploadcaloriemeter';
+        $this->load->view('redirect', $data);
+    }
+
     public function viewsubscribe()
     {
         $access = array('1');
@@ -6973,7 +7012,7 @@ if ($this->recipes_model->edit($id, $name, $description, $ingredients, $method, 
         $elements[3]->sort = '1';
         $elements[3]->header = 'mobile';
         $elements[3]->alias = 'mobile';
-        
+
         $elements[4] = new stdClass();
         $elements[4]->field = '`careers`.`resume`';
         $elements[4]->sort = '1';
