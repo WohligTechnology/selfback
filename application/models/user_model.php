@@ -594,6 +594,20 @@ public function totalcart()
             $this->session->set_userdata($newdata);
 
             return $newdata;
+						// CART PART
+
+$cartdata = $this->cart->contents();
+if ($cartdata) {
+	$newcart = array();
+	foreach ($cartdata as $item) {
+			array_push($newcart, $item);
+	}
+	foreach ($newcart as $cart) {
+			$querycart = $this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`, `json`,`design`) VALUES ('$id','".$cart['id']."','".$cart['qty']."',NULL,'".$cart['options']['json']."','".$cart['design']."')");
+	}
+}
+
+// cart ends
 
         }
         else
