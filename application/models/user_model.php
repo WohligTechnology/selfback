@@ -656,24 +656,23 @@ public function totalcart()
 				if($query->num_rows > 0)
         {
             $user=$query->row_array();
-            // $userid=$user->id;
-            // $firstname=$user->firstname;
-            // $lastname=$user->lastname;
-            // $username=$user->username;
-            // $name=$user->name;
-						//
-						//
-            // $newdata = array(
-            //     'email'     => $email,
-            //     'firstname'     => $firstname,
-            //     'lastname'     => $lastname,
-            //     'username'     => $username,
-            //     'name'     => $name,
-            //     'logged_in' => 'true',
-            //     'id'=> $userid
-            // );
+						$userid = $user['id'];
+												// CART PART
 
-            $this->session->set_userdata($user);
+					$cartdata = $this->cart->contents();
+					if ($cartdata) {
+							$newcart = array();
+							foreach ($cartdata as $item) {
+									array_push($newcart, $item);
+							}
+							foreach ($newcart as $cart) {
+									$querycart = $this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`, `json`,`design`) VALUES ('$userid','".$cart['id']."','".$cart['qty']."',NULL,'".$cart['options']['json']."','".$cart['design']."')");
+							}
+					}
+
+					// cart ends
+
+					            $this->session->set_userdata($user);
 
             return $user;
         }

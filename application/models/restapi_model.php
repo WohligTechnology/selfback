@@ -131,6 +131,22 @@ class restapi_model extends CI_Model
         if ($num == 0) {
             $this->db->query("INSERT INTO `user`(`name`,`firstname`, `lastname`, `email`, `password`,`accesslevel`,`status`) VALUE('$firstname $lastname','$firstname','$lastname','$email','$password','3','2')");
             $userid = $this->db->insert_id();
+
+            // CART PART
+
+$cartdata = $this->cart->contents();
+if ($cartdata) {
+  $newcart = array();
+  foreach ($cartdata as $item) {
+      array_push($newcart, $item);
+  }
+  foreach ($newcart as $cart) {
+      $querycart = $this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`, `json`,`design`) VALUES ('$userid','".$cart['id']."','".$cart['qty']."',NULL,'".$cart['options']['json']."','".$cart['design']."')");
+  }
+}
+
+// cart ends
+
             $data['name']=$firstname.' '.$lastname;
             $data['email']=$email;
             $viewcontent = $this->load->view('emailers/registeruser', $data, true);
@@ -145,6 +161,7 @@ class restapi_model extends CI_Model
 
             $this->session->set_userdata($newdata);
             $q="SELECT `id`, `name`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json`, `firstname`, `lastname`, `phone`, `billingaddress`, `billingcity`, `billingstate`, `billingcountry`, `billingcontact`, `billingpincode`, `shippingaddress`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `shippingname`, `shippingcontact`, `currency`, `credit`, `companyname`, `registrationno`, `vatnumber`, `country`, `fax`, `gender`, `facebook`, `google`, `twitter`, `street`, `address`, `pincode`, `state`, `dob`, `city` FROM `user` WHERE `id`='$userid'";
+            // echo $q;
             $getuser = $this->db->query($q)->row();
             $object = $getuser;
         } else {

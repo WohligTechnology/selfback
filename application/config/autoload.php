@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('caloriemeter_model','user_model','healthpackages_model','subtype_model','recipeimage_model','blogtag_model','recipes_model','news_model','plans_model','video_model','blog_model','comment_model','realtedblog_model','tags_model','menu_model','cart_model','category_model','imagepull_model','color_model','config_model','credit_model','designer_model','designs_model','homeslide_model','newsletter_model','offer_model','offerproduct_model','order_model','orderitem_model','product_model','productimage_model','size_model','sizechart_model','subcategory_model','type_model','testimonial_model','useraddress_model','wishlist_model','designer_model','restapi_model','productdesignimage_model');
+$autoload['model'] = array('email_model','caloriemeter_model','user_model','healthpackages_model','subtype_model','recipeimage_model','blogtag_model','recipes_model','news_model','plans_model','video_model','blog_model','comment_model','realtedblog_model','tags_model','menu_model','cart_model','category_model','imagepull_model','color_model','config_model','credit_model','designer_model','designs_model','homeslide_model','newsletter_model','offer_model','offerproduct_model','order_model','orderitem_model','product_model','productimage_model','size_model','sizechart_model','subcategory_model','type_model','testimonial_model','useraddress_model','wishlist_model','designer_model','restapi_model','productdesignimage_model');
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */
