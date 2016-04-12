@@ -581,6 +581,7 @@ public function totalcart()
 
             $query2=$this->db->query("INSERT INTO `user` (`id`, `name`, `password`, `email`, `accesslevel`, `timestamp`, `status`, `image`, `username`, `socialid`, `logintype`, `json`, `dob`, `street`, `address`, `city`, `state`, `country`, `pincode`, `facebook`, `google`, `twitter`) VALUES (NULL, '$user_profile->displayName', '', '$user_profile->email', '3', CURRENT_TIMESTAMP, '1', '$user_profile->photoURL', '', '$user_profile->identifier', '$provider', '', '$user_profile->birthYear-$user_profile->birthMonth-$user_profile->birthDay', '', '$user_profile->address,$user_profile->region', '$user_profile->city', '', '$user_profile->country', '', '$facebookid', '$googleid', '$twitterid')");
             $id=$this->db->insert_id();
+            $userid=$this->db->insert_id();
             $newdata = array(
                 'email'     => $user_profile->email,
                 'password' => "",
@@ -590,24 +591,36 @@ public function totalcart()
                 'image'=> $user_profile->photoURL,
                 'logintype'=>$provider
             );
-
-            $this->session->set_userdata($newdata);
-
-            return $newdata;
 						// CART PART
 
-$cartdata = $this->cart->contents();
-if ($cartdata) {
-	$newcart = array();
-	foreach ($cartdata as $item) {
-			array_push($newcart, $item);
-	}
-	foreach ($newcart as $cart) {
-			$querycart = $this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`, `json`,`design`) VALUES ('$id','".$cart['id']."','".$cart['qty']."',NULL,'".$cart['options']['json']."','".$cart['design']."')");
-	}
-}
+					$cartdata = $this->cart->contents();
+					if ($cartdata) {
+					$newcart = array();
+					foreach ($cartdata as $item) {
+					array_push($newcart, $item);
+					}
 
-// cart ends
+					foreach ($newcart as $cart) {
+					$chkproduct = $this->db->query("SELECT `id` FROM `fynx_cart` WHERE `user`='$userid' AND `product`='".$cart['id']."' AND `status`='".$cart['options']['status']."'")->row();
+
+					if(!empty($chkproduct))
+					{
+					$querycartupdate = $this->db->query("UPDATE `fynx_cart` SET `quantity`='".$cart['qty']."' WHERE `user`='$userid' AND `product`='".$cart['id']."' AND `status`='".$cart['options']['status']."'");
+					}
+					else
+					{
+					$querycart = $this->db->query("INSERT INTO `fynx_cart`(`user`, `product`,`quantity`, `timestamp`, `json`,`design`,`status`) VALUES ('$userid','".$cart['id']."','".$cart['qty']."',NULL,'".$cart['options']['json']."','".$cart['design']."','".$cart['options']['status']."')");
+					}
+					}
+					}
+
+					// cart ends
+            $this->session->set_userdata($newdata);
+
+
+
+            return $newdata;
+
 
         }
         else
