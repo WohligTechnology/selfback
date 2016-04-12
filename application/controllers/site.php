@@ -4458,7 +4458,7 @@ $search = $this->input->get_post('search');
             $data['alertsuccess'] = 'Calorie Meter Uploaded Successfully.';
         }
 
-        $data['redirect'] = 'site/uploadcaloriemeter';
+        $data['redirect'] = 'site/uploadcaloriemetercsv';
         $this->load->view('redirect', $data);
     }
 
