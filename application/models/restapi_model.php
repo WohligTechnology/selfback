@@ -606,10 +606,11 @@ if ($cartdata) {
         $getorderdetails=$this->db->query("SELECT * FROM `fynx_order` WHERE `id`='$OrderId'")->row();
         $totalamount=$getorderdetails->finalamount;
 
-     if (intval($Amount)  > 0 )
+     if ($responsecode == 2 )
         // if (intval($Amount) == intval($totalamount) )
 
          {
+           echo $responsecode;
             $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
 
 
@@ -790,7 +791,7 @@ if ($cartdata) {
             $user = $getuser->user;
             $this->cart->destroy();
             $deletecart = $this->db->query("DELETE FROM `fynx_cart` WHERE `user`='$user'");
-            redirect('http://selfcareindia.com/#/thankyou/'.$OrderId."/".$totalamount);
+          //  redirect('http://selfcareindia.com/#/thankyou/'.$OrderId."/".$totalamount);
         } else {
             $query = $this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
             redirect('http://selfcareindia.com/#/wentwrong/'.$OrderId);
