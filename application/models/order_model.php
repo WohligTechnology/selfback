@@ -110,7 +110,9 @@ class order_model extends CI_Model
     public function placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode,$shippingamount,$finalamount,$totalamount)
     {
         $mysession = $this->session->all_userdata();
-         $currenttime = $this->restapi_model->getTime();
+        date_default_timezone_set('Asia/Calcutta');
+$currenttime= date("Y-m-d H:i:s");
+         //$currenttime = $this->restapi_model->getTime();
         if ($shippingline1 == '') {
             $query = $this->db->query("INSERT INTO `fynx_order`(`user`, `firstname`, `lastname`, `email`,`billingcontact`, `billingline1`,`billingline2`,`billingline3`, `billingcity`, `billingstate`, `billingcountry`, `shippingline1`,`shippingline2`,`shippingline3`, `shippingcity`, `shippingcountry`, `shippingstate`, `shippingpincode`, `billingpincode`,`shippingcontact`,`orderstatus`,`paymentmode`,`shippingamount`,`finalamount`,`totalamount`,`timestamp`) VALUES ('$user','$firstname','$lastname','$email','$phone','$billingline1','$billingline2','$billingline3','$billingcity','$billingstate','$billingcountry','$billingline1','$billingline2','$billingline3','$billingcity','$billingcountry','$billingstate','$billingpincode','$billingpincode','$phone','1','$paymentmode','$shippingamount','$finalamount','$totalamount','$currenttime')");
         } else {

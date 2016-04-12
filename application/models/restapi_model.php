@@ -801,5 +801,12 @@ if ($cartdata) {
         return $quantity;
     }
 
+    public function setTime() {
+        $this->db->query("SET @@session.time_zone = '+05:30'");
+    }
+     public function getTime() {
+        return $this->db->query("SELECT NOW()")->row();
+    }
+
 
 }
