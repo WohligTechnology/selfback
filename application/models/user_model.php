@@ -680,7 +680,8 @@ if ($cartdata) {
 									array_push($newcart, $item);
 							}
 							foreach ($newcart as $cart) {
-									$querycart = $this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`, `json`,`design`) VALUES ('$userid','".$cart['id']."','".$cart['qty']."',NULL,'".$cart['options']['json']."','".$cart['design']."')");
+							$querycart = $this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`, `json`,`design`,`status`) VALUES ('$userid','".$cart['id']."','".$cart['qty']."',NULL,'".$cart['options']['json']."','".$cart['design']."','".$cart['options']['status']."')");
+
 							}
 					}
 
@@ -808,7 +809,7 @@ $query1=$this->db->query("SELECT `fynx_cart`.`user`,`fynx_cart`.`product` as `id
 
 $query=$this->db->query("SELECT `fynx_cart`.`user`,`fynx_cart`.`status`,`fynx_product`.`name` as `name`, `fynx_cart`.`quantity` as `qty`, `fynx_product`.`price`*`fynx_cart`.`quantity` as `subtotal` ,`fynx_cart`.`product` as `id`, `fynx_product`.`price`,`fynx_product`.`image1` as 'image' FROM `fynx_cart`
                 INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_cart`.`product`
-                WHERE `fynx_cart`.`user`='$user' AND `fynx_cart`.`status`=0")->result_array();
+                WHERE `fynx_cart`.`user`='$user' AND `fynx_cart`.`status`=1")->result_array();
 for($i=0;$i<count($query);$i++)
 {
 	$query[$i]["options"] = new stdClass();
