@@ -606,8 +606,10 @@ if ($cartdata) {
         $getorderdetails=$this->db->query("SELECT * FROM `fynx_order` WHERE `id`='$OrderId'")->row();
         $totalamount=$getorderdetails->finalamount;
 
-//        if (intval($Amount)  > 0 )
-        if (intval($Amount) == intval($totalamount) ) {
+     if (intval($Amount)  > 0 )
+        // if (intval($Amount) == intval($totalamount) )
+
+         {
             $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
 
 
