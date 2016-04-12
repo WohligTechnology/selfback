@@ -626,6 +626,7 @@ public function totalcart()
         else
         {
             $query=$query->row();
+						$userid = $query->id;
             $newdata = array(
                 'email'     => $user_profile->email,
                 'password' => "",
