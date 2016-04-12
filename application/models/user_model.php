@@ -637,7 +637,30 @@ public function totalcart()
             );
 
             $this->session->set_userdata($newdata);
+						// CART PART
 
+					$cartdata = $this->cart->contents();
+					if ($cartdata) {
+					$newcart = array();
+					foreach ($cartdata as $item) {
+					array_push($newcart, $item);
+					}
+
+					foreach ($newcart as $cart) {
+					$chkproduct = $this->db->query("SELECT `id` FROM `fynx_cart` WHERE `user`='$userid' AND `product`='".$cart['id']."' AND `status`='".$cart['options']['status']."'")->row();
+
+					if(!empty($chkproduct))
+					{
+					$querycartupdate = $this->db->query("UPDATE `fynx_cart` SET `quantity`='".$cart['qty']."' WHERE `user`='$userid' AND `product`='".$cart['id']."' AND `status`='".$cart['options']['status']."'");
+					}
+					else
+					{
+					$querycart = $this->db->query("INSERT INTO `fynx_cart`(`user`, `product`,`quantity`, `timestamp`, `json`,`design`,`status`) VALUES ('$userid','".$cart['id']."','".$cart['qty']."',NULL,'".$cart['options']['json']."','".$cart['design']."','".$cart['options']['status']."')");
+					}
+					}
+					}
+
+					// cart ends
             return $newdata;
         }
     }
