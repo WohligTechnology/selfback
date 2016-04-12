@@ -140,13 +140,14 @@ if ($cartdata) {
   foreach ($cartdata as $item) {
       array_push($newcart, $item);
   }
+
   foreach ($newcart as $cart) {
-      $querycart = $this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`, `json`,`design`) VALUES ('$userid','".$cart['id']."','".$cart['qty']."',NULL,'".$cart['options']['json']."','".$cart['design']."')");
+  $querycart = $this->db->query("INSERT INTO `fynx_cart`(`user`, `product`,`quantity`, `timestamp`, `json`,`design`,`status`) VALUES ('$userid','".$cart['id']."','".$cart['qty']."',NULL,'".$cart['options']['json']."','".$cart['design']."','".$cart['options']['status']."')");
+
   }
 }
 
 // cart ends
-
             $data['name']=$firstname.' '.$lastname;
             $data['email']=$email;
             $viewcontent = $this->load->view('emailers/registeruser', $data, true);
@@ -399,14 +400,14 @@ if ($cartdata) {
 
                                 //PRODUCT DETAIL
                                                             //CHECK IF PRODUCT ALREADY THERE IN CART
-                                $checkcart = $this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct' and `status`=0");
+                                $checkcart = $this->db->query("SELECT * FROM `fynx_cart` WHERE `user`='$userid' AND `product`='$exactproduct' and `status`=1");
                             if ($checkcart->num_rows() > 0) {
                                 //  //already in cart
                                         // 		 $object = new stdClass();
                                         // 		 $object->value = false;
                                         // 		 $object->comment = 'already in cart';
                                         // 		 return $object;
-                                        $queryupdate = $this->db->query("UPDATE `fynx_cart` SET `quantity`='$quantity' WHERE `user`='$userid' AND `product`='$exactproduct' and `status`=0");
+                                        $queryupdate = $this->db->query("UPDATE `fynx_cart` SET `quantity`='$quantity' WHERE `user`='$userid' AND `product`='$exactproduct' and `status`=1");
                                 $this->cart->insert($data);
                                 if ($queryupdate) {
                                     $object = new stdClass();
@@ -429,7 +430,7 @@ if ($cartdata) {
                                     return $object;
                                 } else {
                                     // INSERT PRODUCT IN CART
-                                                $query = $this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`,`design`) VALUES ('$userid','$exactproduct','$quantity',NULL,'$design')");
+                                                $query = $this->db->query("INSERT INTO `fynx_cart`(`user`, `product`, `quantity`, `timestamp`,`design`,`status`) VALUES ('$userid','$exactproduct','$quantity',NULL,'$design','$status')");
                                     $this->cart->insert($data);
                                     if ($query) {
                                         $object = new stdClass();
