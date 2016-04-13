@@ -3080,6 +3080,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 	{
 		//echo "<br>Security Error. Illegal access detected";
                 $responsecode = 5;
+                $message = $this->restapi_model->getmailcontent($order_id);
+                $this->email_model->emailer($message,'other - SelfCare',$email,$username);
 
 	}
         $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount);
