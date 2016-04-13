@@ -3056,7 +3056,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
   echo $order_status;
   echo "order id";
   echo $order_id;
-  $useremail = $this->db->query("SELECT `email` FROM `fynx_order` WHERE `id`='$OrderId'")->row();
+  $useremail = $this->db->query("SELECT `email` FROM `fynx_order` WHERE `id`='$order_id'")->row();
   print_r($useremail);
 	if($order_status==="Success")
 	{
