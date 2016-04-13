@@ -3053,7 +3053,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
                 if($i==1)       $nb_order_no=$information[1];
                 if($i==0)       $order_id=$information[1];
 	}
-
+  echo $order_status;
 	if($order_status==="Success")
 	{
 		//echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
