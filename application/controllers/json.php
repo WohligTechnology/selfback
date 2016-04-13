@@ -1905,6 +1905,7 @@ public function getsinglesize()
         $OrderId = $data['message'];
         $message = $this->restapi_model->getmailcontent($OrderId);
         $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare',$email,$username);
+        $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare','rohanwohlig@gmail.com',$username);
         $this->load->view('json', $data);
     }
     public function getusercart()
