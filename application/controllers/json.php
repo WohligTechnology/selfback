@@ -1904,8 +1904,8 @@ public function getsinglesize()
 
           $OrderId = $data['message'];
           $message = $this->restapi_model->getmailcontent($OrderId);
-          $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare',$email,$username);
-          $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare','rohanwohlig@gmail',$username);
+          $this->email_model->emailer($message,'Your Order Confirmation- SelfCare',$email,$username);
+          $this->email_model->emailer($message,'Your Order Confirmation- SelfCare','scserver@selfcareindia.com',$username);
         }
         $this->load->view('json', $data);
     }
@@ -3058,6 +3058,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 	{
 		//echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
                 $responsecode = 2;
+                $message = $this->restapi_model->getmailcontent($order_id);
+                $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare',$email,$username);
 	}
 	else if($order_status==="Aborted")
 	{

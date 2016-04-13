@@ -790,8 +790,8 @@ if ($cartdata) {
             $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
 
           //  $OrderId = $data['message'];
-            $message = $this->restapi_model->getmailcontent($OrderId);
-            $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare',$email,$username);
+            // $message = $this->restapi_model->getmailcontent($OrderId);
+            // $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare',$email,$username);
 
              // DESTROY CART
                     $getuser = $this->db->query("SELECT `user` FROM `fynx_order` WHERE `id`='$OrderId'")->row();
