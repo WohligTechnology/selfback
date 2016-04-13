@@ -3076,6 +3076,9 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 	{
 		//echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
     $message = $this->restapi_model->getmailcontent($order_id);
+    echo "in mailer".$order_id;
+
+    print_r($message);
     $this->email_model->emailer($message,'fail - SelfCare',$email,$username);
                 $responsecode = 5;
 
