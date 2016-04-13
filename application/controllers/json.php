@@ -3056,18 +3056,21 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
   echo $order_status;
   echo "order id";
   echo $order_id;
+  $useremail = $this->db->query("SELECT `email` FROM `fynx_order` WHERE `id` ='$OrderId'")->row();
 	if($order_status==="Success")
 	{
 		//echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
                 $responsecode = 2;
                 $message = $this->restapi_model->getmailcontent($order_id);
-                $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare',$email,$username);
+                $this->email_model->emailer($message,'aborted - SelfCare',$useremail->email,$username);
+                          
+
 	}
 	else if($order_status==="Aborted")
 	{
 		//echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
     $message = $this->restapi_model->getmailcontent($order_id);
-    $this->email_model->emailer($message,'aborted - SelfCare',$email,$username);
+    $this->email_model->emailer($message,'aborted - SelfCare',$useremail->email,$username);
                 $responsecode = 6;
 
 
@@ -3076,10 +3079,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 	{
 		//echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
     $message = $this->restapi_model->getmailcontent($order_id);
-    echo "in mailer".$order_id;
+    $this->email_model->emailer($message,'aborted - SelfCare',$useremail->email,$username);
 
-    print_r($message);
-    $this->email_model->emailer($message,'fail - SelfCare',$email,$username);
                 $responsecode = 5;
 
 	}
