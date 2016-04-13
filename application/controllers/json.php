@@ -3063,6 +3063,9 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
                 $message = $this->restapi_model->getmailcontent($order_id);
                 $this->email_model->emailer($message,'Thank you for shopping with us - SelfCare',$useremail->email,$username);
                   $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','orders@selfcareindia.com',$username);
+                  $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','devina@selfcareindia.com',$username);
+                  $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','pr@selfcareindia.com',$username);
+                  $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','priyanka@selfcareindia.com',$username);
                   $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','rohanwohlig@gmail.com',$username);
 
 	}
