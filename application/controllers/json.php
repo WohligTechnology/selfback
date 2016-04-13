@@ -3064,24 +3064,27 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 	else if($order_status==="Aborted")
 	{
 		//echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
+    $message = $this->restapi_model->getmailcontent($order_id);
+    $this->email_model->emailer($message,'aborted - SelfCare',$email,$username);
                 $responsecode = 6;
-                $message = $this->restapi_model->getmailcontent($order_id);
-                $this->email_model->emailer($message,'aborted - SelfCare',$email,$username);
+
 
 	}
 	else if($order_status==="Failure")
 	{
 		//echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
+    $message = $this->restapi_model->getmailcontent($order_id);
+    $this->email_model->emailer($message,'fail - SelfCare',$email,$username);
                 $responsecode = 5;
-                $message = $this->restapi_model->getmailcontent($order_id);
-                $this->email_model->emailer($message,'fail - SelfCare',$email,$username);
+
 	}
 	else
 	{
 		//echo "<br>Security Error. Illegal access detected";
+    $message = $this->restapi_model->getmailcontent($order_id);
+    $this->email_model->emailer($message,'other - SelfCare',$email,$username);
                 $responsecode = 5;
-                $message = $this->restapi_model->getmailcontent($order_id);
-                $this->email_model->emailer($message,'other - SelfCare',$email,$username);
+
 
 	}
         $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount);
