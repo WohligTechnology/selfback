@@ -1901,11 +1901,12 @@ public function getsinglesize()
         if($email != "" && $email )
         {
           $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode,$shippingamount,$finalamount,$totalamount);
+
+          $OrderId = $data['message'];
+          $message = $this->restapi_model->getmailcontent($OrderId);
+          $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare',$email,$username);
+          $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare','rohanwohlig@gmail',$username);
         }
-        $OrderId = $data['message'];
-        $message = $this->restapi_model->getmailcontent($OrderId);
-        $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare',$email,$username);
-        $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare','rohanwohlig@gmail.com',$username);
         $this->load->view('json', $data);
     }
     public function getusercart()
