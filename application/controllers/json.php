@@ -3062,7 +3062,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
                 $responsecode = 2;
                 $message = $this->restapi_model->getmailcontent($order_id);
                 $this->email_model->emailer($message,'Thank you for shopping with us - SelfCare',$useremail->email,$username);
-                  $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','scserver@selfcareindia.com',$username);
+                  $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','orders@selfcareindia.com',$username);
+                  $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','rohanwohlig@gmail.com',$username);
 
 	}
 	else if($order_status==="Aborted")

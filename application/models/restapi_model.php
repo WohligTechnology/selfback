@@ -602,7 +602,7 @@ if ($cartdata) {
     public function getmailcontent($OrderId)
     {
       $user = $this->db->query("SELECT `firstname`,`lastname` FROM `fynx_order` WHERE `id` ='$OrderId'")->row();
-      
+
       $username = $user->firstname." ".$user->lastname;
       $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
       <div style='margin:0'>
@@ -723,14 +723,21 @@ if ($cartdata) {
 
       }
 
+$amount = $this->db->query("SELECT `totalamount`,`shippingamount`,`finalamount` FROM `fynx_order` WHERE `id`='$OrderId'")->row();
 
-      $finalpricetotal= $finalpricetotal1 + $finalpricetotal2;
-      $finalt= number_format($finalpricetotal,2);
+      //$finalpricetotal= $finalpricetotal1 + $finalpricetotal2;
+      $totalamount= number_format($amount->totalamount,2);
+      $shippingamount= number_format($amount->shippingamount,2);
+      $finalamount= number_format($amount->finalamount,2);
       $message .= "
 
       </tbody>
-      </table>  <div style='background:#c2a388;color:#3b1808;width:100%'>
-      <p style='color:#000;font-family:Roboto;font-size:18px;margin:0;padding:10px 20px;text-align:right' align='right'>Grand Total<span style='color:#000;display:inline-block;font-family:Roboto;font-size:18px;margin-left:10px'>$finalt </span></p>
+      </table>  <div style='background:#c2a388;color:#3b1808;width:100%; margin:3px 0;'>
+      <p style='color:#000;font-family:Roboto;font-size:14px;text-transform:uppercase;margin:0;padding:10px 20px;text-align:right' align='right'>Total Amount : <span style='color:#000;display:inline-block;min-width:92px; font-family:Roboto;font-size:16px;margin-left:10px'>$totalamount </span></p></div>
+      <div style='background:#c2a388;color:#3b1808;width:100%;margin:3px 0;'>
+     <p style='color:#000;font-family:Roboto;font-size:14px;text-transform:uppercase;margin:0;padding:10px 20px;text-align:right' align='right'>Shipping Amount : <span style='color:#000;min-width:92px; display:inline-block;font-family:Roboto;font-size:16px;margin-left:10px'>$shippingamount </span></p></div>
+     <div style='background:#c2a388;color:#3b1808;width:100%;margin:3px 0;'>
+    <p style='color:#000;font-family:Roboto;font-weight:bold;font-size:14px;text-transform:uppercase;margin:0;padding:10px 20px;text-align:right' align='right'>Final Amount : <span style='color:#000;display:inline-block;font-family:Roboto;min-width:92px;font-size:16px;margin-left:10px'>$finalamount </span></p></div>
       </div></p>
 
       <p style='color:#000;font-family:Roboto;font-size:16px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
