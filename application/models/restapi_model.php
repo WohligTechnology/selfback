@@ -598,6 +598,183 @@ if ($cartdata) {
             return 0;
         }
     }
+
+    public function getmailcontent($OrderId)
+    {
+      $user = $this->db->query("SELECT `firstname`,`lastname` FROM `fynx_order` WHERE `id` ='$OrderId'")->row();
+      $username = $user->firstname." ".$user->lastname;
+      $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
+      <div style='margin:0'>
+
+      <u></u>
+      <div style='margin:0 auto;width:90%'>
+      <div style='margin:50px auto;width:80%'>
+      <div style='text-align:center' align='center'>
+       <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
+      </div>
+      <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>$username</span>,</p>
+      <p style='color:#000;font-family:Roboto;font-size:16px'>Thank You for shopping with SelfCare. You've picked up some really healthy and amazing stuff and we can't wait to have it delivered at your doorstep. Here's what you ordered:
+      </p>
+      <p style='color:#000;font-family:Roboto;font-size:20px'>
+      <table style='width:100%'>
+      <thead style='background:#c2a388;color:#3b1808'>
+      <tr>
+      <th style='font-size:14px;padding:10px;text-transform:uppercase'>Products</th>
+      <th style='font-size:14px;padding:10px;text-transform:uppercase'>SKU</th>
+      <th style='font-size:14px;padding:10px;text-transform:uppercase'>Price</th>
+      <th style='font-size:14px;padding:10px;text-transform:uppercase'>Qty</th>
+      <th style='font-size:14px;padding:10px;text-transform:uppercase'>Tax</th>
+      <th style='font-size:14px;padding:10px;text-transform:uppercase'>Subtotal</th>
+      </tr></thead>
+      <tbody>
+      ";
+      $newcart =  array();
+      $q="SELECT `fynx_orderitem`.`order`,`fynx_orderitem`.`product`,`fynx_product`.`name`,`fynx_product`.`image1`,`fynx_product`.`sku`, `fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`,`fynx_orderitem`.`status`,`fynx_orderitem`.`discount`,`fynx_orderitem`.`finalprice` FROM `fynx_orderitem`
+      INNER JOIN `fynx_order` ON `fynx_order`.`id`=`fynx_orderitem`.`order`
+      INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_orderitem`.`product` WHERE `fynx_orderitem`.`order`='$OrderId' AND `fynx_orderitem`.`status`!=3";
+      $productquery = $this->db->query($q)->result();
+
+
+      $planquery=$this->db->query("SELECT `plans`.`id`,`plans`.`plan`,`selftables_subtype`.`name` AS 'subtype',`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`,`fynx_orderitem`.`finalprice` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= '$OrderId' AND `fynx_orderitem`.`status`=3
+      " )->result();
+
+
+      $counter=1;
+      $finalpricetotal=0;
+      foreach($planquery as $value)
+      {
+      $plan = $value->plan;
+      if ($plan == 1) {
+      $plan = 'Silver Plan';
+      }
+      if ($plan == 2) {
+      $plan = 'Gold Plan';
+      }
+      if ($plan == 3) {
+      $plan = 'Platinum Plan';
+      }
+      if ($plan == 4) {
+      $plan = 'Diamond Plan';
+      }
+      if($value->months == 1)
+      {
+      $months = $value->months." Month";
+      }
+      else
+      {
+      $months = $value->months." Months";
+      }
+
+      $name = $months." ".$plan;
+      $oprice = $value->price / 1.145;
+      $ovat = $value->price - $oprice;
+      $sku =$value->sku;
+      $qty =$value->quantity;
+      $price = number_format($oprice,2);
+      $vat =number_format($ovat,2);
+      $total = number_format($value->finalprice,2);
+
+      $message .= "
+
+      <tr>
+       <td style='text-align:center' align='center'>
+      $name
+      </td>
+      <td style='text-align:center' align='center'>$sku</td>
+      <td style='text-align:center' align='center'>$price</td>
+      <td style='text-align:center' align='center'>$qty</td>
+      <td style='text-align:center' align='center'>$vat</td>
+      <td style='text-align:center' align='center'>$total</td>
+      </tr>";
+      $finalpricetotal1=$finalpricetotal1+$value->finalprice;
+      $totalvat1 = $totalvat1+$ovat;
+      }
+
+      foreach($productquery as $value)
+      {
+      $name = $value->name;
+      $image = $value->image1;
+      $oprice = $value->price / 1.05;
+      $ovat = $value->price - $oprice;
+      $sku =$value->sku;
+      $qty =$value->quantity;
+      $price = number_format($oprice,2);
+      $vat =number_format($ovat,2);
+      $total = number_format($value->finalprice,2);
+
+      $message .= "
+
+      <tr>
+      <td style='text-align:center' align='center'>
+
+      <img src='http://admin.selfcareindia.com/uploads/$image' alt='' width='70' style='border-radius:100%'>
+      <figcaption>$name</figcaption>
+      </figure>
+
+
+      </td>
+      <td style='text-align:center' align='center'>$sku</td>
+      <td style='text-align:center' align='center'>$price</td>
+      <td style='text-align:center' align='center'>$qty</td>
+      <td style='text-align:center' align='center'>$vat</td>
+      <td style='text-align:center' align='center'>$total</td>
+      </tr>";
+      $finalpricetotal2=$finalpricetotal2+$value->finalprice;
+      $totalvat2 = $totalvat2+$ovat;
+
+      }
+
+
+      $finalpricetotal= $finalpricetotal1 + $finalpricetotal2;
+      $finalt= number_format($finalpricetotal,2);
+      $message .= "
+
+      </tbody>
+      </table>  <div style='background:#c2a388;color:#3b1808;width:100%'>
+      <p style='color:#000;font-family:Roboto;font-size:18px;margin:0;padding:10px 20px;text-align:right' align='right'>Grand Total<span style='color:#000;display:inline-block;font-family:Roboto;font-size:18px;margin-left:10px'>$finalt </span></p>
+      </div></p>
+
+      <p style='color:#000;font-family:Roboto;font-size:16px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
+
+      </p>
+
+      <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
+      <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
+      </div>
+      </div>
+      <u></u>
+      <footer style='background:#e96542;padding:10px 0'>
+      <div style='margin:0 auto;width:90%'>
+      <div>
+      <table>
+      <tbody><tr>
+      <td style='padding:0 15px'><div>
+      <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
+      </div></td>
+      <td style='padding:0 15px'><div>
+       <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
+      </div></td>
+      <td style='padding:0 15px;vertical-align:middle' valign='middle'>
+       <div>
+       <span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
+       <a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
+       <a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
+       <a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
+       <a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
+      </div>
+      </td>
+      </tr>
+      </tbody></table>
+      </div>
+      </div>
+      </footer>
+      </div>
+    </div></div></div></body></html>";
+
+    return $message;
+    }
+
+
     public function updateorderstatusafterpayment($OrderId, $nb_order_no, $responsecode, $Amount)
     {
 //        $checkamt = $this->db->query("SELECT IFNULL(SUM(`price`),0) as `totalamount` FROM `fynx_orderitem` WHERE `order`='$orderid'")->row();
@@ -611,177 +788,10 @@ if ($cartdata) {
 
          {
             $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
-            $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
-            <div style='margin:0'>
 
-            <u></u>
-            <div style='margin:0 auto;width:90%'>
-            <div style='margin:50px auto;width:80%'>
-            <div style='text-align:center' align='center'>
-             <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
-            </div>
-            <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>$firstname $lastname</span>,</p>
-            <p style='color:#000;font-family:Roboto;font-size:20px'>Thank You for shopping with SelfCare. You've picked up some really healthy and amazing stuff and we can't wait to have it delivered at your doorstep. Here's what you ordered:
-            </p>
-            <p style='color:#000;font-family:Roboto;font-size:20px'>
-            <table style='width:100%'>
-            <thead style='background:#c2a388;color:#3b1808'>
-            <tr>
-            <th style='font-size:14px;padding:10px;text-transform:uppercase'>Products</th>
-            <th style='font-size:14px;padding:10px;text-transform:uppercase'>SKU</th>
-            <th style='font-size:14px;padding:10px;text-transform:uppercase'>Price</th>
-            <th style='font-size:14px;padding:10px;text-transform:uppercase'>Qty</th>
-            <th style='font-size:14px;padding:10px;text-transform:uppercase'>Tax</th>
-            <th style='font-size:14px;padding:10px;text-transform:uppercase'>Subtotal</th>
-            </tr></thead>
-            <tbody>
-            ";
-            $newcart =  array();
-            $q="SELECT `fynx_orderitem`.`order`,`fynx_orderitem`.`product`,`fynx_product`.`name`,`fynx_product`.`image1`,`fynx_product`.`sku`, `fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`,`fynx_orderitem`.`status`,`fynx_orderitem`.`discount`,`fynx_orderitem`.`finalprice` FROM `fynx_orderitem`
-            INNER JOIN `fynx_order` ON `fynx_order`.`id`=`fynx_orderitem`.`order`
-            INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_orderitem`.`product` WHERE `fynx_orderitem`.`order`='$OrderId' AND `fynx_orderitem`.`status`!=3";
-            $productquery = $this->db->query($q)->result();
-
-
-            $planquery=$this->db->query("SELECT `plans`.`id`,`plans`.`plan`,`selftables_subtype`.`name` AS 'subtype',`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`,`fynx_orderitem`.`finalprice` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= '$OrderId' AND `fynx_orderitem`.`status`=3
-            " )->result();
-
-
-            $counter=1;
-            $finalpricetotal=0;
-            foreach($planquery as $value)
-            {
-            $plan = $value->plan;
-            if ($plan == 1) {
-            $plan = 'Silver Plan';
-            }
-            if ($plan == 2) {
-            $plan = 'Gold Plan';
-            }
-            if ($plan == 3) {
-            $plan = 'Platinum Plan';
-            }
-            if ($plan == 4) {
-            $plan = 'Diamond Plan';
-            }
-            if($value->months == 1)
-            {
-            $months = $value->months." Month";
-            }
-            else
-            {
-            $months = $value->months." Months";
-            }
-
-            $name = $months." ".$plan;
-            $oprice = $value->price / 1.145;
-            $ovat = $value->price - $oprice;
-            $sku =$value->sku;
-            $qty =$value->quantity;
-            $price = number_format($oprice,2);
-            $vat =number_format($ovat,2);
-            $total = number_format($value->finalprice,2);
-
-            $message .= "
-
-            <tr>
-             <td style='text-align:center' align='center'>
-            $name
-            </td>
-            <td style='text-align:center' align='center'>$sku</td>
-            <td style='text-align:center' align='center'>$price</td>
-            <td style='text-align:center' align='center'>$qty</td>
-            <td style='text-align:center' align='center'>$vat</td>
-            <td style='text-align:center' align='center'>$total</td>
-            </tr>";
-            $finalpricetotal1=$finalpricetotal1+$value->finalprice;
-            $totalvat1 = $totalvat1+$ovat;
-            }
-
-            foreach($productquery as $value)
-            {
-            $name = $value->name;
-            $image = $value->image1;
-            $oprice = $value->price / 1.05;
-            $ovat = $value->price - $oprice;
-            $sku =$value->sku;
-            $qty =$value->quantity;
-            $price = number_format($oprice,2);
-            $vat =number_format($ovat,2);
-            $total = number_format($value->finalprice,2);
-
-            $message .= "
-
-            <tr>
-            <td style='text-align:center' align='center'>
-
-            <img src='http://admin.selfcareindia.com/uploads/$image' alt='' width='70' style='border-radius:100%'>
-            <figcaption>$name</figcaption>
-            </figure>
-
-
-            </td>
-            <td style='text-align:center' align='center'>$sku</td>
-            <td style='text-align:center' align='center'>$price</td>
-            <td style='text-align:center' align='center'>$qty</td>
-            <td style='text-align:center' align='center'>$vat</td>
-            <td style='text-align:center' align='center'>$total</td>
-            </tr>";
-            $finalpricetotal2=$finalpricetotal2+$value->finalprice;
-            $totalvat2 = $totalvat2+$ovat;
-
-            }
-
-
-            $finalpricetotal= $finalpricetotal1 + $finalpricetotal2;
-            $finalt= number_format($finalpricetotal,2);
-            $message .= "
-
-            </tbody>
-            </table>  <div style='background:#c2a388;color:#3b1808;width:100%'>
-            <p style='color:#000;font-family:Roboto;font-size:20px;margin:0;padding:10px 20px;text-align:right' align='right'>Grand Total<span style='color:#000;display:inline-block;font-family:Roboto;font-size:20px;margin-left:10px'>$finalt </span></p>
-            </div></p>
-
-            <p style='color:#000;font-family:Roboto;font-size:20px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
-
-            </p>
-
-            <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
-            <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
-            </div>
-            </div>
-            <u></u>
-            <footer style='background:#e96542;padding:10px 0'>
-            <div style='margin:0 auto;width:90%'>
-            <div>
-            <table>
-            <tbody><tr>
-            <td style='padding:0 15px'><div>
-            <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>COPYRIGHT@SELFCARE2016</span>
-            </div></td>
-            <td style='padding:0 15px'><div>
-             <span style='color:#ffd8ce;font-family:Roboto;font-size:14px'>CONTACT US<a href='tel:+912261312222' style='color:#ffd8ce;font-family:Roboto;font-size:14px;margin:0px 10px;text-decoration:none' target='_blank'>+91 22 6131 2222</a></span>
-            </div></td>
-            <td style='padding:0 15px;vertical-align:middle' valign='middle'>
-             <div>
-             <span style='color:#ffd8ce;display:block;font-family:Roboto;font-size:14px'>FOLLOW US ON</span>
-             <a href='https://www.facebook.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='20' class='CToWUd'></a>
-             <a href='https://twitter.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='20' class='CToWUd'></a>
-             <a href='https://www.instagram.com/selfcarebysuman' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='20' class='CToWUd'></a>
-             <a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#ffd8ce;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'><img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='20' class='CToWUd'></a>
-            </div>
-            </td>
-            </tr>
-            </tbody></table>
-            </div>
-            </div>
-            </footer>
-            </div>
-          </div></div></div></body></html>";
-
-
-            $this->email_model->emailer($message,'Your Order Confirmation',$email,$username);
-
+          //  $OrderId = $data['message'];
+            $message = $this->restapi_model->getmailcontent($OrderId);
+            $this->email_model->emailer($message,'Thank You for shopping with us - SelfCare',$email,$username);
 
              // DESTROY CART
                     $getuser = $this->db->query("SELECT `user` FROM `fynx_order` WHERE `id`='$OrderId'")->row();
