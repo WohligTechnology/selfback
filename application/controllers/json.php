@@ -3057,13 +3057,14 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
   echo "order id";
   echo $order_id;
   $useremail = $this->db->query("SELECT `email` FROM `fynx_order` WHERE `id` ='$OrderId'")->row();
+  print_r($useremail);
 	if($order_status==="Success")
 	{
 		//echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
                 $responsecode = 2;
                 $message = $this->restapi_model->getmailcontent($order_id);
-                $this->email_model->emailer($message,'aborted - SelfCare',$useremail->email,$username);
-                          
+                $this->email_model->emailer($message,'Success - SelfCare',$useremail->email,$username);
+
 
 	}
 	else if($order_status==="Aborted")
@@ -3079,7 +3080,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 	{
 		//echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
     $message = $this->restapi_model->getmailcontent($order_id);
-    $this->email_model->emailer($message,'aborted - SelfCare',$useremail->email,$username);
+    echo "email send to".$useremail->email;
+    $this->email_model->emailer($message,'fail - SelfCare',$useremail->email,$username);
 
                 $responsecode = 5;
 
