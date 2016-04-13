@@ -602,7 +602,7 @@ if ($cartdata) {
     public function getmailcontent($OrderId)
     {
       $user = $this->db->query("SELECT `firstname`,`lastname` FROM `fynx_order` WHERE `id` ='$OrderId'")->row();
-      echo "order id is".$OrderId;
+      
       $username = $user->firstname." ".$user->lastname;
       $message = "<html><body><div id=':1fn' class='a3s adM' style='overflow: hidden;'><div class='HOEnZb'><div class='adm'><div id='q_152da6db6beee01c_0' class='ajR h4' data-tooltip='Hide expanded content' aria-label='Hide expanded content'><div class='ajT'></div></div></div><div class='im'><u></u>
       <div style='margin:0'>
@@ -634,8 +634,6 @@ if ($cartdata) {
       INNER JOIN `fynx_order` ON `fynx_order`.`id`=`fynx_orderitem`.`order`
       INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_orderitem`.`product` WHERE `fynx_orderitem`.`order`='$OrderId' AND `fynx_orderitem`.`status`!=3";
       $productquery = $this->db->query($q)->result();
-print_r($productquery);
-
       $planquery=$this->db->query("SELECT `plans`.`id`,`plans`.`plan`,`selftables_subtype`.`name` AS 'subtype',`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`,`fynx_orderitem`.`finalprice` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= '$OrderId' AND `fynx_orderitem`.`status`=3
       " )->result();
 
