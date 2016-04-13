@@ -3065,12 +3065,16 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 	{
 		//echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
                 $responsecode = 6;
+                $message = $this->restapi_model->getmailcontent($order_id);
+                $this->email_model->emailer($message,'aborted - SelfCare',$email,$username);
 
 	}
 	else if($order_status==="Failure")
 	{
 		//echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
                 $responsecode = 5;
+                $message = $this->restapi_model->getmailcontent($order_id);
+                $this->email_model->emailer($message,'fail - SelfCare',$email,$username);
 	}
 	else
 	{
