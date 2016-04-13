@@ -3093,7 +3093,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 
 
 	}
-      //  $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount);
+       $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount);
     }
 
     public function uploadImage()
