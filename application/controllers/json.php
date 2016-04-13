@@ -3053,25 +3053,23 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
                 if($i==1)       $nb_order_no=$information[1];
                 if($i==0)       $order_id=$information[1];
 	}
-  echo $order_status;
-  echo "order id";
-  echo $order_id;
+
   $useremail = $this->db->query("SELECT `email` FROM `fynx_order` WHERE `id`='$order_id'")->row();
-  print_r($useremail);
+
 	if($order_status==="Success")
 	{
 		//echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
                 $responsecode = 2;
                 $message = $this->restapi_model->getmailcontent($order_id);
-                $this->email_model->emailer($message,'Success - SelfCare',$useremail->email,$username);
+                $this->email_model->emailer($message,'Thank you for shopping with us - SelfCare',$useremail->email,$username);
 
 
 	}
 	else if($order_status==="Aborted")
 	{
 		//echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
-    $message = $this->restapi_model->getmailcontent($order_id);
-    $this->email_model->emailer($message,'aborted - SelfCare',$useremail->email,$username);
+    // $message = $this->restapi_model->getmailcontent($order_id);
+    // $this->email_model->emailer($message,'aborted - SelfCare',$useremail->email,$username);
                 $responsecode = 6;
 
 
@@ -3080,8 +3078,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 	{
 		//echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
     $message = $this->restapi_model->getmailcontent($order_id);
-    echo "email send to".$useremail->email;
-    $this->email_model->emailer($message,'fail - SelfCare',$useremail->email,$username);
+    // echo "email send to".$useremail->email;
+    // $this->email_model->emailer($message,'fail - SelfCare',$useremail->email,$username);
 
                 $responsecode = 5;
 
@@ -3089,8 +3087,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 	else
 	{
 		//echo "<br>Security Error. Illegal access detected";
-    $message = $this->restapi_model->getmailcontent($order_id);
-    $this->email_model->emailer($message,'other - SelfCare',$email,$username);
+    // $message = $this->restapi_model->getmailcontent($order_id);
+    // $this->email_model->emailer($message,'other - SelfCare',$email,$username);
                 $responsecode = 5;
 
 
