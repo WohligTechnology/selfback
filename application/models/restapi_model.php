@@ -810,6 +810,28 @@ $amount = $this->db->query("SELECT `totalamount`,`shippingamount`,`finalamount` 
             redirect('http://selfcareindia.com/#/wentwrong/'.$OrderId);
         }
     }
+
+    public function updateorderstatuscod($OrderId)
+    {
+      $tid = "COD".$OrderId;
+      $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='2',`paymentmode`='4',`transactionid`='$tid' WHERE `id`='$OrderId'");
+$amount = $this->db->query("SELECT `id` AS 'OrderId',`transactionid`,`finalamount` AS 'totalamount' FROM `fynx_order` WHERE `id`='$OrderId'")->row();
+        if(!empty($query1))
+        {
+          return $amount;
+          // $obj = new stdClass();
+          // $obj->value = true;
+          // redirect('http://selfcareindia.com/#/thankyou/'.$OrderId."/".$amount->totalamount);
+        }
+        else
+         {
+            $obj = new stdClass();
+            $obj->value = false;
+              return $obj;
+          }
+
+    }
+
     public function checkproductquantity($prodid)
     {
         $query = $this->db->query("SELECT `quantity` FROM `fynx_product` WHERE `id`='$prodid'")->row();

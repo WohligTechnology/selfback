@@ -3253,6 +3253,11 @@ $config['upload_path'] = './uploads/';
         $elements[25]->sort = '1';
         $elements[25]->header = 'Final Amount';
         $elements[25]->alias = 'finalamount';
+        $elements[26] = new stdClass();
+        $elements[26]->field = '`fynx_order`.`paymentmode`';
+        $elements[26]->sort = '1';
+        $elements[26]->header = 'Payment Mode';
+        $elements[26]->alias = 'paymentmode';
 
         $search = $this->input->get_post('search');
         $pageno = $this->input->get_post('pageno');

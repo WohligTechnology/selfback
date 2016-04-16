@@ -19,7 +19,8 @@ class email_model extends CI_Model
             'subject'   => $subject,
             'html'      => $htmltext,
             'text'      => 'SelfCare India',
-            'from'      => 'info@selfcareindia.com',
+            'from'      => 'care@selfcareindia.com',
+            'fromname'      => 'Selfcare',
           );
 
         $request =  $url.'api/mail.send.json';

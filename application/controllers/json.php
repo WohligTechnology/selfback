@@ -3100,6 +3100,22 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
        $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount);
     }
 
+    public function COD()
+    {
+      $data = json_decode(file_get_contents('php://input'), true);
+      $order_id = $data['id'];
+      $message = $this->restapi_model->getmailcontent($order_id);
+      $useremail = $this->db->query("SELECT `email` FROM `fynx_order` WHERE `id`='$order_id'")->row();
+      $this->email_model->emailer($message,'Thank you for shopping with us - SelfCare',$useremail->email,'SelfCare');
+        $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','orders@selfcareindia.com',$username);
+        $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','devina@selfcareindia.com',$username);
+        $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','pr@selfcareindia.com',$username);
+        $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','priyanka@selfcareindia.com',$username);
+        $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','rohanwohlig@gmail.com','SelfCare');
+      $data['message'] = $this->restapi_model->updateorderstatuscod($order_id);
+      $this->load->view('json', $data);
+    }
+
     public function uploadImage()
     {
         $config['upload_path'] = './uploads/';
