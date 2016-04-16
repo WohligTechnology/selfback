@@ -614,6 +614,7 @@ if ($cartdata) {
        <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' class='CToWUd'>
       </div>
       <p style='color:#000;font-family:Roboto;font-size:20px'>Dear <span style='color:#000;font-family:Roboto;font-size:20px'>$username</span>,</p>
+      <p style='color:#000;font-family:Roboto;font-size:20px'>Greetings from SelfCare!</p>
       <p style='color:#000;font-family:Roboto;font-size:16px'>Thank You for shopping with SelfCare. You've picked up some really healthy and amazing stuff and we can't wait to have it delivered at your doorstep. Here's what you ordered:
       </p>
       <p style='color:#000;font-family:Roboto;font-size:20px'>
@@ -740,9 +741,7 @@ $amount = $this->db->query("SELECT `totalamount`,`shippingamount`,`finalamount` 
     <p style='color:#000;font-family:Roboto;font-weight:bold;font-size:14px;text-transform:uppercase;margin:0;padding:10px 20px;text-align:right' align='right'>Final Amount : <span style='color:#000;display:inline-block;font-family:Roboto;min-width:92px;font-size:16px;margin-left:10px'>$finalamount </span></p></div>
       </div></p>
 
-      <p style='color:#000;font-family:Roboto;font-size:16px'>In case you have any queries regarding your package, please call us on +912261312222 or leave us a mail on info@selfcareindia.com
-
-      </p>
+      <p style='color:#000;font-family:Roboto;font-size:16px'>In case you have any queries regarding your order, please call us on +912261312222 or leave us a mail on care@selfcareindia.com</p>
 
       <span style='color:#000;font-family:Roboto;font-size:20px'>Thank You,</span>
       <span style='color:#000;display:block;font-family:Roboto;font-size:20px'>Team Selfcare !</span>
