@@ -19,6 +19,9 @@ function drawtable(resultrow) {
     else if (resultrow.defaultcurrency == "INR") {
       var currency = "Rs";
     }
+    else {
+      var currency = "";
+    }
 
     for(var i=0;i<resultrow.orderproduct.length;i++) {
         var row= resultrow.orderproduct[i];
@@ -40,6 +43,9 @@ var paymentmode = "Net Banking";
     if(resultrow.paymentmode == 4)
     {
 var paymentmode = "Cash On Delivery";
+    }
+    else {
+      var paymentmode = "";
     }
 
    var strVar="";
