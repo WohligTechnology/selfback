@@ -3052,6 +3052,7 @@ print_r($decryptValues);
                 if($i==10)      $Amount=$information[1];
                 if($i==1)       $nb_order_no=$information[1];
                 if($i==0)       $order_id=$information[1];
+                if($i==9)       $currency=$information[1];
 	}
 
   $useremail = $this->db->query("SELECT `email` FROM `fynx_order` WHERE `id`='$order_id'")->row();
@@ -3097,7 +3098,7 @@ print_r($decryptValues);
 
 
 	}
-      //  $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount);
+       $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount,$currency);
     }
 
     public function COD()

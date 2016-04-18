@@ -780,7 +780,7 @@ $amount = $this->db->query("SELECT `totalamount`,`shippingamount`,`finalamount` 
     }
 
 
-    public function updateorderstatusafterpayment($OrderId, $nb_order_no, $responsecode, $Amount)
+    public function updateorderstatusafterpayment($OrderId, $nb_order_no, $responsecode, $Amount, $currency)
     {
 //        $checkamt = $this->db->query("SELECT IFNULL(SUM(`price`),0) as `totalamount` FROM `fynx_orderitem` WHERE `order`='$orderid'")->row();
 //        $totalamount = $checkamt->totalamount;
@@ -792,7 +792,7 @@ $amount = $this->db->query("SELECT `totalamount`,`shippingamount`,`finalamount` 
         // if (intval($Amount) == intval($totalamount) )
 
          {
-            $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
+            $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no',`currency`='$currency' WHERE `id`='$OrderId'");
 
           //  $OrderId = $data['message'];
             // $message = $this->restapi_model->getmailcontent($OrderId);
