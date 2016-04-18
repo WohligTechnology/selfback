@@ -792,7 +792,7 @@ $amount = $this->db->query("SELECT `totalamount`,`shippingamount`,`finalamount` 
         // if (intval($Amount) == intval($totalamount) )
 
          {
-            $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no',`currency`='$currency' WHERE `id`='$OrderId'");
+            $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no',`defaultcurrency`='$currency' WHERE `id`='$OrderId'");
 
           //  $OrderId = $data['message'];
             // $message = $this->restapi_model->getmailcontent($OrderId);
