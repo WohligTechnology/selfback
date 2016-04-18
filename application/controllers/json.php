@@ -3098,7 +3098,8 @@ print_r($decryptValues);
 
 
 	}
-       $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount,$currency);
+  echo "currency is".$currency;
+      //  $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount,$currency);
     }
 
     public function COD()
