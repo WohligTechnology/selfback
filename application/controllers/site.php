@@ -3279,7 +3279,7 @@ $config['upload_path'] = './uploads/';
             $row->orderproduct = $this->db->query("SELECT * FROM `fynx_orderitem` WHERE `order` = '$row->id'")->result();
             $row->orderproduct = $this->db->query("SELECT `fynx_orderitem`.`id`, `fynx_orderitem`.`discount`, `fynx_orderitem`.`order`, `fynx_orderitem`.`product`,`fynx_product`.`name` as `productname`, `fynx_orderitem`.`quantity`, `fynx_orderitem`.`price`, `fynx_orderitem`.`finalprice` FROM `fynx_orderitem`
 LEFT OUTER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_orderitem`.`product`
-WHERE `fynx_orderitem`.`order`=$row->id AND `fynx_orderitem`.`status`=3")->result();
+WHERE `fynx_orderitem`.`order`=$row->id AND `fynx_orderitem`.`status`!=3")->result();
 // $row->orderproduct = $this->db->query("SELECT `fynx_orderitem`.`id`, `fynx_orderitem`.`discount`, `fynx_orderitem`.`order`, `fynx_orderitem`.`product`,`fynx_product`.`name` as `productname`, `fynx_orderitem`.`quantity`, `fynx_orderitem`.`price`, `fynx_orderitem`.`finalprice` FROM `fynx_orderitem`
 // LEFT OUTER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_orderitem`.`product`
 // WHERE `fynx_orderitem`.`order`=$row->id AND `fynx_orderitem`.`status`=3")->result();
