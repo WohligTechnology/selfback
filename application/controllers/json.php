@@ -3044,7 +3044,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 	$order_status="";
 	$decryptValues=explode('&', $rcvdString);
 	$dataSize=sizeof($decryptValues);
-
+print_r($decryptValues);
 	for($i = 0; $i < $dataSize; $i++)
 	{
 		$information=explode('=',$decryptValues[$i]);
@@ -3097,7 +3097,7 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
 
 
 	}
-       $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount);
+      //  $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount);
     }
 
     public function COD()
@@ -3107,10 +3107,10 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
       $message = $this->restapi_model->getmailcontent($order_id);
       $useremail = $this->db->query("SELECT `email` FROM `fynx_order` WHERE `id`='$order_id'")->row();
       $this->email_model->emailer($message,'Thank you for shopping with us - SelfCare',$useremail->email,'SelfCare');
-        $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','orders@selfcareindia.com',$username);
-        $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','devina@selfcareindia.com',$username);
-        $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','pr@selfcareindia.com',$username);
-        $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','priyanka@selfcareindia.com',$username);
+        // $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','orders@selfcareindia.com',$username);
+        // $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','devina@selfcareindia.com',$username);
+        // $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','pr@selfcareindia.com',$username);
+        // $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','priyanka@selfcareindia.com',$username);
         $this->email_model->emailer($message,'Thank you for shopping with us- SelfCare','rohanwohlig@gmail.com','SelfCare');
       $data['message'] = $this->restapi_model->updateorderstatuscod($order_id);
       $this->load->view('json', $data);

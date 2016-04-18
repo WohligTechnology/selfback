@@ -815,6 +815,11 @@ $amount = $this->db->query("SELECT `totalamount`,`shippingamount`,`finalamount` 
       $tid = "COD".$OrderId;
       $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='2',`paymentmode`='4',`transactionid`='$tid' WHERE `id`='$OrderId'");
 $amount = $this->db->query("SELECT `id` AS 'OrderId',`transactionid`,`finalamount` AS 'totalamount' FROM `fynx_order` WHERE `id`='$OrderId'")->row();
+// DESTROY CART
+       $getuser = $this->db->query("SELECT `user` FROM `fynx_order` WHERE `id`='$OrderId'")->row();
+$user = $getuser->user;
+$this->cart->destroy();
+$deletecart = $this->db->query("DELETE FROM `fynx_cart` WHERE `user`='$user'");
         if(!empty($query1))
         {
           return $amount;
