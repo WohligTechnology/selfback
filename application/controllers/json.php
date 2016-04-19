@@ -3176,10 +3176,10 @@ print_r($decryptValues);
       {
         $messageplan = $this->load->view('emailers/planemail', $data, true);
       $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare',$email,$username);
-      $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','orders@selfcareindia.com',$username);
-      $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','devina@selfcareindia.com',$username);
-      $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','pr@selfcareindia.com',$username);
-      $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','priyanka@selfcareindia.com',$username);
+      // $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','orders@selfcareindia.com',$username);
+      // $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','devina@selfcareindia.com',$username);
+      // $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','pr@selfcareindia.com',$username);
+      // $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','priyanka@selfcareindia.com',$username);
       $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','rohanwohlig@gmail.com',$username);
       }
       $data['productquery']=$this->restapi_model->getmailcontentorder($order_id);
@@ -3187,10 +3187,10 @@ print_r($decryptValues);
       {
         $messageproduct = $this->load->view('emailers/orderemail', $data, true);
          $this->email_model->emailer($messageproduct,'New Order - SelfCare',$email,$username);
-         $this->email_model->emailer($messageproduct,'New Order - SelfCare','orders@selfcareindia.com',$username);
-         $this->email_model->emailer($messageproduct,'New Order - SelfCare','devina@selfcareindia.com',$username);
-         $this->email_model->emailer($messageproduct,'New Order - SelfCare','pr@selfcareindia.com',$username);
-         $this->email_model->emailer($messageproduct,'New Order - SelfCare','priyanka@selfcareindia.com',$username);
+        //  $this->email_model->emailer($messageproduct,'New Order - SelfCare','orders@selfcareindia.com',$username);
+        //  $this->email_model->emailer($messageproduct,'New Order - SelfCare','devina@selfcareindia.com',$username);
+        //  $this->email_model->emailer($messageproduct,'New Order - SelfCare','pr@selfcareindia.com',$username);
+        //  $this->email_model->emailer($messageproduct,'New Order - SelfCare','priyanka@selfcareindia.com',$username);
          $this->email_model->emailer($messageproduct,'New Order - SelfCare','rohanwohlig@gmail.com',$username);
       }
 
