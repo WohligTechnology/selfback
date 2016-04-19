@@ -44,13 +44,20 @@ class Json extends CI_Controller
       $data['email']=$data['before']->email;
       $email=$data['before']->email;
       $data['username']=$data['before']->firstname." ".$data['before']->lastname;
-      $data['planquery']=$this->restapi_model->getmailcontentplan($OrderId);
-     $messageplan = $this->load->view('emailers/planemail', $data, true);
-     $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','vinodwohlig@gmail.com',$username);
 
+      $data['planquery']=$this->restapi_model->getmailcontentplan($OrderId);
+      if(!empty($data['planquery']))
+      {
+        $messageplan = $this->load->view('emailers/planemail', $data, true);
+      $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','vinodwohlig@gmail.com',$username);
+      }
       $data['productquery']=$this->restapi_model->getmailcontentorder($OrderId);
-     $messageproduct = $this->load->view('emailers/orderemail', $data, true);
-      $this->email_model->emailer($messageproduct,'New Order - SelfCare','vinodwohlig@gmail.com',$username);
+      if(!empty($data['productquery']))
+      {
+        $messageproduct = $this->load->view('emailers/orderemail', $data, true);
+         $this->email_model->emailer($messageproduct,'New Order - SelfCare','vinodwohlig@gmail.com',$username);
+      }
+
         // $data['message'] = $this->user_model->testmail();
         $this->load->view('json', $data);
     }
