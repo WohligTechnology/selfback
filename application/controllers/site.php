@@ -3381,7 +3381,7 @@ $row->orderproduct = array_merge($a,$b);
         $this->checkaccess($access);
         $data['page'] = 'editorder';
 //$data["page2"]="block/orderblock";
-$data['before1'] = $this->input->get('id');
+        $data['before1'] = $this->input->get('id');
         $data['before2'] = $this->input->get('id');
         $data[ 'paymentmode' ] = $this->order_model->getpaymentmodedropdown();
         $data['title'] = 'Edit order';

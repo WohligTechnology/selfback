@@ -32,7 +32,22 @@ class Json extends CI_Controller
 
     public function testmail()
     {
-        $data['message'] = $this->user_model->testmail();
+
+      $OrderId = '17';
+      $data['before']=$this->order_model->beforeedit($OrderId);
+      print_r($data['before']);
+      $data['transactionid']=$data['before']->transactionid;
+      $data['trackingcode']=$data['before']->trackingcode;
+      $data['orderdate'] = date("d F Y h:i a",strtotime($data['before']->timestamp));
+      // $data['orderdate'] = date("d F Y", $data['before']->timestamp);
+      $data['id']=$OrderId;
+      $data['email']=$data['before']->email;
+      $email=$data['before']->email;
+      $data['username']=$data['before']->firstname." ".$data['before']->lastname;
+      $data['productquery']=$this->restapi_model->getmailcontentorder($OrderId);
+     $message = $this->load->view('emailers/orderemail', $data, true);
+      $this->email_model->emailer($message,'Your Order Confirmation- SelfCare','vinodwohlig@gmail.com',$username);
+        // $data['message'] = $this->user_model->testmail();
         $this->load->view('json', $data);
     }
 
