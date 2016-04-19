@@ -24,18 +24,21 @@ elseif($before->paymentmode == 4)
         <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' style="width:165px;">
       </div>
       <div style="padding:10px 20px;background:#e96542; color:#fff;font-size:24px;">
-        New Order
+        New Program Subscription!
       </div>
       <div style="padding:20px;">
         <p style="font-weight:600; margin:10px 0px;"> Dear <?php echo $username; ?>,
         </p>
         <p style="margin:0 0 10px 0;">
-          Greetings from SelfCare!</p>
-
-        <div style="background:#fff; padding:20px;margin-bottom:20px;">
-          <p style="font-size:26px; color:#e96542;margin:0px 0 10px 0;text-decoration:underline">
-            Order Summary
-          </p>
+           Greetings from SelfCare!</p>
+         <p style="margin:0 0 10px 0;">
+           Thank you for for subscribing to the program. Our nutritionist will get in touch with you within 2 working days.
+         </p>
+         <p style="margin:0 0 10px 0;">We look forward to helping you reach your health and weight loss goals!</p>
+         <div style="background:#fff; padding:20px;margin-bottom:20px;">
+           <p style="font-size:26px; color:#e96542;margin:0px 0 10px 0;text-decoration:underline">
+             Order Summary
+           </p>
           <p style="margin:10px 0;">
             <span style="font-weight:600">Order ID:</span> <?php echo $id; ?>
           </p>
@@ -65,23 +68,46 @@ else
   $currency = "Rs.";
 }
 
-              foreach($productquery as $value)
-              {
-                $name = $value->name;
-                $image = $value->image1;
-                $oprice = $value->price;
-                // $oprice = $value->price / 1.05;
-                // $ovat = $value->price - $oprice;
-                // $sku =$value->sku;
-                $qty =$value->quantity;
-                $price = number_format($oprice,2);
-                $total = number_format($value->finalprice,2);
+$finalpricetotal=0;
+foreach($planquery as $value)
+{
+$plan = $value->plan;
+if ($plan == 1) {
+$plan = 'Silver Plan';
+}
+if ($plan == 2) {
+$plan = 'Gold Plan';
+}
+if ($plan == 3) {
+$plan = 'Platinum Plan';
+}
+if ($plan == 4) {
+$plan = 'Diamond Plan';
+}
+if($value->months == 1)
+{
+$months = $value->months." Month";
+}
+else
+{
+$months = $value->months." Months";
+}
+
+$name = $months." ".$plan;
+$oprice = $value->price;
+// $oprice = $value->price / 1.145;
+// $ovat = $value->price - $oprice;
+// $sku =$value->sku;
+$qty =$value->quantity;
+$price = number_format($oprice,2);
+$vat =number_format($ovat,2);
+$total = number_format($value->finalprice,2);
+
               ?>
 
               <tr>
                 <td style="text-align:center;font-weight:600;padding: 7px;text-transform: uppercase;">
-                  <img src='http://admin.selfcareindia.com/uploads/<?php echo $image; ?>' alt="selfcareindia" style="width: 100px;height: 100px;margin: 0 auto 5px;overflow: hidden; border-radius: 100%;">
-                  <br><span><?php echo $name; ?></span>
+                <span><?php echo $name; ?></span>
                 </td>
                 <td style="text-align:center;font-weight:600;padding: 7px;text-transform: uppercase;"><?php echo $currency." ".$price; ?></td>
                 <td style="text-align:center;font-weight:600;padding: 7px;text-transform: uppercase;"><?php echo $qty; ?></td>
@@ -109,50 +135,11 @@ else
         </div>
 
 
-        <div style="background:#fff; padding:20px;">
-          <p style="font-size:24px; color:#e96542;margin:0px 0 10px 0">
-            Billing Details
-          </p>
-          <table width="100%" style="border-collapse: collapse;">
-            <tbody>
-              <tr>
-                <td style="font-weight:600;padding: 7px">
-                  Order Value:
-                </td>
-                <td style="text-align:right;font-weight:600;padding: 7px"><?php echo $currency." ".$totalamount; ?></td>
-              </tr>
-              <tr>
-                <tr>
-                  <td style="font-weight:600;padding: 7px">
-                    Delivery Charges:
-                  </td>
-                  <td style="text-align:right;font-weight:600;padding: 7px"><?php echo $currency." ".$shippingamount; ?></td>
-                </tr>
-<?php if($before->paymentmode == 1)
-{
-              echo '<tr>
-                  <td style="font-weight:600;padding: 7px">
-                    C.O.D:
-                  </td>
-                  <td style="text-align:right;font-weight:600;padding: 7px;">Rs. 0.00</td>
-                </tr>';
-              }
-                ?>
-                <tr style="">
-                  <td style="font-weight:600;padding: 7px;border-top:1pt solid #ddd;">
-                    Total
-                  </td>
-                  <td style="text-align:right;font-weight:600;padding: 7px;border-top:1pt solid #ddd;"> <?php echo $currency." ".$finalamount; ?></td>
-                </tr>
-
-            </tbody>
-          </table>
-        </div>
 
 
         <div style="background:#fff; padding:20px;">
           <p style="font-size:24px; color:#e96542;margin:0px 0 10px 0;text-decoration:underline">
-            Delivery Address
+            Billing Address
           </p>
           <p style="margin:10px 0;">
             <span style="font-weight:600">Manan Vora</span>
