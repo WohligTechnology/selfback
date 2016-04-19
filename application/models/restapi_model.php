@@ -787,7 +787,8 @@ $amount = $this->db->query("SELECT `totalamount`,`shippingamount`,`finalamount` 
     }
     public function getmailcontentplan($OrderId)
     {
-      $planquery=$this->db->query("SELECT `plans`.`id`,`plans`.`plan`,`selftables_subtype`.`name` AS 'subtype',`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`,`fynx_orderitem`.`finalprice` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= '$OrderId' AND `fynx_orderitem`.`status`=3
+      $planquery=$this->db->query("SELECT `plans`.`id`,`plans`.`plan`,`selftables_healthpackages`.`months`,`selftables_subtype`.`name` AS 'productname' ,`fynx_orderitem`.`quantity`,IF(`fynx_order`.`defaultcurrency`='USD',`plans`.`price_in_dollars`,`plans`.`price_in_INR`) AS 'price',IF(`fynx_order`.`defaultcurrency`='USD',`plans`.`price_in_dollars`,`plans`.`price_in_INR`) AS 'finalprice' FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id`
+LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHERE `fynx_orderitem`.`order`= $OrderId AND `fynx_orderitem`.`status`=3
       " )->result();
         return $planquery;
     }
