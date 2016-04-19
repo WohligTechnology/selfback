@@ -3276,9 +3276,8 @@ $config['upload_path'] = './uploads/';
 
         foreach ($queryarray as $row) {
           // print_r($row);
-            $status = $this->db->query("SELECT `status` FROM `fynx_orderitem` WHERE `order` = '$row->id'")->result();
-
-              $a = $this->db->query("SELECT `plans`.`id`,`plans`.`plan`,`selftables_subtype`.`name` AS 'productname',`selftables_healthpackages`.`months` ,`fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`,`fynx_orderitem`.`finalprice` FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id` WHERE `fynx_orderitem`.`order`= $row->id AND `fynx_orderitem`.`status`=3")->result();
+            $a = $this->db->query("SELECT `plans`.`id`,`plans`.`plan`,`selftables_healthpackages`.`months`,`selftables_subtype`.`name` AS 'productname' ,`fynx_orderitem`.`quantity`,IF(`fynx_order`.`defaultcurrency`='USD',`plans`.`price_in_dollars`,`plans`.`price_in_INR`) AS 'price',IF(`fynx_order`.`defaultcurrency`='USD',`plans`.`price_in_dollars`,`plans`.`price_in_INR`) AS 'finalprice' FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id`
+LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHERE `fynx_orderitem`.`order`= $row->id AND `fynx_orderitem`.`status`=3")->result();
 
               $b = $this->db->query("SELECT `fynx_orderitem`.`id`,`fynx_orderitem`.`status`, `fynx_orderitem`.`discount`, `fynx_orderitem`.`order`, `fynx_orderitem`.`product`,`fynx_product`.`name` as `productname`, `fynx_orderitem`.`quantity`, `fynx_orderitem`.`price`, `fynx_orderitem`.`finalprice` FROM `fynx_orderitem`
               LEFT OUTER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_orderitem`.`product`
