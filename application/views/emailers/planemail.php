@@ -32,7 +32,7 @@ elseif($before->paymentmode == 4)
         <p style="margin:0 0 10px 0;">
            Greetings from SelfCare!</p>
          <p style="margin:0 0 10px 0;">
-           Thank you for for subscribing to the program. Our nutritionist will get in touch with you within 2 working days.
+           Thank you for subscribing to the program. Our nutritionist will get in touch with you within 2 working days.
          </p>
          <p style="margin:0 0 10px 0;">We look forward to helping you reach your health and weight loss goals!</p>
          <div style="background:#fff; padding:20px;margin-bottom:20px;">
@@ -142,12 +142,13 @@ $total = number_format($value->finalprice,2);
             Billing Address
           </p>
           <p style="margin:10px 0;">
-            <span style="font-weight:600">Manan Vora</span>
+            <span style="font-weight:600"><?php echo $username;?></span>
           </p>
           <p style="margin:10px 0;">
-            <?php echo $before->billingaddress;?>
-            <br><?php echo $before->billingcity - $before->billingpincode;?>
-            <br> <?php echo $before->billingcountry ;?>
+            <?php echo $before->billingline1;?>,
+            <br><?php echo $before->billingline2; ?>,
+            <br> <?php echo $before->billingline3 ;?>,
+            <br> <?php echo $before->billingcity." ".$before->billingpincode ;?>.
           </p>
           <p style="margin:10px 0;">
             <span style="font-weight:600">Mobile: <?php echo $before->billingcontact; ?></span>

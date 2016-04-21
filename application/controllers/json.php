@@ -33,7 +33,7 @@ class Json extends CI_Controller
     public function testmail()
     {
 
-      $OrderId = '17';
+      $OrderId = '175';
       $data['before']=$this->order_model->beforeedit($OrderId);
       // print_r($data['before']);
       $data['transactionid']=$data['before']->transactionid;
@@ -1904,7 +1904,7 @@ public function getsinglesize()
         $firstname = $data['firstname'];
         $lastname = $data['lastname'];
         $email = $data['email'];
-        $phone = $data['mobile'];
+        $phone = $data['phone'];
         $billingline1 = $data['billingline1'];
         $billingline2 = $data['billingline2'];
         $billingline3 = $data['billingline3'];
@@ -1927,11 +1927,9 @@ public function getsinglesize()
         if($email != "" && $email )
         {
           $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode,$shippingamount,$finalamount,$totalamount);
-
-          // $OrderId = $data['message'];
-          // $message = $this->restapi_model->getmailcontent($OrderId);
-          // $this->email_model->emailer($message,'Your Order Confirmation- SelfCare',$email,$username);
-          // $this->email_model->emailer($message,'Your Order Confirmation- SelfCare','scserver@selfcareindia.com',$username);
+          $order_id=$data['message'];
+// testing mailer
+        
         }
         $this->load->view('json', $data);
     }
@@ -3087,6 +3085,7 @@ print_r($decryptValues);
 	{
 		//echo "<br>Thank you for shopping with us. Your credit card has been charged and your transaction is successful. We will be shipping your order to you soon.";
                 $responsecode = 2;
+                $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount,$currency);
                 $data['before']=$this->order_model->beforeedit($order_id);
                 // print_r($data['before']);
                 $data['transactionid']=$data['before']->transactionid;
@@ -3126,34 +3125,21 @@ print_r($decryptValues);
 	}
 	else if($order_status==="Aborted")
 	{
-		//echo "<br>Thank you for shopping with us.We will keep you posted regarding the status of your order through e-mail";
-    // $message = $this->restapi_model->getmailcontent($order_id);
-    // $this->email_model->emailer($message,'aborted - SelfCare',$useremail->email,$username);
-                $responsecode = 6;
-
-
+    $responsecode = 6;
+    $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount,$currency);
 	}
 	else if($order_status==="Failure")
 	{
-		//echo "<br>Thank you for shopping with us.However,the transaction has been declined.";
     $message = $this->restapi_model->getmailcontent($order_id);
-    // echo "email send to".$useremail->email;
-    // $this->email_model->emailer($message,'fail - SelfCare',$useremail->email,$username);
-
-                $responsecode = 5;
-
+    $responsecode = 5;
+    $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount,$currency);
 	}
 	else
 	{
-		//echo "<br>Security Error. Illegal access detected";
-    // $message = $this->restapi_model->getmailcontent($order_id);
-    // $this->email_model->emailer($message,'other - SelfCare',$email,$username);
-                $responsecode = 5;
-
-
+    $responsecode = 5;
+    $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount,$currency);
 	}
-  // echo "currency is".$currency;
-       $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount,$currency);
+
     }
 
     public function COD()
