@@ -155,15 +155,16 @@ else
             Delivery Address
           </p>
           <p style="margin:10px 0;">
-            <span style="font-weight:600">Manan Vora</span>
+            <span style="font-weight:600"><?php echo $username?></span>
           </p>
           <p style="margin:10px 0;">
-            <?php echo $before->billingaddress;?>
-            <br><?php echo $before->billingcity - $before->billingpincode;?>
-            <br> <?php echo $before->billingcountry ;?>
+            <?php echo $before->shippingline1;?>,
+            <br><?php echo $before->shippingline2; ?>,
+            <br> <?php echo $before->shippingline3 ;?>,
+            <br> <?php echo $before->shippingcity." ".$before->shippingpincode ;?>.
           </p>
           <p style="margin:10px 0;">
-            <span style="font-weight:600">Mobile: <?php echo $before->billingcontact; ?></span>
+            <span style="font-weight:600">Mobile: <?php echo $before->shippingcontact; ?></span>
           </p>
 
         </div>

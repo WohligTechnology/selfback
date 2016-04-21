@@ -1929,7 +1929,20 @@ public function getsinglesize()
           $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode,$shippingamount,$finalamount,$totalamount);
           $order_id=$data['message'];
 // testing mailer
-        
+        //   $data['before']=$this->order_model->beforeedit($order_id);
+        //   // print_r($data['before']);
+        //   $data['transactionid']=$data['before']->transactionid;
+        //   $data['trackingcode']=$data['before']->trackingcode;
+        //   $data['orderdate'] = date("d F Y h:i a",strtotime($data['before']->timestamp));
+        //   // $data['orderdate'] = date("d F Y", $data['before']->timestamp);
+        //   $data['id']=$order_id;
+        //   $data['email']=$data['before']->email;
+        //   $email=$data['before']->email;
+        //   $data['username']=$data['before']->firstname." ".$data['before']->lastname;
+        //
+        //   $data['planquery']=$this->restapi_model->getmailcontentplan($order_id);
+        //   $messageplan = $this->load->view('emailers/planemail', $data, true);
+        // $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare',$email,$username);
         }
         $this->load->view('json', $data);
     }
