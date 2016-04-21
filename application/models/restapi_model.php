@@ -868,13 +868,13 @@ LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHE
               $data['email']=$data['before']->email;
               $email=$data['before']->email;
               $data['username']=$data['before']->firstname." ".$data['before']->lastname;
-              $data['planquery']=$this->restapi_model->getmailcontentplan($order_id);
-              $messageplan = $this->load->view('emailers/planemail', $data, true);
-            $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare',$email,$username);
-            // $data['productquery']=$this->restapi_model->getmailcontentorder($order_id);
-            //
-            //   $messageproduct = $this->load->view('emailers/orderemail', $data, true);
-            //    $this->email_model->emailer($messageproduct,'New Order - SelfCare',$email,$username);
+//              $data['planquery']=$this->restapi_model->getmailcontentplan($order_id);
+//              $messageplan = $this->load->view('emailers/planemail', $data, true);
+//            $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare',$email,$username);
+             $data['productquery']=$this->restapi_model->getmailcontentorder($order_id);
+            
+               $messageproduct = $this->load->view('emailers/orderemail', $data, true);
+                $this->email_model->emailer($messageproduct,'New Order - SelfCare',$email,$username);
          ///////////////////////////////////////////////////////////////////////////////////////////////
             redirect('http://selfcareindia.com/#/wentwrong/'.$OrderId);
         }
