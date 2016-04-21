@@ -96,7 +96,7 @@ else
 
           $totalamount= number_format($finalpricetotal2,2);
           $shippingamount= number_format($before->shippingamount,2);
-          $famt = $totalamount + $shippingamount;
+          $famt = $finalpricetotal2 + $before->shippingamount;
           $finalamount= number_format($famt,2);
           ?>
             <tfoot>

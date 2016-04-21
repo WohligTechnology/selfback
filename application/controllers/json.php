@@ -1927,22 +1927,28 @@ public function getsinglesize()
         if($email != "" && $email )
         {
           $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode,$shippingamount,$finalamount,$totalamount);
-          $order_id=$data['message'];
-// testing mailer
-        //   $data['before']=$this->order_model->beforeedit($order_id);
-        //   // print_r($data['before']);
-        //   $data['transactionid']=$data['before']->transactionid;
-        //   $data['trackingcode']=$data['before']->trackingcode;
-        //   $data['orderdate'] = date("d F Y h:i a",strtotime($data['before']->timestamp));
-        //   // $data['orderdate'] = date("d F Y", $data['before']->timestamp);
-        //   $data['id']=$order_id;
-        //   $data['email']=$data['before']->email;
-        //   $email=$data['before']->email;
-        //   $data['username']=$data['before']->firstname." ".$data['before']->lastname;
-        //
-        //   $data['planquery']=$this->restapi_model->getmailcontentplan($order_id);
-        //   $messageplan = $this->load->view('emailers/planemail', $data, true);
-        // $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare',$email,$username);
+
+          // $order_id=$data['message'] ;
+          // // testing mailer
+          //           $data['before']=$this->order_model->beforeedit($order_id);
+          //           // print_r($data['before']);
+          //           $data['transactionid']=$data['before']->transactionid;
+          //           $data['trackingcode']=$data['before']->trackingcode;
+          //           $data['orderdate'] = date("d F Y h:i a",strtotime($data['before']->timestamp));
+          //           // $data['orderdate'] = date("d F Y", $data['before']->timestamp);
+          //           $data['id']=$order_id;
+          //           $data['email']=$data['before']->email;
+          //           $email=$data['before']->email;
+          //           $data['username']=$data['before']->firstname." ".$data['before']->lastname;
+          //
+          //         //   $data['planquery']=$this->restapi_model->getmailcontentplan($order_id);
+          //         //   $messageplan = $this->load->view('emailers/planemail', $data, true);
+          //         // $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare',$email,$username);
+          //         $data['productquery']=$this->restapi_model->getmailcontentorder($order_id);
+          //
+          //           $messageproduct = $this->load->view('emailers/orderemail', $data, true);
+          //            $this->email_model->emailer($messageproduct,'New Order - SelfCare',$email,$username);
+
         }
         $this->load->view('json', $data);
     }
@@ -3140,17 +3146,67 @@ print_r($decryptValues);
 	{
     $responsecode = 6;
     $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount,$currency);
+    $data['before']=$this->order_model->beforeedit($order_id);
+    // print_r($data['before']);
+    $data['transactionid']=$data['before']->transactionid;
+    $data['trackingcode']=$data['before']->trackingcode;
+    $data['orderdate'] = date("d F Y h:i a",strtotime($data['before']->timestamp));
+    // $data['orderdate'] = date("d F Y", $data['before']->timestamp);
+    $data['id']=$order_id;
+    $data['email']=$data['before']->email;
+    $email=$data['before']->email;
+    $data['username']=$data['before']->firstname." ".$data['before']->lastname;
+
+    $data['planquery']=$this->restapi_model->getmailcontentplan($order_id);
+    $messageplan = $this->load->view('emailers/planemail', $data, true);
+  $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare',$email,$username);
+
 	}
 	else if($order_status==="Failure")
 	{
     $message = $this->restapi_model->getmailcontent($order_id);
     $responsecode = 5;
     $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount,$currency);
+    // testing mailer
+              $data['before']=$this->order_model->beforeedit($order_id);
+              // print_r($data['before']);
+              $data['transactionid']=$data['before']->transactionid;
+              $data['trackingcode']=$data['before']->trackingcode;
+              $data['orderdate'] = date("d F Y h:i a",strtotime($data['before']->timestamp));
+              // $data['orderdate'] = date("d F Y", $data['before']->timestamp);
+              $data['id']=$order_id;
+              $data['email']=$data['before']->email;
+              $email=$data['before']->email;
+              $data['username']=$data['before']->firstname." ".$data['before']->lastname;
+
+              $data['planquery']=$this->restapi_model->getmailcontentplan($order_id);
+              $messageplan = $this->load->view('emailers/planemail', $data, true);
+            $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare',$email,$username);
+            // $data['productquery']=$this->restapi_model->getmailcontentorder($order_id);
+            //
+            //   $messageproduct = $this->load->view('emailers/orderemail', $data, true);
+            //    $this->email_model->emailer($messageproduct,'New Order - SelfCare',$email,$username);
+
 	}
 	else
 	{
     $responsecode = 5;
-    $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount,$currency);
+      $data['message'] = $this->restapi_model->updateorderstatusafterpayment($order_id, $nb_order_no, $responsecode, $Amount,$currency);
+    $data['before']=$this->order_model->beforeedit($order_id);
+    // print_r($data['before']);
+    $data['transactionid']=$data['before']->transactionid;
+    $data['trackingcode']=$data['before']->trackingcode;
+    $data['orderdate'] = date("d F Y h:i a",strtotime($data['before']->timestamp));
+    // $data['orderdate'] = date("d F Y", $data['before']->timestamp);
+    $data['id']=$order_id;
+    $data['email']=$data['before']->email;
+    $email=$data['before']->email;
+    $data['username']=$data['before']->firstname." ".$data['before']->lastname;
+
+    $data['planquery']=$this->restapi_model->getmailcontentplan($order_id);
+    $messageplan = $this->load->view('emailers/planemail', $data, true);
+  $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare',$email,$username);
+
 	}
 
     }
