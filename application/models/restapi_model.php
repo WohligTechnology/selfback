@@ -778,18 +778,17 @@ $amount = $this->db->query("SELECT `totalamount`,`shippingamount`,`finalamount` 
 
     return $message;
     }
-    public function getmailcontentorder($OrderId)
+    public function getmailcontentorder($order_id)
     {
       $productquery = $this->db->query("SELECT `fynx_orderitem`.`order`,`fynx_orderitem`.`product`,`fynx_product`.`name`,`fynx_product`.`image1`,`fynx_product`.`sku`, `fynx_orderitem`.`quantity`,`fynx_orderitem`.`price`,`fynx_orderitem`.`status`,`fynx_orderitem`.`discount`,`fynx_orderitem`.`finalprice` FROM `fynx_orderitem`
       INNER JOIN `fynx_order` ON `fynx_order`.`id`=`fynx_orderitem`.`order`
-      INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_orderitem`.`product` WHERE `fynx_orderitem`.`order`='$OrderId' AND `fynx_orderitem`.`status`!=3")->result();
+      INNER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_orderitem`.`product` WHERE `fynx_orderitem`.`order`='$order_id' AND `fynx_orderitem`.`status`!=3")->result();
         return $productquery;
     }
-    public function getmailcontentplan($OrderId)
+    public function getmailcontentplan($order_id)
     {
       $planquery=$this->db->query("SELECT `plans`.`id`,`plans`.`plan`,`selftables_healthpackages`.`months`,`selftables_subtype`.`name` AS 'productname' ,`fynx_orderitem`.`quantity`,IF(`fynx_order`.`defaultcurrency`='USD',`plans`.`price_in_dollars`,`plans`.`price_in_INR`) AS 'price',IF(`fynx_order`.`defaultcurrency`='USD',`plans`.`price_in_dollars`,`plans`.`price_in_INR`) AS 'finalprice' FROM `fynx_orderitem`  LEFT OUTER JOIN `plans` ON `plans`.`id`=`fynx_orderitem`.`product` LEFT OUTER JOIN `selftables_healthpackages` ON `plans`.`packageid`=`selftables_healthpackages`.`id` LEFT OUTER JOIN `selftables_subtype`ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id`
-LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHERE `fynx_orderitem`.`order`= $OrderId AND `fynx_orderitem`.`status`=3
-      " )->result();
+LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHERE `fynx_orderitem`.`order`= '$order_id' AND `fynx_orderitem`.`status`=3")->result();
         return $planquery;
     }
 
@@ -826,6 +825,8 @@ LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHE
 
     public function updateorderstatuscod($OrderId)
     {
+      if(!empty($OrderId))
+      {
       $tid = "COD".$OrderId;
       $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='2',`paymentmode`='4',`transactionid`='$tid' WHERE `id`='$OrderId'");
 $amount = $this->db->query("SELECT `id` AS 'OrderId',`transactionid`,`finalamount` AS 'totalamount' FROM `fynx_order` WHERE `id`='$OrderId'")->row();
@@ -847,7 +848,13 @@ $deletecart = $this->db->query("DELETE FROM `fynx_cart` WHERE `user`='$user'");
             $obj->value = false;
               return $obj;
           }
-
+}
+else
+{
+  $obj = new stdClass();
+  $obj->value = "Order ID not found";
+    return $obj;
+}
     }
 
     public function checkproductquantity($prodid)
