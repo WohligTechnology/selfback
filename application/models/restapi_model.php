@@ -807,7 +807,6 @@ LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHE
          {
             $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='$responsecode',`transactionid`='$nb_order_no',`defaultcurrency`='$currency' WHERE `id`='$OrderId'");
 
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $order_id= $OrderId;
            $data['before']=$this->order_model->beforeedit($order_id);
                 // print_r($data['before']);
@@ -844,9 +843,6 @@ LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHE
                 }
 
 
-         
-   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
              // DESTROY CART
                     $getuser = $this->db->query("SELECT `user` FROM `fynx_order` WHERE `id`='$OrderId'")->row();
             $user = $getuser->user;
@@ -856,7 +852,6 @@ LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHE
         } else {
             $query = $this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
          
-         ///////////////////////////////////////////////////////////////////////////////////////////////
 //              $order_id=$OrderId;
 //           // testing mailer
 //              $data['before']=$this->order_model->beforeedit($order_id);
@@ -871,10 +866,10 @@ LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHE
 ////              $messageplan = $this->load->view('emailers/planemail', $data, true);
 ////            $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare',$email,$username);
 //             $data['productquery']=$this->restapi_model->getmailcontentorder($order_id);
-            
+
 //               $messageproduct = $this->load->view('emailers/orderemail', $data, true);
 //                $this->email_model->emailer($messageproduct,'New Order - SelfCare',$email,$username);
-         ///////////////////////////////////////////////////////////////////////////////////////////////
+
             redirect('http://selfcareindia.com/#/wentwrong/'.$OrderId);
         }
     }
