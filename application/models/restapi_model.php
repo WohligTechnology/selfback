@@ -851,7 +851,7 @@ LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHE
          redirect('http://selfcareindia.com/#/thankyou/'.$OrderId."/".$totalamount);
         } else {
             $query = $this->db->query("UPDATE `fynx_order` SET `orderstatus`=5,`transactionid`='$nb_order_no' WHERE `id`='$OrderId'");
-         
+
 //              $order_id=$OrderId;
 //           // testing mailer
 //              $data['before']=$this->order_model->beforeedit($order_id);
@@ -921,6 +921,13 @@ else
     }
      public function getTime() {
         return $this->db->query("SELECT NOW()")->row();
+    }
+     public function emptyCart($user) {
+       $this->cart->destroy();
+       $deletecart = $this->db->query("DELETE FROM `fynx_cart` WHERE `user`='$user'");
+        $obj = new stdClass();
+        $obj->value= true;
+        return $obj;
     }
 
 

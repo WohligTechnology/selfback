@@ -29,6 +29,13 @@ class Json extends CI_Controller
         $data['message'] = $this->restapi_model->getFoodProductdetail($name,$catname);
         $this->load->view('json', $data);
     }
+    public function emptyCart()
+    {
+        // $user = $this->input->get_post('user');
+        $user = $this->session->userdata('id');
+        $data['message'] = $this->restapi_model->emptyCart($user);
+        $this->load->view('json', $data);
+    }
 
     public function testmail()
     {
