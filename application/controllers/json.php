@@ -171,6 +171,17 @@ $search = $this->input->get_post('search');
         $this->load->view('json', $data);
     }
 
+    public function healthproductenquirySubmit()
+    {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $firstname = $data['firstname'];
+        $lastname = $data['lastname'];
+        $email = $data['email'];
+        $country = $data['country'];
+        $data['message'] = $this->restapi_model->healthproductenquirySubmit($firstname, $lastname, $email, $country);
+        $this->load->view('json', $data);
+    }
+
     public function careersSubmit()
     {
         $name = $this->input->get_post('name');

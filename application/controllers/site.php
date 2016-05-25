@@ -7054,4 +7054,57 @@ if ($this->recipes_model->edit($id, $name, $description, $ingredients, $method, 
         $data['redirect'] = 'site/viewcareers';
         $this->load->view('redirect', $data);
     }
+    public function viewhealthproductenquiry()
+    {
+        $access = array('1');
+        $this->checkaccess($access);
+        $data['page'] = 'viewhealthproductenquiry';
+        $data['base_url'] = site_url('site/viewhealthproductenquiryjson');
+        $data['title'] = 'View Careers';
+        $this->load->view('template', $data);
+    }
+    public function viewhealthproductenquiryjson()
+    {
+        $elements = array();
+        $elements[0] = new stdClass();
+        $elements[0]->field = '`healthproductenquiry`.`id`';
+        $elements[0]->sort = '1';
+        $elements[0]->header = 'ID';
+        $elements[0]->alias = 'id';
+        $elements[1] = new stdClass();
+        $elements[1]->field = '`healthproductenquiry`.`firstname`';
+        $elements[1]->sort = '1';
+        $elements[1]->header = 'firstname';
+        $elements[1]->alias = 'firstname';
+        $elements[2] = new stdClass();
+        $elements[2]->field = '`healthproductenquiry`.`lastname`';
+        $elements[2]->sort = '1';
+        $elements[2]->header = 'lastname';
+        $elements[2]->alias = 'lastname';
+        $elements[3] = new stdClass();
+        $elements[3]->field = '`healthproductenquiry`.`email`';
+        $elements[3]->sort = '1';
+        $elements[3]->header = 'email';
+        $elements[3]->alias = 'email';
+
+        $elements[4] = new stdClass();
+        $elements[4]->field = '`healthproductenquiry`.`country`';
+        $elements[4]->sort = '1';
+        $elements[4]->header = 'country';
+        $elements[4]->alias = 'country';
+        $search = $this->input->get_post('search');
+        $pageno = $this->input->get_post('pageno');
+        $orderby = $this->input->get_post('orderby');
+        $orderorder = $this->input->get_post('orderorder');
+        $maxrow = $this->input->get_post('maxrow');
+        if ($maxrow == '') {
+            $maxrow = 20;
+        }
+        if ($orderby == '') {
+            $orderby = 'id';
+            $orderorder = 'DESC';
+        }
+        $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `healthproductenquiry`');
+        $this->load->view('json', $data);
+    }
 }

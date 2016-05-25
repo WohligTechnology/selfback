@@ -78,6 +78,35 @@ class restapi_model extends CI_Model
         return $object;
     }
 
+    public function healthproductenquirySubmit($firstname, $lastname, $email, $country)
+    {
+      if(!empty($email))
+      {
+      $query= $this->db->query("INSERT INTO `healthproductenquiry`(`firstname`, `lastname`, `email`, `country`) VALUES ('$firstname','$lastname','$email','$country')");
+      if(!$query)
+      {
+        $obj = new stdClass();
+        $obj->value = false;
+      }
+      else {
+        $obj = new stdClass();
+        $obj->value = true;
+        $data['name']=$firstname.' '. $lastname;
+        $data['email']=$email;
+        $data['country']=$country;
+        // $viewcontent = $this->load->view('emailers/careersubmit', $data, true);
+        // $this->email_model->emailer($viewcontent,'Career Form Submission','care@selfcareindia.com',$username);
+        $viewcontent = $this->load->view('emailers/healthproductenquiry', $data, true);
+        $this->email_model->emailer($viewcontent,'Health Product Enquiry Form Submission','care@selfcareindia.com',$username);
+      }
+    }
+    else {
+      $obj = new stdClass();
+      $obj->value = "please enter valid email id";
+    }
+      return $obj;
+    }
+
     public function careersSubmit($name, $email, $mobile, $message, $resume)
     {
         $this->db->query("INSERT INTO `careers`(`name`,`email`,`mobile`,`message`,`resume`) VALUE('$name','$email','$mobile','$message','$resume')");
