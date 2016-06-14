@@ -958,6 +958,99 @@ else
         $obj->value= true;
         return $obj;
     }
+    // coupon
+     public function checkCoupon($couponname,$currency)
+    {
+    //      check if old or new user
+        // $user = 111;
+        $user = $this->session->userdata('id');
+         $checkuser=$this->db->query("SELECT * FROM `fynx_order` WHERE `user`='$user'")->row();
+           $query=$this->db->query("SELECT `id`, `type`, `min`, `status`, `max`, `discount`, `name`,`currency` FROM `fynx_coupon` WHERE `name` LIKE '$couponname' AND `currency` LIKE '$currency'")->row();
 
+                 $cartarray=$this->user_model->showcart($user,$currency);
+
+         $totalamount=0;
+         foreach($cartarray as $cart){
+             $subtotal=$cart['subtotal'];
+             $totalamount=$totalamount+$subtotal;
+         }
+    //         get total amount in cart
+         if($currency !='' && $currency && $user!='' && $user){
+             if($currency=='INR'){
+                 $currency=1;
+             }
+             else if($currency=='USD'){
+                  $currency=2;
+             }
+
+        $query=$this->db->query("SELECT `id`, `type`, `min`, `status`, `max`, `discount`, `name`,`currency` FROM `fynx_coupon` WHERE `name` LIKE '$couponname' AND `currency`='$currency'")->row();
+        $min=$query->min;
+        $max=$query->max;
+        $count=$query->count;
+        $id=$query->id;
+        $type=$query->type;
+        $discount=$query->discount;
+        if(empty($query))
+        {
+            // coupon name is not correct
+            $object = new stdClass();
+            $object->value = false;
+            $object->comment = "Invalid Coupon Code!!";
+            return $object;
+        }
+        else if($totalamount < $min)
+        {
+            $object = new stdClass();
+            $object->value = false;
+            $object->comment = "Sorry Amount Value Too Low For Coupon!!";
+            return $object;
+        }
+        else
+        {
+            if(empty($checkuser) && $type==2)
+            {
+                    //new user
+                     // check amount as per discount
+                $substracteddiscountamout=($discount *$totalamount)/100;
+                if($substracteddiscountamout > $max )
+                {
+                    $substracteddiscountamout = $max;
+                }
+                $calculatedamount=$totalamount-$substracteddiscountamout;
+                $query->calculatedamount=$calculatedamount;
+                    // increment count
+                $updatequery=$this->db->query("UPDATE `fynx_coupon` SET `count`=`count`+1 WHERE `id`='$id'");
+                return $query;
+            }
+            else if($type==1)
+            {
+    //                old user
+                      // check amount as per discount
+                $substracteddiscountamout=($discount *$totalamount)/100;
+                if($substracteddiscountamout > $max )
+                {
+                    $substracteddiscountamout = $max;
+                }
+                $calculatedamount=$totalamount-$substracteddiscountamout;
+                $query->calculatedamount=$calculatedamount;
+                    // increment count
+                $updatequery=$this->db->query("UPDATE `fynx_coupon` SET `count`=`count`+1 WHERE `id`='$id'");
+                return $query;
+            }
+            else
+            {
+                    $object = new stdClass();
+                    $object->value = false;
+                    $object->comment = "Invalid Coupon For This User";
+                    return $object;
+            }
+
+          }
+        }
+                    $object = new stdClass();
+                    $object->value = false;
+                    $object->comment = "Oops something went wrong!";
+                    return $object;
+    }
 
 }

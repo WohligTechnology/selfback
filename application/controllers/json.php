@@ -3304,7 +3304,22 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $this->load->view('json', $data);
     }
 
+    // coupon
+    public function checkCoupon()
+    {
+         $data = json_decode(file_get_contents('php://input'), true);
+          if(empty($data)){
+              $data['message'] = 0;
+        }
+        else{
+          $couponname = $data['couponname'];
+          $currency = $data['currency'];
 
+        $data['message'] = $this->restapi_model->checkCoupon($couponname,$currency);
+        }
+
+        $this->load->view('json', $data);
+    }
 
 
 
