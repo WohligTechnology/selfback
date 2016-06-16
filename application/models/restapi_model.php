@@ -903,12 +903,23 @@ LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHE
         }
     }
 
-    public function updateorderstatuscod($OrderId)
+    public function updateorderstatuscod($OrderId,$currency)
     {
       if(!empty($OrderId))
       {
+        $getdata = $this->db->query("SELECT `finalamount`, `shippingamount` FROM `fynx_order` WHERE `id`='$OrderId'")->row();
+        $famount = $getdata->finalamount + 50 ;
+        $samount = $getdata->shippingamount + 50 ;
+        if($currency=="IN")
+        {
+          $currency="INR";
+        }
+        else
+        {
+            $currency="USD";
+        }
       $tid = "COD".$OrderId;
-      $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='2',`paymentmode`='4',`transactionid`='$tid' WHERE `id`='$OrderId'");
+      $query1 = $this->db->query("UPDATE `fynx_order` SET `orderstatus`='2',`paymentmode`='4',`transactionid`='$tid',`finalamount`='$famount',`shippingamount`='$samount',`defaultcurrency`='$currency' WHERE `id`='$OrderId'");
 $amount = $this->db->query("SELECT `id` AS 'OrderId',`transactionid`,`finalamount` AS 'totalamount' FROM `fynx_order` WHERE `id`='$OrderId'")->row();
 // DESTROY CART
        $getuser = $this->db->query("SELECT `user` FROM `fynx_order` WHERE `id`='$OrderId'")->row();
@@ -967,7 +978,7 @@ else
          $checkuser=$this->db->query("SELECT * FROM `fynx_order` WHERE `user`='$user'")->row();
            $query=$this->db->query("SELECT `id`, `type`, `min`, `status`, `max`, `discount`, `name`,`currency` FROM `fynx_coupon` WHERE `name` LIKE '$couponname' AND `currency` LIKE '$currency'")->row();
 
-                 $cartarray=$this->user_model->showcart($user,$currency);
+                 $cartarray=$this->user_model->showcart($user);
 
          $totalamount=0;
          foreach($cartarray as $cart){
@@ -976,10 +987,10 @@ else
          }
     //         get total amount in cart
          if($currency !='' && $currency && $user!='' && $user){
-             if($currency=='INR'){
+             if($currency=='IN'){
                  $currency=1;
              }
-             else if($currency=='USD'){
+             else {
                   $currency=2;
              }
 

@@ -1939,12 +1939,13 @@ public function getsinglesize()
         $shippingpincode = $data['shippingpincode'];
         $carts = $data['cart'];
         $paymentmode = $data['paymentmode'];
+        $discountamount = $data['discountamount'];
         $shippingamount = $data['shippingamount'];
         $finalamount = $data['finalamount'];
         $totalamount = $data['totalamount'];
         if($email != "" && $email )
         {
-          $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode,$shippingamount,$finalamount,$totalamount);
+          $data['message'] = $this->order_model->placeOrder($user, $firstname, $lastname, $email, $phone, $billingline1, $billingline2, $billingline3, $billingcity, $billingstate, $billingcountry, $shippingcity, $shippingcountry, $shippingstate, $shippingpincode, $billingpincode, $carts, $shippingline1, $shippingline2, $shippingline3, $paymentmode,$shippingamount,$finalamount,$totalamount,$discountamount);
 
           // $order_id=$data['message'] ;
           // // testing mailer
@@ -3233,6 +3234,8 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
     {
       $data = json_decode(file_get_contents('php://input'), true);
       $order_id = $data['id'];
+      $currency = $data['currency'];
+      $data['message'] = $this->restapi_model->updateorderstatuscod($order_id,$currency);
       $data['before']=$this->order_model->beforeedit($order_id);
       // print_r($data['before']);
       $data['transactionid']=$data['before']->transactionid;
@@ -3267,7 +3270,6 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
          $this->email_model->emailer($messageproduct,'New Order - SelfCare','rohanwohlig@gmail.com',$username);
       }
 
-      $data['message'] = $this->restapi_model->updateorderstatuscod($order_id);
       $this->load->view('json', $data);
     }
 
