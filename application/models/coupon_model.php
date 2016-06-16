@@ -43,7 +43,7 @@ return $query;
             "1" => "Old User & New User",
             "2" => "New User"
 		);
-		
+
 		return $return;
 	}
     public function getcurrencydropdown()
@@ -51,14 +51,9 @@ return $query;
 		$return=array(
             "" => "Choose Currency",
             "1" => "INR",
-            "2" => "USD",
-            "3" => "GBP",
-            "4" => "EUR",
-            "5" => "ZAF",
-            "6" => "AUD",
-            "7" => "NZD"
+            "2" => "WORLD"
 		);
-		
+
 		return $return;
 	}
 }
