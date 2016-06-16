@@ -7091,4 +7091,183 @@ if ($this->recipes_model->edit($id, $name, $description, $ingredients, $method, 
         $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `healthproductenquiry`');
         $this->load->view('json', $data);
     }
+    // FOR COUPON CODE
+
+
+  public function viewcoupon()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewcoupon";
+$data["base_url"]=site_url("site/viewcouponjson");
+$data["title"]="View coupon";
+$this->load->view("template",$data);
+}
+function viewcouponjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`fynx_coupon`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`fynx_coupon`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="Name";
+$elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`statuses`.`name`";
+$elements[2]->sort="1";
+$elements[2]->header="Status";
+$elements[2]->alias="status";
+$elements[3]=new stdClass();
+$elements[3]->field="`fynx_coupon`.`type`";
+$elements[3]->sort="1";
+$elements[3]->header="Type";
+$elements[3]->alias="type";
+
+$elements[4]=new stdClass();
+$elements[4]->field="`fynx_coupon`.`count`";
+$elements[4]->sort="1";
+$elements[4]->header="Count";
+$elements[4]->alias="count";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `fynx_coupon` LEFT OUTER JOIN `statuses` ON `statuses`.`id`=`fynx_coupon`.`status`");
+$this->load->view("json",$data);
+}
+
+public function createcoupon()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createcoupon";
+$data["type"]=$this->coupon_model->getusertypedropdown();
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data[ 'currency' ] =$this->coupon_model->getcurrencydropdown();
+$data["title"]="Create coupon";
+$this->load->view("template",$data);
+}
+public function createcouponsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+
+  $this->form_validation->set_rules("name","name","trim|required");
+  $this->form_validation->set_rules("type","Type","trim|required");
+  $this->form_validation->set_rules("currency","currency","trim|required");
+  $this->form_validation->set_rules("discount","Discount","trim|required");
+  $this->form_validation->set_rules("min","Min","trim|required");
+  $this->form_validation->set_rules("max","Max","trim|required");
+  $this->form_validation->set_rules("status","Status","trim|required");
+  if($this->form_validation->run()==FALSE)
+  {
+  $data["alerterror"]=validation_errors();
+//          print_r($data["alerterror"]);
+  $data["page"]="createcoupon";
+  $data["type"]=$this->coupon_model->getusertypedropdown();
+  $data[ 'status' ] =$this->user_model->getstatusdropdown();
+  $data[ 'currency' ] =$this->coupon_model->getcurrencydropdown();
+  $data["title"]="Create Coupon";
+  $this->load->view("template",$data);
+  }
+  else
+  {
+
+
+$name=$this->input->get_post("name");
+$status=$this->input->get_post("status");
+$discount=$this->input->get_post("discount");
+$min=$this->input->get_post("min");
+$max=$this->input->get_post("max");
+$type=$this->input->get_post("type");
+$coupon=$this->input->get_post("coupon");
+$currency=$this->input->get_post("currency");
+if($this->coupon_model->create($type,$min,$max,$discount,$name,$status,$coupon,$currency)==0)
+$data["alerterror"]="New coupon could not be created.";
+else
+$data["alertsuccess"]="coupon created Successfully.";
+$data["redirect"]="site/viewcoupon";
+$this->load->view("redirect",$data);
+  }
+}
+public function editcoupon()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editcoupon";
+$data["type"]=$this->coupon_model->getusertypedropdown();
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
+  $data[ 'currency' ] =$this->coupon_model->getcurrencydropdown();
+$data["title"]="Edit coupon";
+$data["before"]=$this->coupon_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editcouponsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+
+      $this->form_validation->set_rules("id","ID","trim|required");
+      $this->form_validation->set_rules("name","Name","trim|required");
+  $this->form_validation->set_rules("type","Type","trim|required");
+  $this->form_validation->set_rules("currency","currency","trim|required");
+  $this->form_validation->set_rules("discount","Discount","trim|required");
+  $this->form_validation->set_rules("min","Min","trim|required");
+  $this->form_validation->set_rules("max","Max","trim|required");
+  $this->form_validation->set_rules("status","Status","trim|required");
+  if($this->form_validation->run()==FALSE)
+  {
+  $data["alerterror"]=validation_errors();
+//        print_r($data["alerterror"]);
+  $data["page"]="editcoupon";
+  $data["type"]=$this->coupon_model->getusertypedropdown();
+  $data[ 'status' ] =$this->user_model->getstatusdropdown();
+  $data[ 'currency' ] =$this->coupon_model->getcurrencydropdown();
+  $data["before"]=$this->coupon_model->beforeedit($this->input->get("id"));
+  $data["title"]="Edit Coupon";
+  $this->load->view("template",$data);
+  }
+  else
+  {
+
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$status=$this->input->get_post("status");
+$discount=$this->input->get_post("discount");
+$min=$this->input->get_post("min");
+$max=$this->input->get_post("max");
+$type=$this->input->get_post("type");
+$coupon=$this->input->get_post("coupon");
+$currency=$this->input->get_post("currency");
+if($this->coupon_model->edit($id,$type,$min,$max,$discount,$name,$status,$coupon,$currency)==0)
+$data["alerterror"]="New coupon could not be Updated.";
+else
+$data["alertsuccess"]="coupon Updated Successfully.";
+$data["redirect"]="site/viewcoupon";
+$this->load->view("redirect",$data);
+  }
+}
+public function deletecoupon()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->coupon_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewcoupon";
+$this->load->view("redirect",$data);
+}
+
 }
