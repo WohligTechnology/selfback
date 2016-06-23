@@ -3323,6 +3323,25 @@ INNER JOIN `fynx_category` ON `fynx_subcategory`.`category`  = `fynx_category`.`
         $this->load->view('json', $data);
     }
 
+    public function checkcaptcha() {
+        $captcha=$this->input->get_post("g-recaptcha-response");
+        $response=json_decode(file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=6Le_USMTAAAAAKjt8OT2U2Boz5zTSP1WxcXho8VI&response=".$captcha."&remoteip=".$_SERVER['REMOTE_ADDR']), true);
+        $data=array();
+        if($response['success'] == false)
+        {
+          $object = new stdClass();
+          $object->value = false;
+          $data["message"]=$object;
+        }
+        else
+        {
+          $object = new stdClass();
+          $object->value = true;
+          $data["message"]=$object;
+        }
+        $this->load->view("json",$data);
+    }
+
 
 
 }
