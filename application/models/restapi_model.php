@@ -855,7 +855,9 @@ LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHE
                 $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare',$email,$username);
                 $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','orders@selfcareindia.com',$username);
                 $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','devina@selfcareindia.com',$username);
-                $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','pr@selfcareindia.com',$username);
+                $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','accounts@selfcareindia.com',$username);
+                $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','vishakha@selfcareindia.com',$username);
+                $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','vibha@selfcareindia.com',$username);
                 $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','priyanka@selfcareindia.com',$username);
                 $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','rohanwohlig@gmail.com',$username);
                 }
@@ -866,7 +868,9 @@ LEFT OUTER JOIN `fynx_order` ON `fynx_order`.`id` = `fynx_orderitem`.`order` WHE
                    $this->email_model->emailer($messageproduct,'New Order - SelfCare',$email,$username);
                    $this->email_model->emailer($messageproduct,'New Order - SelfCare','orders@selfcareindia.com',$username);
                    $this->email_model->emailer($messageproduct,'New Order - SelfCare','devina@selfcareindia.com',$username);
-                   $this->email_model->emailer($messageproduct,'New Order - SelfCare','pr@selfcareindia.com',$username);
+                   $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','accounts@selfcareindia.com',$username);
+                   $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','vishakha@selfcareindia.com',$username);
+                   $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','vibha@selfcareindia.com',$username);
                    $this->email_model->emailer($messageproduct,'New Order - SelfCare','priyanka@selfcareindia.com',$username);
                    $this->email_model->emailer($messageproduct,'New Order - SelfCare','rohanwohlig@gmail.com',$username);
                 }
