@@ -56,15 +56,14 @@ class Json extends CI_Controller
       if(!empty($data['planquery']))
       {
         $messageplan = $this->load->view('emailers/planemail', $data, true);
-      $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','vinodwohlig@gmail.com',$username);
+      $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','harsh@wohlig.com',$username);
       }
       $data['productquery']=$this->restapi_model->getmailcontentorder($OrderId);
       if(!empty($data['productquery']))
       {
         $messageproduct = $this->load->view('emailers/orderemail', $data, true);
-         $this->email_model->emailer($messageproduct,'New Order - SelfCare','vinodwohlig@gmail.com',$username);
+         $this->email_model->emailer($messageproduct,'New Order - SelfCare','harsh@wohlig.com',$username);
       }
-
         // $data['message'] = $this->user_model->testmail();
         $this->load->view('json', $data);
     }
