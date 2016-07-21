@@ -21,7 +21,7 @@ elseif($before->paymentmode == 4)
   <section style="background:#dfdfdf; width: 600px; margin:0 auto;">
     <div>
       <div style="padding:25px;background:#f0f0f0;">
-        <img src='http://selfcareindia.com/img/logo.png' alt='Selfcare' style="width:165px;">
+        <img src='http://admin.selfcareindia.com/assets/img/LOGO.jpg' alt='Selfcare' style="width:165px;">
       </div>
       <div style="padding:10px 20px;background:#e96542; color:#fff;font-size:24px;">
         New Program Subscription!

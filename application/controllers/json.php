@@ -40,7 +40,7 @@ class Json extends CI_Controller
     public function testmail()
     {
 
-      $OrderId = '175';
+      $OrderId = '7';
       $data['before']=$this->order_model->beforeedit($OrderId);
       // print_r($data['before']);
       $data['transactionid']=$data['before']->transactionid;
@@ -56,13 +56,13 @@ class Json extends CI_Controller
       if(!empty($data['planquery']))
       {
         $messageplan = $this->load->view('emailers/planemail', $data, true);
-      $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare',$email,$username);
+      $this->email_model->emailer($messageplan,'New Program Subscription!- SelfCare','vinodwohlig@gmail.com',$username);
       }
       $data['productquery']=$this->restapi_model->getmailcontentorder($OrderId);
       if(!empty($data['productquery']))
       {
         $messageproduct = $this->load->view('emailers/orderemail', $data, true);
-         $this->email_model->emailer($messageproduct,'New Order - SelfCare',$email,$username);
+         $this->email_model->emailer($messageproduct,'New Order - SelfCare','vinodwohlig@gmail.com',$username);
       }
 
         // $data['message'] = $this->user_model->testmail();
