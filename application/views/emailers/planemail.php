@@ -180,13 +180,13 @@ $total = number_format($value->finalprice,2);
             <td style='padding:0 15px;vertical-align:middle' valign='middle'>
               <div>
                 <a href='https://www.facebook.com/selfcarebysuman' style='color:#fff;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'>
-                  <img src='http://selfcareindia.com/img/selfcare-facebook.png' alt='Facebook' width='15'></a>
+                  <img src='http://admin.selfcareindia.com/assets/img/selfcare-facebook.png' alt='Facebook' width='15'></a>
                 <a href='https://twitter.com/selfcarebysuman' style='color:#fff;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'>
-                  <img src='http://selfcareindia.com/img/selfcare-twitter.png' alt='Twitter' width='15'></a>
+                  <img src='http://admin.selfcareindia.com/assets/img/selfcare-twitter.png' alt='Twitter' width='15'></a>
                 <a href='https://www.instagram.com/selfcarebysuman' style='color:#fff;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'>
-                  <img src='http://selfcareindia.com/img/selfcare-insta.png' alt='Instagram' width='15'></a>
+                  <img src='http://admin.selfcareindia.com/assets/img/selfcare-insta.png' alt='Instagram' width='15'></a>
                 <a href='https://www.youtube.com/channel/UCVqKgmC6eaMrgPyXoOcOz2A' style='color:#fff;display:inline-block;font-family:Roboto;font-size:18px;margin:3px 5px 0 0' target='_blank'>
-                  <img src='http://selfcareindia.com/img/selfcare-youtube.png' alt='Youtube' width='15'></a>
+                  <img src='http://admin.selfcareindia.com/assets/img/selfcare-youtube.png' alt='Youtube' width='15'></a>
               </div>
             </td>
           </tr>
