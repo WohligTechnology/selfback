@@ -4957,7 +4957,7 @@ if ($this->testimonial_model->edit($id, $name, $location, $description, $weight)
             $orderby = 'id';
             $orderorder = 'ASC';
         }
-        $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `selftables_healthpackages` INNER JOIN `selftables_subtype` ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id`');
+        $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `selftables_healthpackages` LEFT OUTER JOIN `selftables_subtype` ON `selftables_healthpackages`.`subtype`=`selftables_subtype`.`id`');
         $this->load->view('json', $data);
     }
 

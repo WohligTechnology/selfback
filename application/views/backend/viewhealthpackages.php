@@ -25,6 +25,9 @@
 </div>
 <script>
 function drawtable(resultrow) {
+  if(resultrow.name===null){
+    resultrow.name="";
+  }
 return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.type + "</td><td>" + resultrow.name + "</td><td>" + resultrow.months + "</td><td>" + resultrow.consults + "</td><td><a class='btn btn-primary btn-xs waves-effect waves-light blue darken-4 z-depth-0 less-pad' href='<?php echo site_url('site/edithealthpackages?id=');?>"+resultrow.id+"'><i class='fa fa-pencil propericon'></i></a><a class='btn btn-danger btn-xs waves-effect waves-light red pad10 z-depth-0 less-pad' onclick=\"return confirm('Are you sure you want to delete?');\"  href='<?php echo site_url('site/deletehealthpackages?id='); ?>"+resultrow.id+"'><i class='material-icons propericon'>delete</i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
