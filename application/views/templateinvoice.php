@@ -115,9 +115,22 @@
                      }
 
                      echo "<br>";
-                     $before->shippingcity.", ".$before->shippingstate." - ".$before->shippingpincode;
-
-
+                     if(!empty($before->shippingcity)){
+                       echo $before->shippingcity.", ".$before->shippingstate." - ".$before->shippingpincode;
+                       }
+                       else
+                       {
+                           echo $before->billingcity.", ".$before->billingstate." - ".$before->billingpincode;
+                       }
+                       echo "<br>";
+                       if(!empty($before->shippingcontact))
+                       {
+                         echo $before->shippingcontact;
+                       }
+                       else
+                       {
+                         echo $before->billingcontact;
+                       }
                  ?>
                 </address>
               </div>
