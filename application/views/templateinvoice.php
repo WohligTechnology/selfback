@@ -107,7 +107,13 @@
 
                       echo $before->firstname." ".$before->lastname;
                      echo "<br>";
-                      echo $before->shippingaddress;
+                     if(!empty($before->shippingaddress)){
+                       echo $before->shippingaddress;
+                     }else
+                     {
+                        echo $before->billingaddress;
+                     }
+
                      echo "<br>";
                      $before->shippingcity.", ".$before->shippingstate." - ".$before->shippingpincode;
 
@@ -151,7 +157,7 @@
                             <!-- <td><?php echo $counter;?></td> -->
                             <td><?php echo $value->name;?></td>
                               <td><?php echo $value->sku;?></td>
-                            
+
                             <td><?php echo number_format($oprice,2);?></td>
                             <td><?php echo $value->quantity;?></td>
                             <td><?php echo number_format($tvat,2);?></td>
@@ -193,7 +199,7 @@
                         </td>
                     </tr>
                        <tr>
-                        <td><b>Shipping Charges:</b></td>
+                        <td><b>Shipping + COD (If Applicable):</b></td>
                         <td>
                             <?php
                               echo number_format($before->shippingamount,2);
