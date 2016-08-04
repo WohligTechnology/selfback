@@ -86,17 +86,13 @@
               <div class="">
               <address>
                 <?php
-
-
-                      echo $before->firstname." ".$before->lastname;
-                     echo "<br>";
-                      echo $before->billingaddress;
-                     echo "<br>";
-                      echo $before->billingcity.", ".$before->billingstate." - ".$before->billingpincode;
-                      echo "<br>";
-                       echo $before->billingcontact;
-
-
+                echo $before->firstname." ".$before->lastname;
+                 echo "<br>";
+                  echo $before->billingline1.", ".$before->billingline2.", ".$before->billingline3;
+                 echo "<br>";
+                  echo $before->billingcity.", ".$before->billingstate." - ".$before->billingpincode;
+                  echo "<br>";
+                   echo $before->billingcontact;
                  ?>
                 </address>
               </div>
@@ -110,11 +106,30 @@
 
                       echo $before->firstname." ".$before->lastname;
                      echo "<br>";
-                      echo $before->shippingaddress;
+                     if(!empty($before->shippingline1)){
+                       echo $before->shippingline1.", ".$before->shippingline2.", ".$before->shippingline3;
+                     }else
+                     {
+                        echo $before->billingline1.", ".$before->billingline2.", ".$before->billingline3;
+                     }
+
                      echo "<br>";
-                     $before->shippingcity.", ".$before->shippingstate." - ".$before->shippingpincode;
-
-
+                     if(!empty($before->shippingcity)){
+                       echo $before->shippingcity.", ".$before->shippingstate." - ".$before->shippingpincode;
+                       }
+                       else
+                       {
+                           echo $before->billingcity.", ".$before->billingstate." - ".$before->billingpincode;
+                       }
+                       echo "<br>";
+                       if(!empty($before->shippingcontact))
+                       {
+                         echo $before->shippingcontact;
+                       }
+                       else
+                       {
+                         echo $before->billingcontact;
+                       }
                  ?>
                 </address>
               </div>
@@ -123,9 +138,6 @@
         </div>
       </div>
     </div>
-
-
-
         <div class="row">
             <div class="col-xs-12">
               <table class="table back-gray">

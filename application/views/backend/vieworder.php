@@ -25,7 +25,7 @@ function drawtable(resultrow) {
 
     for(var i=0;i<resultrow.orderproduct.length;i++) {
         var row= resultrow.orderproduct[i];
-        // 
+        //
         // if(row.status =="3")
         // {
         //     planbtn = "yes";
